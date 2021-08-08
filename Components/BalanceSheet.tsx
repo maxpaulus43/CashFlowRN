@@ -99,7 +99,6 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: player }) => {
             <Text>Name: {player.name}</Text>
             <Text>Cash: {player.cash}</Text>
             <Text>Income: {player.income}</Text>
-            <Text>Assets: {player.assets}</Text>
             <Text>Expenses: {player.expenses}</Text>
           </ScrollView>
         </View>

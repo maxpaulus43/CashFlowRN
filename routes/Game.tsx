@@ -1,30 +1,11 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useReducer } from "react";
-import {
-  Button,
-  View,
-  Text,
-  Alert,
-  Dimensions,
-  StyleSheet,
-} from "react-native";
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-  TapGestureHandler,
-} from "react-native-gesture-handler";
-import Animated, {
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
+import { Button, View, Text, Dimensions } from "react-native";
 import BalanceSheet from "../Components/BalanceSheet";
 import Board from "../Components/Board";
+import Card from "../model/Card";
 import GameModel from "../model/GameModel";
 import Player from "../model/Player";
-
-const { width, height } = Dimensions.get("window");
 
 const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   route,
@@ -35,6 +16,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   const [, updateScreen] = useReducer((x) => x + 1, 0);
   const isMyTurn = game.getCurrentPlayer().id === myPlayer.id;
 
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Button title="Go Home" onPress={() => navigation.popToTop()} />
@@ -43,35 +25,46 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
 
       {isMyTurn && (
         <>
-          <Button
-            title="Repay"
-            onPress={() => {
-              // todo present a bottom sheet
-            }}
-          />
-          <Button
-            title="Borrow"
-            onPress={() => {
-              // todo present a bottom sheet
-            }}
-          />
+          {myPlayer.didRoll && (
+            <>
+              <Button
+                title="Repay"
+                onPress={() => {
+                  // todo present a bottom sheet
+                }}
+              />
+              <Button
+                title="Borrow"
+                onPress={() => {
+                  // todo present bottom sheet
+                  myPlayer.borrowMoney(1000);
+                  updateScreen();
+                }}
+              />
+              <Button
+                title="End Turn"
+                onPress={() => {
+                  game.endTurn();
+                  updateScreen();
+                }}
+              />
+            </>
+          )}
+
           {!myPlayer.didRoll && (
             <Button
               title="Roll"
               onPress={() => {
                 const roll = myPlayer.rollDice();
                 game.applyDiceRollToCurrentPlayer(roll);
+                const card = game.pickCardForCurrentPlayerSpace();
+                // presentCard(card);
+                myPlayer.handleActionForCard(card);
+
                 updateScreen();
               }}
             />
           )}
-          <Button
-            title="End Turn"
-            onPress={() => {
-              game.endTurn();
-              updateScreen();
-            }}
-          />
         </>
       )}
 
