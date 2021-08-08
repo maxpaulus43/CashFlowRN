@@ -23,6 +23,14 @@ interface BalanceSheetProps {
 
 const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: player }) => {
   const xOffset = useSharedValue(-width);
+  const cfg = {
+    stiffness: 50,
+    mass: 0.5,
+    damping: 10,
+    overshootClamping: false,
+    restSpeedThreshold: 0.001,
+    restDisplacementThreshold: 0.001,
+  }
   const handler = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
     { startX: number }
@@ -35,14 +43,14 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: player }) => {
     },
     onEnd: ({ velocityX, translationX }, ctx) => {
       if (velocityX > VELOCITY_THRESHOLD || translationX > DRAG_THRESHOLD) {
-        xOffset.value = withSpring(0);
+        xOffset.value = withSpring(0, cfg);
       } else if (
         velocityX < -VELOCITY_THRESHOLD ||
         translationX < -DRAG_THRESHOLD
       ) {
-        xOffset.value = withSpring(-width);
+        xOffset.value = withSpring(-width, cfg);
       } else {
-        xOffset.value = withSpring(ctx.startX);
+        xOffset.value = withSpring(ctx.startX, cfg);
       }
     },
   });
@@ -69,7 +77,7 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: player }) => {
       >
         <TapGestureHandler
           onEnded={() => {
-            xOffset.value = withSpring(-width);
+            xOffset.value = withSpring(-width, cfg);
           }}
         >
           <View
@@ -104,7 +112,7 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: player }) => {
         </View>
         <TapGestureHandler
           onEnded={() => {
-            xOffset.value = withSpring(0);
+            xOffset.value = withSpring(0, cfg);
           }}
         >
           <View
@@ -112,7 +120,7 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: player }) => {
               width: 30,
               height: 50,
               backgroundColor: "cadetblue",
-              transform: [{ translateX: width }, { translateY: height / 2 }],
+              transform: [{ translateX: width }, { translateY: height - (height * 0.3 / 2) - 50 }],
             }}
           />
         </TapGestureHandler>

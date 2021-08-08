@@ -1,8 +1,9 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import { Button, View, Text, Dimensions } from "react-native";
 import BalanceSheet from "../Components/BalanceSheet";
 import Board from "../Components/Board";
+import CardModal from "../Components/CardModal";
 import Card from "../model/Card";
 import GameModel from "../model/GameModel";
 import Player from "../model/Player";
@@ -15,7 +16,13 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   const myPlayer = route.params?.player as Player;
   const [, updateScreen] = useReducer((x) => x + 1, 0);
   const isMyTurn = game.getCurrentPlayer().id === myPlayer.id;
+  const [modalVisible, setModalVisible] = useState(false);
+  const [currentCard, setCurrentCard] = useState<Card | undefined>(undefined);
 
+  function presentCard(card: Card) {
+    setCurrentCard(card);
+    setModalVisible(true);
+  }
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -58,7 +65,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
                 const roll = myPlayer.rollDice();
                 game.applyDiceRollToCurrentPlayer(roll);
                 const card = game.pickCardForCurrentPlayerSpace();
-                // presentCard(card);
+                presentCard(card);
                 myPlayer.handleActionForCard(card);
 
                 updateScreen();
@@ -68,6 +75,10 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
         </>
       )}
 
+      <CardModal isVisible={modalVisible}>
+        <Text>{currentCard?.text}</Text>
+        <Button title="Dismiss" onPress={() => setModalVisible(false)} />
+      </CardModal>
       <BalanceSheet forPlayer={myPlayer} />
     </View>
   );
