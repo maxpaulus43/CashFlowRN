@@ -14,6 +14,8 @@ import Player from "../model/Player";
 import PlayerInfo from "../Components/PlayerInfo";
 import RepayMoney from "../Components/RepayMoney";
 import BorrowMoney from "../Components/BorrowMoney";
+import SideSheet from "../Components/SideSheet";
+import Donate from "../Components/Donate";
 
 const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   route,
@@ -41,6 +43,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
               onPress={() => {
                 setModalContent(
                   <DealCard
+                    forPlayer={myPlayer}
                     model={game.drawBigDealCard()}
                     onDismiss={clearModal}
                   />
@@ -52,6 +55,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
               onPress={() => {
                 setModalContent(
                   <DealCard
+                    forPlayer={myPlayer}
                     model={game.drawSmallDealCard()}
                     onDismiss={clearModal}
                   />
@@ -64,10 +68,18 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
         break;
       }
       case Space.LOSE_MONEY: {
+        const card = game.drawLoseMoneyCard();
         setModalContent(
           <LoseMoneyCard
-            model={game.drawLoseMoneyCard()}
-            onDismiss={clearModal}
+            model={card}
+            onPayAttempt={() => {
+              if (myPlayer.cash < card.cost) {
+                presentBorrowBottomSheet();
+              } else {
+                myPlayer.takeCash(card.cost);
+                clearModal();
+              }
+            }}
           />
         );
         break;
@@ -82,19 +94,25 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
         break;
       }
       case Space.DONATE: {
-        setModalContent(
-          <View>
-            <Text>Donate</Text>
-            <Button title="Dismiss" onPress={clearModal} />
-          </View>
-        );
+        setModalContent(<Donate forPlayer={myPlayer} onDismiss={clearModal} />);
         break;
       }
       case Space.DOWNSIZE: {
         setModalContent(
           <View>
             <Text>Downsized!</Text>
-            <Button title="Dismiss" onPress={clearModal} />
+            <Button
+              title="Pay"
+              onPress={() => {
+                // todo skip 2 turns
+                if (myPlayer.cash < myPlayer.expenses()) {
+                  presentBorrowBottomSheet();
+                } else {
+                  myPlayer.takeCash(myPlayer.expenses());
+                  clearModal();
+                }
+              }}
+            />
           </View>
         );
         break;
@@ -103,7 +121,13 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
         setModalContent(
           <View>
             <Text>New Child!</Text>
-            <Button title="Dismiss" onPress={clearModal} />
+            <Button
+              title="Dismiss"
+              onPress={() => {
+                myPlayer.addKid();
+                clearModal();
+              }}
+            />
           </View>
         );
         break;
@@ -133,13 +157,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   };
 
   game.winHandler = (p: Player) => {
-    setModalContent(
-      <View>
-        <Text>{p.name} won the game!!</Text>
-        <Button title="Dismiss" onPress={clearBottomSheet} />
-        <Button title="Go Home" onPress={goHome} />
-      </View>
-    );
+    Alert.alert(p.name + " won the game!");
   };
 
   return (
@@ -161,11 +179,16 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
           )}
         </>
       )}
+
       <Modal>{modalContent}</Modal>
+
       <BottomSheet onDismiss={clearBottomSheet}>
         {bottomSheetContent}
       </BottomSheet>
-      <BalanceSheet forPlayer={myPlayer} />
+
+      <SideSheet>
+        <BalanceSheet forPlayer={myPlayer} />
+      </SideSheet>
     </View>
   );
 };

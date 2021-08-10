@@ -17,6 +17,10 @@ export default class Player {
   readonly occupation: string;
   didRoll: boolean = false;
   winHandler?: (winner: Player) => void;
+  private _donationDice: number = 0;
+  public get donationDice(): number {
+    return this._donationDice;
+  }
 
   constructor(
     name: string,
@@ -40,9 +44,25 @@ export default class Player {
     this._cash += amount;
   }
 
+  takeCash(amount: number) {
+    this._cash -= amount;
+  }
+
   getPaid() {
-    console.log("got paid");
     this.giveCash(this.paydayAmount());
+  }
+
+  addDonationDice(n: number) {
+    this._donationDice += n;
+  }
+
+  rollDice(): number {
+    let n = Math.ceil(Math.random() * 6);
+    if (this.donationDice > 0) {
+      n += Math.ceil(Math.random() * 6);
+      this._donationDice -= 1;
+    }
+    return n;
   }
 
   addKid() {
@@ -98,7 +118,8 @@ export default class Player {
   }
 
   private checkWinCondition() {
-    if (this.passiveIncome > this.expenses) {
+    console.log("checked");
+    if (this.passiveIncome() > this.expenses()) {
       if (this.winHandler) {
         this.winHandler(this);
       }

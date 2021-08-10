@@ -31,10 +31,7 @@ interface BottomSheetProps extends ViewProps {
   onDismiss: () => void;
 }
 
-const BottomSheet: React.FC<BottomSheetProps> = ({
-  children,
-  onDismiss,
-}) => {
+const BottomSheet: React.FC<BottomSheetProps> = ({ children, onDismiss }) => {
   const yOffset = useSharedValue(height);
   const contentHeight = useRef(0);
   const isVisible = children ? true : false;
@@ -108,6 +105,9 @@ const styles = StyleSheet.create({
     padding: 15,
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
+    shadowColor: "gray",
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
   bg: {
     ...StyleSheet.absoluteFillObject,

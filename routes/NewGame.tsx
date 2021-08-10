@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useRef, useState } from "react";
 import { View, Button, ActionSheetIOS, Text, TextInput } from "react-native";
 import Game from "../model/Game";
+import Liability from "../model/Liability";
 import Player from "../model/Player";
 
 enum Difficulty {
@@ -76,7 +77,11 @@ const makePlayerForDifficulty = (
       return new Player(name, 750, 8000, 1000, 120, "Engineer");
     }
     case Difficulty.MEDIUM: {
-      return new Player(name, 650, 6300, 750, 110, "Teacher");
+      const p = new Player(name, 650, 6300, 750, 110, "Teacher");
+      p.addLiabiliy(
+        new Liability("Home Mortgage", 75000, "Mortgage Payment", 0.03)
+      );
+      return p;
     }
     case Difficulty.HARD: {
       return new Player(name, 600, 3000, 500, 90, "Janitor");

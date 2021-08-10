@@ -48,7 +48,7 @@ const Modal: React.FC = ({ children }) => {
           width: width * 0.8,
           backgroundColor: "lightgreen",
           shadowColor: "gray",
-          shadowOpacity: 1,
+          shadowOpacity: 0.3,
           shadowRadius: 8,
         }}
       >

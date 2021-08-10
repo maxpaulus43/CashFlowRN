@@ -4,17 +4,17 @@ import LoseMoneyModel from "../model/LoseMoneyCard";
 
 interface LoseMoneyProps {
   model: LoseMoneyModel;
-  onDismiss: () => void;
+  onPayAttempt: () => void;
 }
 
-const LoseMoneyCard: React.FC<LoseMoneyProps> = ({ model, onDismiss }) => {
+const LoseMoneyCard: React.FC<LoseMoneyProps> = ({ model, onPayAttempt }) => {
   return (
     <View>
       <Text>LOSE MONEY</Text>
       <Text>{model.title}</Text>
       <Text>{model.text}</Text>
       <Text>Cost: {model.cost}</Text>
-      <Button title="Pay" onPress={onDismiss} />
+      <Button title="Pay" onPress={onPayAttempt} />
     </View>
   );
 };

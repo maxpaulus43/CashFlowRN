@@ -33,8 +33,8 @@ export default class Game {
   }
 
   rollForCurrentPlayer() {
-    const n = Math.ceil(Math.random() * 6);
     const currentPlayer = this.getCurrentPlayer();
+    const n = currentPlayer.rollDice();
     currentPlayer.didRoll = true;
     this.board.updatePlayerPositionByN(currentPlayer, n);
   }
