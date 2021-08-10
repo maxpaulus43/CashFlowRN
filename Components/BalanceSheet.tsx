@@ -96,7 +96,7 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: player }) => {
         >
           <ScrollView
             style={{
-              backgroundColor: "powderblue",
+              backgroundColor: "beige",
             }}
             contentContainerStyle={{
               justifyContent: "center",
@@ -119,8 +119,8 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: player }) => {
             style={{
               width: 30,
               height: 50,
-              backgroundColor: "cadetblue",
-              transform: [{ translateX: width }, { translateY: height - (height * 0.3 / 2) - 50 }],
+              backgroundColor: "beige",
+              transform: [{ translateX: width }, { translateY: height / 2 }],
             }}
           />
         </TapGestureHandler>

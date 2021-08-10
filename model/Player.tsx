@@ -7,14 +7,12 @@ export default class Player {
   readonly name: string;
   private _cash: number;
   private _income: number;
- 
   private _expenses: number;
- 
-
   private assets: Asset[];
   private liabilities: Liability[];
   private occupation: string;
   private _passiveIncome: number;
+  winHandler?: (winner: Player) => void;
 
   didRoll: boolean;
 
@@ -39,20 +37,19 @@ export default class Player {
     this.didRoll = false;
   }
 
-  handleActionForCard(card: Card) {
-    
-  }
-
-  rollDice(): number {
-    const n = Math.ceil(Math.random() * 6);
-    this.didRoll = true;
-    return n;
-  }
+  handleActionForCard(card: Card) {}
 
   borrowMoney(amount: number) {
     this._cash += amount;
-    this._expenses += amount * 0.1;
-    this.liabilities // todo add something to liabilities
+    this.expenses += amount * 0.1;
+  }
+
+  private checkWinCondition() {
+    if (this.passiveIncome > this.expenses) {
+      if (this.winHandler) {
+        this.winHandler(this);
+      }
+    }
   }
 
   get cash(): number {
@@ -64,7 +61,15 @@ export default class Player {
   public get expenses(): number {
     return this._expenses;
   }
+  public set expenses(value: number) {
+    this._expenses = value;
+    this.checkWinCondition();
+  }
   public get passiveIncome(): number {
     return this._passiveIncome;
+  }
+  public set passiveIncome(value: number) {
+    this._passiveIncome = value;
+    this.checkWinCondition();
   }
 }

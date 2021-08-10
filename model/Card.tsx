@@ -1,4 +1,9 @@
-export default class Card {
-    text: string = "card text";
+export default abstract class Card {
+  title: string;
+  text: string;
 
+  constructor(title: string, text: string) {
+    this.title = title;
+    this.text = text;
+  }
 }

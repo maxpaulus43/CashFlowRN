@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Dimensions, ViewProps, StyleSheet } from "react-native";
+import { Dimensions } from "react-native";
 import { View } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -8,12 +8,9 @@ import Animated, {
 } from "react-native-reanimated";
 const { height, width } = Dimensions.get("window");
 
-interface CardModalProps extends ViewProps {
-  isVisible: boolean;
-}
-
-const CardModal: React.FC<CardModalProps> = ({ isVisible, children }) => {
+const Modal: React.FC = ({ children }) => {
   const yOffset = useSharedValue(height);
+  const isVisible = children ? true : false;
 
   useEffect(() => {
     yOffset.value = withSpring(isVisible ? 0 : height, {
@@ -61,4 +58,4 @@ const CardModal: React.FC<CardModalProps> = ({ isVisible, children }) => {
   );
 };
 
-export default CardModal;
+export default Modal;

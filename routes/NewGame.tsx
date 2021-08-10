@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useRef, useState } from "react";
 import { View, Button, ActionSheetIOS, Text, TextInput } from "react-native";
-import Game from "../model/GameModel";
+import Game from "../model/Game";
 import Player from "../model/Player";
 
 enum Difficulty {
@@ -28,8 +28,9 @@ const NewGame: React.FC<NativeStackScreenProps<any, any>> = ({
 
   const presentDifficultyOptions = () => {
     ActionSheetIOS.showActionSheetWithOptions(
-      { options: difficultyOptions },
+      { options: [...difficultyOptions, "Cancel"], cancelButtonIndex: 5 },
       (buttonIdx) => {
+        if (buttonIdx === 5) return;
         setDifficulty(buttonIdx); // buttonIdx matches exactly with the difficulty enum
       }
     );
@@ -51,11 +52,12 @@ const NewGame: React.FC<NativeStackScreenProps<any, any>> = ({
       <Button
         title="Start"
         onPress={() => {
-          const p = makePlayerForDifficulty(
+          const player = makePlayerForDifficulty(
             difficulty,
             name.current ?? "Jane Doe"
           );
-          navigation.navigate("Game", { player: p, game: new Game([p]) });
+          const game = new Game([player]);
+          navigation.navigate("Game", { player, game });
         }}
       />
     </View>

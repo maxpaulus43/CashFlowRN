@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import BoardModel from "../model/BoardModel";
+import BoardModel from "../model/Board";
 
 interface BoardProps {
     model: BoardModel
