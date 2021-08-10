@@ -11,6 +11,9 @@ import SellAssetCard from "../Components/SellAssetCard";
 import { Space } from "../model/Board";
 import GameModel from "../model/Game";
 import Player from "../model/Player";
+import PlayerInfo from "../Components/PlayerInfo";
+import RepayMoney from "../Components/RepayMoney";
+import BorrowMoney from "../Components/BorrowMoney";
 
 const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   route,
@@ -109,11 +112,15 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   };
 
   const presentRepayBottomSheet = () => {
-    setBottomSheetContent(<View><Text>Repay</Text></View>);
+    setBottomSheetContent(
+      <RepayMoney forPlayer={myPlayer} onDismiss={clearBottomSheet} />
+    );
   };
 
   const presentBorrowBottomSheet = () => {
-    setBottomSheetContent(<View><Text>Borrow</Text></View>);
+    setBottomSheetContent(
+      <BorrowMoney forPlayer={myPlayer} onDismiss={clearBottomSheet} />
+    );
   };
 
   const endTurn = () => {
@@ -139,15 +146,16 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Button title="Go Home" onPress={goHome} />
       <Text>Current Player: {game.getCurrentPlayer().name}</Text>
+      <PlayerInfo forPlayer={myPlayer} />
       <Board model={game.board} />
       {isMyTurn && (
         <>
+          <Button title="Repay" onPress={presentRepayBottomSheet} />
+          <Button title="Borrow" onPress={presentBorrowBottomSheet} />
           {!myPlayer.didRoll ? (
             <Button title="Roll" onPress={roll} />
           ) : (
             <>
-              <Button title="Repay" onPress={presentRepayBottomSheet} />
-              <Button title="Borrow" onPress={presentBorrowBottomSheet} />
               <Button title="End Turn" onPress={endTurn} />
             </>
           )}

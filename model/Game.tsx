@@ -1,6 +1,4 @@
-import { StockFundCD } from "./Asset";
 import BoardModel, { Space } from "./Board";
-import Card from "./Card";
 import DealCard from "./DealCard";
 import Deck from "./Deck";
 import LoseMoneyCard from "./LoseMoneyCard";
@@ -38,7 +36,7 @@ export default class Game {
     const n = Math.ceil(Math.random() * 6);
     const currentPlayer = this.getCurrentPlayer();
     currentPlayer.didRoll = true;
-    this.board.updatePlayerPositionByN(currentPlayer.id, n);
+    this.board.updatePlayerPositionByN(currentPlayer, n);
   }
 
   drawBigDealCard(): DealCard {

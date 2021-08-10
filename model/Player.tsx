@@ -1,47 +1,100 @@
 import Asset from "./Asset";
-import Card from "./Card";
 import Liability from "./Liability";
 
 export default class Player {
   readonly id: string;
   readonly name: string;
   private _cash: number;
-  private _income: number;
-  private _expenses: number;
-  private assets: Asset[];
-  private liabilities: Liability[];
-  private occupation: string;
-  private _passiveIncome: number;
+  public get cash(): number {
+    return this._cash;
+  }
+  readonly salary: number;
+  assets: Asset[] = [];
+  liabilities: Liability[] = [];
+  readonly taxExpenses: number;
+  private numberOfKids: number = 0;
+  readonly expensesPerKid: number;
+  readonly occupation: string;
+  didRoll: boolean = false;
   winHandler?: (winner: Player) => void;
-
-  didRoll: boolean;
 
   constructor(
     name: string,
     cash: number,
-    income: number,
-    expenses: number,
-    occupation: string,
-    assets: Asset[] = [],
-    liabilities: Liability[] = []
+    salary: number,
+    taxExpenses: number,
+    expensesPerKid: number,
+    occupation: string
   ) {
+    // todo random id
     this.id = name;
     this.name = name;
     this._cash = cash;
-    this._income = income;
-    this._expenses = expenses;
+    this.salary = salary;
+    this.taxExpenses = taxExpenses;
+    this.expensesPerKid = expensesPerKid;
     this.occupation = occupation;
-    this.assets = assets;
-    this.liabilities = liabilities;
-    this._passiveIncome = 0;
-    this.didRoll = false;
   }
 
-  handleActionForCard(card: Card) {}
-
-  borrowMoney(amount: number) {
+  giveCash(amount: number) {
     this._cash += amount;
-    this.expenses += amount * 0.1;
+  }
+
+  getPaid() {
+    console.log("got paid");
+    this.giveCash(this.paydayAmount());
+  }
+
+  addKid() {
+    this.numberOfKids += 1;
+  }
+
+  borrowMoneyAmount(amount: number) {
+    this._cash += amount;
+  }
+
+  passiveIncome() {
+    let sum = 0;
+    for (let a of this.assets) {
+      sum += a.cashflow;
+    }
+    return sum;
+  }
+
+  expenses() {
+    let sum = 0;
+    for (let l of this.liabilities) {
+      sum += l.expenseAmount();
+    }
+    sum += this.taxExpenses;
+    sum += this.numberOfKids * this.expensesPerKid;
+    return sum;
+  }
+
+  totalIncome() {
+    return this.salary + this.passiveIncome();
+  }
+
+  paydayAmount() {
+    return this.totalIncome() - this.expenses();
+  }
+
+  addAsset(a: Asset) {
+    this.assets.push(a);
+    this.checkWinCondition();
+  }
+
+  removeAsset(a: Asset) {
+    // todo
+  }
+
+  addLiabiliy(l: Liability) {
+    this.liabilities.push(l);
+  }
+
+  removeLiability(l: Liability) {
+    // todo
+    this.checkWinCondition();
   }
 
   private checkWinCondition() {
@@ -50,26 +103,5 @@ export default class Player {
         this.winHandler(this);
       }
     }
-  }
-
-  get cash(): number {
-    return this._cash;
-  }
-  public get income(): number {
-    return this._income;
-  }
-  public get expenses(): number {
-    return this._expenses;
-  }
-  public set expenses(value: number) {
-    this._expenses = value;
-    this.checkWinCondition();
-  }
-  public get passiveIncome(): number {
-    return this._passiveIncome;
-  }
-  public set passiveIncome(value: number) {
-    this._passiveIncome = value;
-    this.checkWinCondition();
   }
 }

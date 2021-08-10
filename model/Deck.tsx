@@ -7,12 +7,6 @@ import SellAssetCard from "./SellAssetCard";
 export default class Deck<T extends Card> {
   cards: T[];
 
-  static makeDealDeckFromData(data: any[]) {
-    for (let d of data) {
-      let dealCard = Object.assign(new DealCard(), d);
-    }
-  }
-
   static makeBigDealDeck(): Deck<DealCard> {
     const cards = [
       new DealCard(

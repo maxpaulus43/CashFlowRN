@@ -106,8 +106,8 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: player }) => {
           >
             <Text>Name: {player.name}</Text>
             <Text>Cash: {player.cash}</Text>
-            <Text>Income: {player.income}</Text>
-            <Text>Expenses: {player.expenses}</Text>
+            <Text>Income: {player.totalIncome()}</Text>
+            <Text>Expenses: {player.expenses()}</Text>
           </ScrollView>
         </View>
         <TapGestureHandler

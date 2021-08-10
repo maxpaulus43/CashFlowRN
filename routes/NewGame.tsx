@@ -70,19 +70,19 @@ const makePlayerForDifficulty = (
 ): Player => {
   switch (difficulty) {
     case Difficulty.XEASY: {
-      return new Player(name, 500, 9500, 3300, "Lawyer", [], []);
+      return new Player(name, 850, 12500, 1200, 140, "Lawyer");
     }
     case Difficulty.EASY: {
-      return new Player(name, 500, 9500, 3300, "Engineer", [], []);
+      return new Player(name, 750, 8000, 1000, 120, "Engineer");
     }
     case Difficulty.MEDIUM: {
-      return new Player(name, 500, 9500, 3300, "Teacher", [], []);
+      return new Player(name, 650, 6300, 750, 110, "Teacher");
     }
     case Difficulty.HARD: {
-      return new Player(name, 500, 9500, 3300, "Cashier", [], []);
+      return new Player(name, 600, 3000, 500, 90, "Janitor");
     }
     case Difficulty.XHARD: {
-      return new Player(name, 500, 9500, 3300, "Nomad", [], []);
+      return new Player(name, 250, 1000, 200, 60, "Nomad");
     }
   }
 };

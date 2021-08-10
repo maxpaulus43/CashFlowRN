@@ -1,3 +1,5 @@
+import Player from "./Player";
+
 export enum Space {
   DEAL,
   DOWNSIZE,
@@ -40,10 +42,13 @@ export default class BoardModel {
     this.playerPosition[playerId] = 0;
   }
 
-  updatePlayerPositionByN(playerId: string, n: number) {
-    // todo pay player if they passed payday
-    this.playerPosition[playerId] =
-      (this.playerPosition[playerId] + n) % this.spaces.length;
+  updatePlayerPositionByN(player: Player, n: number) {
+    const oldPosition = this.playerPosition[player.id];
+    const newPosition = (oldPosition + n) % this.spaces.length;
+    if (Math.floor(oldPosition / 8) !== Math.floor(newPosition % 8)) {
+      player.getPaid();
+    }
+    this.playerPosition[player.id] = newPosition;
   }
 
   getPositionForPlayer(playerId: string): number {

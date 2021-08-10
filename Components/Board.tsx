@@ -7,7 +7,7 @@ interface BoardProps {
 }
 
 const Board: React.FC<BoardProps> = ({model}) => {
-  return <View><Text>{JSON.stringify(model)}</Text></View>;
+  return <View><Text>Board</Text></View>;
 };
 
 export default Board;
