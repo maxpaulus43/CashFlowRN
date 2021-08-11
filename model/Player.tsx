@@ -118,7 +118,6 @@ export default class Player {
   }
 
   private checkWinCondition() {
-    console.log("checked");
     if (this.passiveIncome() > this.expenses()) {
       if (this.winHandler) {
         this.winHandler(this);

@@ -71,15 +71,12 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
         const card = game.drawLoseMoneyCard();
         setModalContent(
           <LoseMoneyCard
+            forPlayer={myPlayer}
             model={card}
-            onPayAttempt={() => {
-              if (myPlayer.cash < card.cost) {
-                presentBorrowBottomSheet();
-              } else {
-                myPlayer.takeCash(card.cost);
-                clearModal();
-              }
+            onPayFail={() => {
+              presentBorrowBottomSheet();
             }}
+            onDismiss={clearModal}
           />
         );
         break;
@@ -88,6 +85,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
         setModalContent(
           <SellAssetCard
             model={game.drawSellAssetCard()}
+            forPlayer={myPlayer}
             onDismiss={clearModal}
           />
         );

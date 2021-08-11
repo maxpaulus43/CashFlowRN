@@ -15,16 +15,24 @@ import Animated, {
 const { height, width } = Dimensions.get("window");
 const DRAG_THRESHOLD = 100;
 const VELOCITY_THRESHOLD = 500;
+const cfg = {
+  stiffness: 50,
+  mass: 0.5,
+  damping: 10,
+  overshootClamping: false,
+  restSpeedThreshold: 0.001,
+  restDisplacementThreshold: 0.001,
+};
 
 const SideSheet: React.FC = ({ children }) => {
   const xOffset = useSharedValue(-width);
-  const cfg = {
-    stiffness: 50,
-    mass: 0.5,
-    damping: 10,
-    overshootClamping: false,
-    restSpeedThreshold: 0.001,
-    restDisplacementThreshold: 0.001,
+  const closeSheet = () => {
+    "worklet";
+    xOffset.value = withSpring(-width, cfg);
+  };
+  const openSheet = () => {
+    "worklet";
+    xOffset.value = withSpring(0, cfg);
   };
   const handler = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
@@ -38,17 +46,18 @@ const SideSheet: React.FC = ({ children }) => {
     },
     onEnd: ({ velocityX, translationX }, ctx) => {
       if (velocityX > VELOCITY_THRESHOLD || translationX > DRAG_THRESHOLD) {
-        xOffset.value = withSpring(0, cfg);
+        openSheet();
       } else if (
         velocityX < -VELOCITY_THRESHOLD ||
         translationX < -DRAG_THRESHOLD
       ) {
-        xOffset.value = withSpring(-width, cfg);
+        closeSheet();
       } else {
         xOffset.value = withSpring(ctx.startX, cfg);
       }
     },
   });
+
   const balanceSheetStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateX: xOffset.value }],
@@ -65,16 +74,12 @@ const SideSheet: React.FC = ({ children }) => {
             position: "absolute",
             shadowColor: "gray",
             shadowRadius: 8,
-            shadowOpacity: .3,
+            shadowOpacity: 0.3,
           },
           balanceSheetStyle,
         ]}
       >
-        <TapGestureHandler
-          onEnded={() => {
-            xOffset.value = withSpring(-width, cfg);
-          }}
-        >
+        <TapGestureHandler onEnded={closeSheet}>
           <View
             style={{
               opacity: 0,
@@ -91,11 +96,7 @@ const SideSheet: React.FC = ({ children }) => {
         >
           {children}
         </View>
-        <TapGestureHandler
-          onEnded={() => {
-            xOffset.value = withSpring(0, cfg);
-          }}
-        >
+        <TapGestureHandler onEnded={openSheet}>
           <View
             style={{
               width: 30,

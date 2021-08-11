@@ -36,14 +36,14 @@ export default class Deck<T extends Card> {
       new SellAssetCard(
         "best asset ever",
         "you should sell!",
-        "this asset is a beast"
+        new Asset(AssetType.STOCK_OR_FUND_OR_CD, 300000, 200)
       ),
     ];
     const d = new Deck(cards);
     return d;
   }
   static makeLoseMoneyDeck(): Deck<LoseMoneyCard> {
-    const cards = [new LoseMoneyCard("You lose", "you should pay this", 100)];
+    const cards = [new LoseMoneyCard("You lose", "you should pay this", 1000)];
     const d = new Deck(cards);
     return d;
   }

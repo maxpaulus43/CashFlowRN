@@ -1,10 +1,11 @@
+import Asset, { AssetType } from "./Asset";
 import Card from "./Card";
 
 export default class SellAssetCard extends Card {
-  assetInfo: string;
+  asset: Asset;
 
-  constructor(title: string, text: string, assetInfo: string) {
+  constructor(title: string, text: string, asset: Asset) {
     super(title, text);
-    this.assetInfo = assetInfo;
+    this.asset = asset;
   }
 }

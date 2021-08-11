@@ -12,7 +12,7 @@ const BorrowMoney: React.FC<BorrowMoneyProps> = ({
   forPlayer: p,
   onDismiss,
 }) => {
-  const loanAmount = useRef(0);
+  const loanAmount = useRef(1000);
   return (
     <View>
       <Text>How Much: </Text>
@@ -21,7 +21,7 @@ const BorrowMoney: React.FC<BorrowMoneyProps> = ({
           loanAmount.current = parseInt(text);
         }}
       >
-        1000
+        {loanAmount.current}
       </TextInput>
       <Button
         title="Borrow"
