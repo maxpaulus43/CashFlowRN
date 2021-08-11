@@ -38,6 +38,10 @@ export default class BoardModel {
   ];
   private playerPosition: { [playerId: string]: number } = {};
 
+  getPlayerIds(): string[] {
+    return Object.keys(this.playerPosition);
+  }
+
   addPlayer(playerId: string) {
     this.playerPosition[playerId] = 0;
   }

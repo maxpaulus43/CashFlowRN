@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { View, Text, Button, TextInput } from "react-native";
 import Liability from "../model/Liability";
 import Player from "../model/Player";
+import NumberPicker from "./NumberPicker";
 
 interface BorrowMoneyProps {
   forPlayer: Player;
@@ -16,13 +17,12 @@ const BorrowMoney: React.FC<BorrowMoneyProps> = ({
   return (
     <View>
       <Text>How Much: </Text>
-      <TextInput
-        onChangeText={(text) => {
-          loanAmount.current = parseInt(text);
+      <NumberPicker
+        increment={loanAmount.current}
+        onChangeValue={(value) => {
+          loanAmount.current = value;
         }}
-      >
-        {loanAmount.current}
-      </TextInput>
+      />
       <Button
         title="Borrow"
         onPress={() => {

@@ -3,11 +3,19 @@ import { View, Text } from "react-native";
 import BoardModel from "../model/Board";
 
 interface BoardProps {
-    model: BoardModel
+  model: BoardModel;
 }
 
-const Board: React.FC<BoardProps> = ({model}) => {
-  return <View><Text>Board</Text></View>;
+const Board: React.FC<BoardProps> = ({ model }) => {
+  return (
+    <View>
+      {model.getPlayerIds().map((pId) => (
+        <Text>
+          {pId} position: {model.getPositionForPlayer(pId)}
+        </Text>
+      ))}
+    </View>
+  );
 };
 
 export default Board;

@@ -135,7 +135,11 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
 
   const presentRepayBottomSheet = () => {
     setBottomSheetContent(
-      <RepayMoney forPlayer={myPlayer} onDismiss={clearBottomSheet} />
+      <RepayMoney
+        forPlayer={myPlayer}
+        onPaid={updateScreen}
+        onDismiss={clearBottomSheet}
+      />
     );
   };
 

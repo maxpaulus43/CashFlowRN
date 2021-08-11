@@ -117,6 +117,13 @@ export default class Player {
     this.checkWinCondition();
   }
 
+  payLiability(l: Liability, amount: number) {
+    // todo pay liability
+    if (false/* liability amount is 0 */) {
+      this.removeLiability(l);
+    }
+  }
+
   private checkWinCondition() {
     if (this.passiveIncome() > this.expenses()) {
       if (this.winHandler) {
