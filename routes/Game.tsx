@@ -170,14 +170,16 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
       <Board model={game.board} />
       {isMyTurn && (
         <>
-          <Button title="Repay" onPress={presentRepayBottomSheet} />
+          <Button
+            title="Repay"
+            onPress={presentRepayBottomSheet}
+            disabled={myPlayer.liabilities.length <= 0}
+          />
           <Button title="Borrow" onPress={presentBorrowBottomSheet} />
           {!myPlayer.didRoll ? (
             <Button title="Roll" onPress={roll} />
           ) : (
-            <>
-              <Button title="End Turn" onPress={endTurn} />
-            </>
+            <Button title="End Turn" onPress={endTurn} />
           )}
         </>
       )}

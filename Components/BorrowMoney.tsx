@@ -26,10 +26,7 @@ const BorrowMoney: React.FC<BorrowMoneyProps> = ({
       <Button
         title="Borrow"
         onPress={() => {
-          p.giveCash(loanAmount.current);
-          p.addLiabiliy(
-            new Liability("Loan", loanAmount.current, "Loan Repayment", 0.1)
-          );
+          p.borrowMoneyAmount(loanAmount.current);
           onDismiss();
         }}
       />

@@ -18,6 +18,10 @@ const Home: React.FC<NativeStackScreenProps<any, any>> = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  blah: {
+    backgroundColor: "powderblue"
+  }
+});
 
 export default Home;

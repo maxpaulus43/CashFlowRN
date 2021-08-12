@@ -1,6 +1,14 @@
 import Asset from "./Asset";
 import Liability from "./Liability";
 
+interface AssetInfo {
+  count: number;
+  asset: Asset;
+}
+// interface LiabilityInfo {
+//   count: number;
+//   liability: Liability;
+// }
 export default class Player {
   readonly id: string;
   readonly name: string;
@@ -9,8 +17,6 @@ export default class Player {
     return this._cash;
   }
   readonly salary: number;
-  assets: Asset[] = [];
-  liabilities: Liability[] = [];
   readonly taxExpenses: number;
   private numberOfKids: number = 0;
   readonly expensesPerKid: number;
@@ -20,6 +26,20 @@ export default class Player {
   private _donationDice: number = 0;
   public get donationDice(): number {
     return this._donationDice;
+  }
+
+  private _assets: { [id: string]: AssetInfo } = {};
+  public get assets(): Asset[] {
+    return Object.keys(this._assets).map(
+      (assetId) => this._assets[assetId].asset
+    );
+  }
+
+  private _liabilities: { [id: string]: Liability } = {};
+  public get liabilities(): Liability[] {
+    return Object.keys(this._liabilities).map(
+      (liabilityId) => this._liabilities[liabilityId]
+    );
   }
 
   constructor(
@@ -70,20 +90,25 @@ export default class Player {
   }
 
   borrowMoneyAmount(amount: number) {
-    this._cash += amount;
+    this.giveCash(amount);
+    this.addLiabiliy(new Liability("Loan", amount, "Loan Repayment", 0.1));
   }
 
   passiveIncome() {
     let sum = 0;
-    for (let a of this.assets) {
-      sum += a.cashflow;
+    for (const assetId in this._assets) {
+      const { count, asset } = this._assets[assetId];
+      for (let i = 0; i < count; i++) {
+        sum += asset.cashflow;
+      }
     }
     return sum;
   }
 
   expenses() {
     let sum = 0;
-    for (let l of this.liabilities) {
+    for (const liabilityId in this._liabilities) {
+      const l = this._liabilities[liabilityId];
       sum += l.expenseAmount();
     }
     sum += this.taxExpenses;
@@ -100,28 +125,38 @@ export default class Player {
   }
 
   addAsset(a: Asset) {
-    this.assets.push(a);
+    if (a.id in this._assets) {
+      this._assets[a.id].count += 1;
+    } else {
+      this._assets[a.id] = { count: 1, asset: a };
+    }
     this.checkWinCondition();
   }
 
   removeAsset(a: Asset) {
-    // todo
+    if (this._assets[a.id]?.count > 1) {
+      this._assets[a.id].count -= 1;
+    } else {
+      delete this._assets[a.id];
+    }
   }
 
   addLiabiliy(l: Liability) {
-    this.liabilities.push(l);
-  }
-
-  removeLiability(l: Liability) {
-    // todo
-    this.checkWinCondition();
-  }
-
-  payLiability(l: Liability, amount: number) {
-    // todo pay liability
-    if (false/* liability amount is 0 */) {
-      this.removeLiability(l);
+    if (l.id in this._liabilities) {
+      this._liabilities[l.id].increaseDebt(l.debtAmount);
+    } else {
+      this._liabilities[l.id] = l;
     }
+  }
+
+  payAmountForLiability(amount: number, liabilityId: string) {
+    // assume that liabilityId already exists in the dict
+    const l = this._liabilities[liabilityId];
+    l.decreaseDebt(amount);
+    if (l.debtAmount <= 0) {
+      delete this._liabilities[liabilityId];
+    }
+    this.checkWinCondition();
   }
 
   private checkWinCondition() {
