@@ -1,25 +1,29 @@
 import React, { useRef } from "react";
-import { View, Text, Button, TextInput } from "react-native";
-import Liability from "../model/Liability";
+import { View, Text, Button } from "react-native";
 import Player from "../model/Player";
 import NumberPicker from "./NumberPicker";
-
-interface BorrowMoneyProps {
+export interface BorrowMoneyOptions {
+  message?: string;
+  initialBorrowAmount?: number;
+}
+interface BorrowMoneyProps extends BorrowMoneyOptions {
   forPlayer: Player;
   onDismiss: () => void;
-  message?: string;
-  amountNeeded?: number;
 }
 
 const BorrowMoney: React.FC<BorrowMoneyProps> = ({
   forPlayer: p,
   onDismiss,
+  message,
+  initialBorrowAmount,
 }) => {
   const loanAmount = useRef(1000);
   return (
     <View>
+      {message && <Text>{message}</Text>}
       <Text>How Much: </Text>
       <NumberPicker
+        initialValue={initialBorrowAmount ?? loanAmount.current}
         increment={loanAmount.current}
         onChangeValue={(value) => {
           loanAmount.current = value;

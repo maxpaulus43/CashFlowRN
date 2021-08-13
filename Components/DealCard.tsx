@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, Button } from "react-native";
 import { AssetType, Property, Stock } from "../model/Asset";
 import DealCardModel from "../model/DealCard";

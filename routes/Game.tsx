@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useReducer, useState } from "react";
-import { Button, View, Text, Dimensions, Alert } from "react-native";
+import { Button, View, Text, Alert } from "react-native";
 import BalanceSheet from "../Components/BalanceSheet";
 import Board from "../Components/Board";
 import BottomSheet from "../Components/BottomSheet";
@@ -13,10 +13,10 @@ import GameModel from "../model/Game";
 import Player from "../model/Player";
 import PlayerInfo from "../Components/PlayerInfo";
 import RepayMoney from "../Components/RepayMoney";
-import BorrowMoney from "../Components/BorrowMoney";
+import BorrowMoney, { BorrowMoneyOptions } from "../Components/BorrowMoney";
 import SideSheet from "../Components/SideSheet";
 import Donate from "../Components/Donate";
-
+let o: any;
 const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   route,
   navigation,
@@ -155,9 +155,13 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     );
   };
 
-  const presentBorrowBottomSheet = (options?: BorrowBottomSheetOptions) => {
+  const presentBorrowBottomSheet = (options?: BorrowMoneyOptions) => {
     setBottomSheetContent(
-      <BorrowMoney forPlayer={myPlayer} onDismiss={clearBottomSheet} {...options} />
+      <BorrowMoney
+        forPlayer={myPlayer}
+        onDismiss={clearBottomSheet}
+        {...options}
+      />
     );
   };
 
@@ -173,6 +177,8 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   game.winHandler = (p: Player) => {
     Alert.alert(p.name + " won the game!");
   };
+
+  console.log("rerendered screen");
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -208,10 +214,5 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     </View>
   );
 };
-
-interface BorrowBottomSheetOptions {
-  message?: string;
-  initialBorrowAmount?: number;
-}
 
 export default Game;

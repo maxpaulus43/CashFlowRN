@@ -1,5 +1,4 @@
 import Card from "./Card";
-
 export default class LoseMoneyCard extends Card {
   cost: number;
 

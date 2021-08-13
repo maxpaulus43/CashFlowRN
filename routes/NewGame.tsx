@@ -78,7 +78,7 @@ const makePlayerForDifficulty = (
       return new Player(name, 750, 8000, 1000, 120, "Engineer");
     }
     case Difficulty.MEDIUM: {
-      const p = new Player(name, 650, 6300, 750, 110, "Teacher");
+      const p = new Player(name, 650, 3200, 750, 110, "Teacher");
       p.addLiabiliy(
         new Liability("Home Mortgage", 75000, "Mortgage Payment", 0.03)
       );
