@@ -1,0 +1,35 @@
+[
+  {
+    "title": "House For Sale - 3Br/2Ba",
+    "text": "3/2 House in older area. No bids at last week's auction.",
+    "asset": {
+      "id": "3/2 No Bids",
+      "type": "Property",
+      "propertyType": "ThreeBedTwoBath",
+      "cost": 50000,
+      "cashFlow": -100,
+      "downPayment": 0
+    }
+  },
+  {
+    "title": "Start A Company part Time",
+    "text": "Invent a new way of making widgets. No profits during startup. Long hours, no extra pay.",
+    "asset": {
+      "id": "startup No Profits",
+      "type": "Company",
+      "cost": 3000,
+      "cashFlow": 0,
+      "downPayment": 3000
+    }
+  },
+  {
+    "title": "Stock - MYT4U Electronic Co.",
+    "text": "Low Interest rates lead to substantial share price for this home electronics seller",
+    "asset": {
+      "id": "MYT4U",
+      "type": "Stock",
+      "cost": 30,
+      "cashFlow": 0
+    }
+  }
+]

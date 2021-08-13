@@ -1,0 +1,26 @@
+[
+  {
+    "title": "House for Sale - 3Br/2Ba",
+    "text": "Good Investment potential in the 3/2 house. Positive cash flow even though rents are weak.",
+    "asset": {
+      "id": "3/2 Good Investment",
+      "type": "Property",
+      "cost": 65000,
+      "cashFlow": 300,
+      "downPayment": 8000,
+      "propertyType": "ThreeBedTwoBath"
+    }
+  },
+  {
+    "title": "Apartment House for Sale",
+    "text": "2 buildings totalling 23 units for sale. Owner managed with on-site assistant. Retirement prompts sale.",
+    "asset": {
+      "id": "apt Owner Retired",
+      "type": "Property",
+      "cost": 575000,
+      "cashFlow": 3400,
+      "downPayment": 75000,
+      "propertyType": "AptBuilding"
+    }
+  }
+]

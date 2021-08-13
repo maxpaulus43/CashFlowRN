@@ -10,7 +10,7 @@ const Board: React.FC<BoardProps> = ({ model }) => {
   return (
     <View>
       {model.getPlayerIds().map((pId) => (
-        <Text>
+        <Text key={pId}>
           {pId} position: {model.getPositionForPlayer(pId)}
         </Text>
       ))}

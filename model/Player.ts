@@ -1,4 +1,4 @@
-import DeepEqualsMap from "../utils/DeepEqualsMap";
+import JsonEqualsMap from "../utils/JsonEqualsMap";
 import { Property, Stock } from "./Asset";
 import Liability from "./Liability";
 
@@ -21,7 +21,7 @@ export default class Player {
     return this._donationDice;
   }
 
-  private _stocks: DeepEqualsMap<Stock, number> = new DeepEqualsMap();
+  private _stocks: JsonEqualsMap<Stock, number> = new JsonEqualsMap();
   public get stocks(): [s: Stock, count: number][] {
     return this._stocks.entries();
   }
@@ -93,10 +93,10 @@ export default class Player {
   passiveIncome() {
     let sum = 0;
     for (const [s, count] of this._stocks.entries()) {
-      sum += s.cashflow * count;
+      sum += s.cashFlow * count;
     }
     for (const p of this.properties) {
-      sum += p.cashflow;
+      sum += p.cashFlow;
     }
     return sum;
   }

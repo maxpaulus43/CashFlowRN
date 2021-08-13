@@ -1,0 +1,14 @@
+[
+    {
+        "title": "Plex Buyer",
+        "text": "You're offered $25,000 per unit for all duplexes, 4plex, 8plex. If you sell, pay off the related mortgage and give up the cash flow you currently receive on this property",
+        "propertyType": "AllPlex",
+        "offerAmount": 25000
+    },
+    {
+        "title": "House Buyer",
+        "text": "You're offered $110,000 for a 3/2 rental house. If you sell, pay off the related mortgage and give up the cash flow you currently receive on this property.",
+        "propertyType": "ThreeBedTwoBath",
+        "offerAmount": 110000
+    }
+]

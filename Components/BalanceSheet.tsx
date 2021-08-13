@@ -26,7 +26,7 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
       <Text>----------------------------</Text>
       <Text>PayDay: {p.paydayAmount()}</Text>
       {p.liabilities.map(l => (
-        <Text>{l.name}</Text>
+        <Text key={l.id}>{l.name}</Text>
       ))}
     </ScrollView>
   );

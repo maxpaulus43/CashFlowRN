@@ -16,7 +16,9 @@ const SellAssetCard: React.FC<SellAssetProps> = ({
   forPlayer: p,
   onDismiss,
 }) => {
-  const sellablePlayerAssets: Property[] = p.properties;
+  const sellablePlayerAssets: Property[] = p.properties.filter(
+    (p) => model.propertyType === p.propertyType
+  );
   const [selectedPropertyId, setSelectedPropertyId] = useState(
     sellablePlayerAssets[0]?.id
   );
@@ -37,7 +39,7 @@ const SellAssetCard: React.FC<SellAssetProps> = ({
             itemStyle={{ height: 100 }}
           >
             {sellablePlayerAssets.map((p) => (
-              <Picker.Item label={p.id} value={p.id} />
+              <Picker.Item label={p.id} value={p.id} key={p.id}/>
             ))}
           </Picker>
           <Button
