@@ -69,6 +69,7 @@ const makePlayerForDifficulty = (
   difficulty: Difficulty,
   name: string
 ): Player => {
+  // todo random difficulty
   switch (difficulty) {
     case Difficulty.XEASY: {
       return new Player(name, 850, 12500, 1200, 140, "Lawyer");

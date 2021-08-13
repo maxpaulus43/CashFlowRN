@@ -1,11 +1,14 @@
-import Asset, { AssetType } from "./Asset";
+import { PropertyType } from "./Asset";
 import Card from "./Card";
 
+// todo make "your business improves" card
 export default class SellAssetCard extends Card {
-  asset: Asset;
+  assetType: PropertyType
+  offerAmount: number;
 
-  constructor(title: string, text: string, asset: Asset) {
+  constructor(title: string, text: string, assetType: PropertyType, offerAmount: number) {
     super(title, text);
-    this.asset = asset;
+    this.assetType = assetType;
+    this.offerAmount = offerAmount;
   }
 }

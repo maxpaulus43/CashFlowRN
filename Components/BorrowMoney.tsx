@@ -7,6 +7,8 @@ import NumberPicker from "./NumberPicker";
 interface BorrowMoneyProps {
   forPlayer: Player;
   onDismiss: () => void;
+  message?: string;
+  amountNeeded?: number;
 }
 
 const BorrowMoney: React.FC<BorrowMoneyProps> = ({

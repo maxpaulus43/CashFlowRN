@@ -1,6 +1,7 @@
+import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
 import { View, Text, Button } from "react-native";
-import Asset from "../model/Asset";
+import { Property } from "../model/Asset";
 import Player from "../model/Player";
 import SellAssetModel from "../model/SellAssetCard";
 
@@ -15,36 +16,43 @@ const SellAssetCard: React.FC<SellAssetProps> = ({
   forPlayer: p,
   onDismiss,
 }) => {
-  const sellablePlayerAssets = p.assets.filter((a) => {
-    return a.type === model.asset.type;
-  });
-  const [selectedAssets, setSelectedAssets] = useState<Asset[]>([]);
+  const sellablePlayerAssets: Property[] = p.properties;
+  const [selectedPropertyId, setSelectedPropertyId] = useState(
+    sellablePlayerAssets[0]?.id
+  );
   const canSellAssets = sellablePlayerAssets.length > 0;
+
   return (
     <View>
       <Text>SELL ASSET</Text>
       <Text>{model.title}</Text>
       <Text>{model.text}</Text>
-      <Text>Type: {model.asset.type}</Text>
 
       {canSellAssets ? (
         <View>
           <Text>Select Asset to sell:</Text>
-          {sellablePlayerAssets.map((a) => (
-            <Text>{a.type}</Text>
-          ))}
+          <Picker
+            selectedValue={selectedPropertyId}
+            onValueChange={setSelectedPropertyId}
+            itemStyle={{ height: 100 }}
+          >
+            {sellablePlayerAssets.map((p) => (
+              <Picker.Item label={p.id} value={p.id} />
+            ))}
+          </Picker>
           <Button
+            disabled={!selectedPropertyId}
             title="Sell"
             onPress={() => {
-              for (let a of selectedAssets) {
-                p.removeAsset(a);
-              }
+              p.sellPropertyForAmount(selectedPropertyId!, model.offerAmount);
               onDismiss();
             }}
           />
         </View>
       ) : (
-        <View><Text>No Assets of this kind</Text></View>
+        <View>
+          <Text>No Assets of this kind</Text>
+        </View>
       )}
       <Button title="Dismiss" onPress={onDismiss} />
     </View>

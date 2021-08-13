@@ -14,6 +14,7 @@ export default class Game {
   private smallDealDeck: Deck<DealCard>;
   private sellAssetDeck: Deck<SellAssetCard>;
   private loseMoneyDeck: Deck<LoseMoneyCard>;
+  private isGameOver = false;
 
   constructor(players: Player[]) {
     this.players = players;
@@ -78,22 +79,18 @@ export default class Game {
     this.getCurrentPlayer().didRoll = false;
   }
 
-  isGameOver(): boolean {
-    for (let p of this.players) {
-      if (p.passiveIncome > p.expenses) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   public get winHandler(): ((winner: Player) => void) | undefined {
     return this._winHandler;
   }
   public set winHandler(value: ((winner: Player) => void) | undefined) {
-    this._winHandler = value;
+    this._winHandler = (winner: Player) => {
+      this.isGameOver = true;
+      if (value) {
+        value(winner);
+      }
+    };
     for (const p of this.players) {
-      p.winHandler = value;
+      p.winHandler = this._winHandler;
     }
   }
 }

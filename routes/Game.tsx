@@ -45,6 +45,12 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
                   <DealCard
                     forPlayer={myPlayer}
                     model={game.drawBigDealCard()}
+                    onPayFail={(amountNeeded: number) => {
+                      presentBorrowBottomSheet({
+                        message: `You Need at least $${amountNeeded}`,
+                        initialBorrowAmount: amountNeeded,
+                      });
+                    }}
                     onDismiss={clearModal}
                   />
                 );
@@ -57,6 +63,12 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
                   <DealCard
                     forPlayer={myPlayer}
                     model={game.drawSmallDealCard()}
+                    onPayFail={(amountNeeded: number) => {
+                      presentBorrowBottomSheet({
+                        message: `You Need at least $${amountNeeded}`,
+                        initialBorrowAmount: amountNeeded,
+                      });
+                    }}
                     onDismiss={clearModal}
                   />
                 );
@@ -143,9 +155,9 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     );
   };
 
-  const presentBorrowBottomSheet = () => {
+  const presentBorrowBottomSheet = (options?: BorrowBottomSheetOptions) => {
     setBottomSheetContent(
-      <BorrowMoney forPlayer={myPlayer} onDismiss={clearBottomSheet} />
+      <BorrowMoney forPlayer={myPlayer} onDismiss={clearBottomSheet} {...options} />
     );
   };
 
@@ -175,7 +187,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
             onPress={presentRepayBottomSheet}
             disabled={myPlayer.liabilities.length <= 0}
           />
-          <Button title="Borrow" onPress={presentBorrowBottomSheet} />
+          <Button title="Borrow" onPress={() => presentBorrowBottomSheet()} />
           {!myPlayer.didRoll ? (
             <Button title="Roll" onPress={roll} />
           ) : (
@@ -196,5 +208,10 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     </View>
   );
 };
+
+interface BorrowBottomSheetOptions {
+  message?: string;
+  initialBorrowAmount?: number;
+}
 
 export default Game;

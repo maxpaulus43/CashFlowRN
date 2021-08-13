@@ -60,6 +60,7 @@ export default class BoardModel {
   }
 
   getSpaceForPlayer(playerId: string): Space {
+    // return Math.random() < 0.5 ? Space.SELL_ASSET : Space.DEAL; // todo remove this
     return this.spaces[this.playerPosition[playerId]];
   }
 }

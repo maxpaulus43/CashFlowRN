@@ -1,14 +1,7 @@
-import Asset from "./Asset";
+import DeepEqualsMap from "../utils/DeepEqualsMap";
+import { Property, Stock } from "./Asset";
 import Liability from "./Liability";
 
-interface AssetInfo {
-  count: number;
-  asset: Asset;
-}
-// interface LiabilityInfo {
-//   count: number;
-//   liability: Liability;
-// }
 export default class Player {
   readonly id: string;
   readonly name: string;
@@ -28,11 +21,14 @@ export default class Player {
     return this._donationDice;
   }
 
-  private _assets: { [id: string]: AssetInfo } = {};
-  public get assets(): Asset[] {
-    return Object.keys(this._assets).map(
-      (assetId) => this._assets[assetId].asset
-    );
+  private _stocks: DeepEqualsMap<Stock, number> = new DeepEqualsMap();
+  public get stocks(): [s: Stock, count: number][] {
+    return this._stocks.entries();
+  }
+
+  private _properties: Property[] = [];
+  public get properties(): Property[] {
+    return this._properties;
   }
 
   private _liabilities: { [id: string]: Liability } = {};
@@ -96,11 +92,11 @@ export default class Player {
 
   passiveIncome() {
     let sum = 0;
-    for (const assetId in this._assets) {
-      const { count, asset } = this._assets[assetId];
-      for (let i = 0; i < count; i++) {
-        sum += asset.cashflow;
-      }
+    for (const [s, count] of this._stocks.entries()) {
+      sum += s.cashflow * count;
+    }
+    for (const p of this.properties) {
+      sum += p.cashflow;
     }
     return sum;
   }
@@ -124,20 +120,40 @@ export default class Player {
     return this.totalIncome() - this.expenses();
   }
 
-  addAsset(a: Asset) {
-    if (a.id in this._assets) {
-      this._assets[a.id].count += 1;
-    } else {
-      this._assets[a.id] = { count: 1, asset: a };
-    }
+  buyStockAmount(s: Stock, amount: number) {
+    this.takeCash(s.cost * amount);
+    const currentAmount = this._stocks.get(s) ?? 0;
+    const newAmount = currentAmount + amount;
+    this._stocks.set(s, newAmount);
     this.checkWinCondition();
   }
 
-  removeAsset(a: Asset) {
-    if (this._assets[a.id]?.count > 1) {
-      this._assets[a.id].count -= 1;
+  sellStockAmount(s: Stock, amount: number) {
+    this.giveCash(s.cost * amount);
+    const currentAmount = this._stocks.get(s) ?? 0;
+    const newAmount = currentAmount - amount;
+    if (newAmount < 0) {
+      this._stocks.delete(s);
     } else {
-      delete this._assets[a.id];
+      this._stocks.set(s, newAmount);
+    }
+  }
+
+  buyProperty(property: Property) {
+    this.takeCash(property.downPayment);
+    this.properties.push(property);
+    // possibly add a liability
+    this.checkWinCondition();
+  }
+
+  sellPropertyForAmount(propertyId: string, forAmount: number) {
+    // todo optimize sellPropertyForAmount
+    this.giveCash(forAmount);
+    for (let i = 0; i < this.properties.length; i++) {
+      const p = this.properties[i];
+      if (propertyId === p.id) {
+        this.properties.splice(i, 1);
+      }
     }
   }
 

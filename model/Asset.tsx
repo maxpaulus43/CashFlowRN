@@ -1,28 +1,40 @@
-export enum AssetType {
-  STOCK_OR_FUND_OR_CD,
-  REAL_ESTATE_OR_BUSINESS,
+export enum PropertyType {
+  TwoBedTwoBath,
+  TwoBedOneBath,
+  AllPlex,
+  TwoPlex,
+  FourPlex,
+  EightPlex,
+  Company,
+  GoldCoin,
 }
-export default class Asset {
+
+export default abstract class Asset {
   id: string; // for stock type assets, this wil be the ticker symbol
-  type: AssetType;
-  cost: number;
-  downPay: number;
   description: string;
+  cost: number;
   cashflow: number;
 
-  constructor(
-    id: string,
-    type: AssetType,
-    cost: number,
-    downPay: number,
-    description: string,
-    cashflow: number
-  ) {
+  constructor(id: string, cost: number, description: string, cashflow: number) {
     this.id = id;
-    this.type = type;
     this.cost = cost;
-    this.downPay = downPay;
     this.description = description;
     this.cashflow = cashflow;
+  }
+}
+
+export class Stock extends Asset {}
+
+export class Property extends Asset {
+  downPayment: number;
+  constructor(
+    id: string,
+    cost: number,
+    description: string,
+    cashflow: number,
+    downPayment: number
+  ) {
+    super(id, cost, description, cashflow);
+    this.downPayment = downPayment;
   }
 }

@@ -1,4 +1,4 @@
-import Asset, { AssetType } from "./Asset";
+import Asset, { PropertyType, Property, Stock } from "./Asset";
 import Card from "./Card";
 import DealCard from "./DealCard";
 import LoseMoneyCard from "./LoseMoneyCard";
@@ -12,7 +12,7 @@ export default class Deck<T extends Card> {
       new DealCard(
         "BIG DEAL baby",
         "you should buy this big deal",
-        new Asset(AssetType.REAL_ESTATE_OR_BUSINESS, 1000, 800)
+        new Property("1234", 2000, "big property", 5, 200)
       ),
     ];
     const d = new Deck(cards);
@@ -24,7 +24,7 @@ export default class Deck<T extends Card> {
       new DealCard(
         "best deal ever",
         "you should but this",
-        new Asset(AssetType.STOCK_OR_FUND_OR_CD, 10, 0)
+        new Stock("GOOG", 10, "google baby", 0)
       ),
     ];
     const d = new Deck(cards);
@@ -34,9 +34,10 @@ export default class Deck<T extends Card> {
   static makeSellAssetDeck(): Deck<SellAssetCard> {
     const cards = [
       new SellAssetCard(
-        "best asset ever",
-        "you should sell!",
-        new Asset(AssetType.STOCK_OR_FUND_OR_CD, 300000, 200)
+        "I want your 2B1B",
+        "Please sell this to me!!!",
+        PropertyType.TwoBedOneBath,
+        30
       ),
     ];
     const d = new Deck(cards);
@@ -54,7 +55,7 @@ export default class Deck<T extends Card> {
   }
 
   hasCards() {
-      return this.cards.length > 0;
+    return this.cards.length > 0;
   }
 
   drawCard(): T | undefined {
