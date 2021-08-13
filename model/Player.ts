@@ -120,6 +120,10 @@ export default class Player {
     return this.totalIncome() - this.expenses();
   }
 
+  getStocksForId(stockId: string) {
+    return this.stocks.filter(([stock]) => stock.id === stockId);
+  }
+
   buyStockAmount(s: Stock, amount: number) {
     this.takeCash(s.cost * amount);
     const currentAmount = this._stocks.get(s) ?? 0;

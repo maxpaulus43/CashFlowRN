@@ -32,11 +32,15 @@ const BuyStockView: React.FC<DealCardProps> = ({
   const [amount, setAmount] = useState(1);
   const stock = model.asset as Stock;
   const totalAssetCost = stock.cost * amount;
+  const playersExistingStocks = p.getStocksForId(stock.id);
+  const playerCanSell = playersExistingStocks.length > 0;
+
   let buttonTitle = "Buy";
   const playerCantAffordIt = p.cash < totalAssetCost;
   if (playerCantAffordIt) {
     buttonTitle += `(Must Borrow $${totalAssetCost - p.cash})`;
   }
+
   const buyStock = () => {
     if (playerCantAffordIt) {
       onPayFail(totalAssetCost - p.cash);
@@ -45,6 +49,11 @@ const BuyStockView: React.FC<DealCardProps> = ({
     p.buyStockAmount(stock, amount);
     onDismiss();
   };
+
+  const sellStock = () => {
+    p.sellStockAmount(stock, amount);
+  };
+
   return (
     <View>
       <Text>STOCK DEAL</Text>
@@ -55,6 +64,7 @@ const BuyStockView: React.FC<DealCardProps> = ({
       <Text>How Many Stocks?</Text>
       <NumberPicker increment={1} onChangeValue={setAmount} />
       <Button title={buttonTitle} onPress={buyStock} />
+      {playerCanSell && <Button title="Sell" onPress={sellStock} />}
       <Button title="Cancel" onPress={onDismiss} />
     </View>
   );
@@ -72,6 +82,7 @@ const BuyPropertyView: React.FC<DealCardProps> = ({
   if (playerCantAffordIt) {
     buttonTitle += `(Must Borrow $${property.downPayment - p.cash})`;
   }
+
   const buyProperty = () => {
     if (playerCantAffordIt) {
       onPayFail(property.downPayment - p.cash);
@@ -80,6 +91,7 @@ const BuyPropertyView: React.FC<DealCardProps> = ({
     p.buyProperty(property);
     onDismiss();
   };
+
   return (
     <View>
       <Text>PROPERTY DEAL</Text>
