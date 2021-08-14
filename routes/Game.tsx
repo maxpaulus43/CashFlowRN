@@ -16,7 +16,13 @@ import RepayMoney from "../Components/RepayMoney";
 import BorrowMoney, { BorrowMoneyOptions } from "../Components/BorrowMoney";
 import SideSheet from "../Components/SideSheet";
 import Donate from "../Components/Donate";
-let o: any;
+import DealModel from "../model/DealCard";
+import LoseMoneyModel from "../model/LoseMoneyCard";
+import SellAssetModel from "../model/SellAssetCard";
+import DealCardFlow from "../Components/DealCardFlow";
+import Downsize from "../Components/Downsize";
+import NewChild from "../Components/NewChild";
+
 const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   route,
   navigation,
@@ -25,121 +31,49 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   const myPlayer = route.params?.player as Player;
   const [, updateScreen] = useReducer((x) => x + 1, 0);
   const isMyTurn = game.getCurrentPlayer().id === myPlayer.id;
-  const [modalContent, setModalContent] = useState<React.ReactNode>();
-  const clearModal = () => setModalContent(undefined);
   const [bottomSheetContent, setBottomSheetContent] =
     useState<React.ReactNode>();
   const clearBottomSheet = () => setBottomSheetContent(undefined);
+  const [showDeal, setShowDeal] = useState(false);
+  const [loseMoneyCard, setLoseMoneyCard] = useState<LoseMoneyModel>();
+  const [sellAssetCard, setSellAssetCard] = useState<SellAssetModel>();
+  const [showDonate, setShowDonate] = useState(false);
+  const [showNewChild, setShowNewChild] = useState(false);
+  const [showDownsize, setShowDownsize] = useState(false);
+  const isModalVisible: boolean =
+    showDeal ||
+    loseMoneyCard !== undefined ||
+    sellAssetCard !== undefined ||
+    showDonate ||
+    showDownsize ||
+    showNewChild;
 
   const roll = () => {
     game.rollForCurrentPlayer();
     const space = game.getSpaceForCurrentPlayer();
     switch (space) {
       case Space.DEAL: {
-        setModalContent(
-          <View>
-            <Button
-              title="big deal"
-              onPress={() => {
-                setModalContent(
-                  <DealCard
-                    forPlayer={myPlayer}
-                    model={game.drawBigDealCard()}
-                    onPayFail={(amountNeeded: number) => {
-                      presentBorrowBottomSheet({
-                        message: `You Need at least $${amountNeeded}`,
-                        initialBorrowAmount: amountNeeded,
-                      });
-                    }}
-                    onDismiss={clearModal}
-                  />
-                );
-              }}
-            />
-            <Button
-              title="small deal"
-              onPress={() => {
-                setModalContent(
-                  <DealCard
-                    forPlayer={myPlayer}
-                    model={game.drawSmallDealCard()}
-                    onPayFail={(amountNeeded: number) => {
-                      presentBorrowBottomSheet({
-                        message: `You Need at least $${amountNeeded}`,
-                        initialBorrowAmount: amountNeeded,
-                      });
-                    }}
-                    onDismiss={clearModal}
-                  />
-                );
-              }}
-            />
-          </View>
-        );
-
+        setShowDeal(true);
         break;
       }
       case Space.LOSE_MONEY: {
-        const card = game.drawLoseMoneyCard();
-        setModalContent(
-          <LoseMoneyCard
-            forPlayer={myPlayer}
-            model={card}
-            onPayFail={() => {
-              presentBorrowBottomSheet();
-            }}
-            onDismiss={clearModal}
-          />
-        );
+        setLoseMoneyCard(game.drawLoseMoneyCard());
         break;
       }
       case Space.SELL_ASSET: {
-        setModalContent(
-          <SellAssetCard
-            model={game.drawSellAssetCard()}
-            forPlayer={myPlayer}
-            onDismiss={clearModal}
-          />
-        );
+        setSellAssetCard(game.drawSellAssetCard());
         break;
       }
       case Space.DONATE: {
-        setModalContent(<Donate forPlayer={myPlayer} onDismiss={clearModal} />);
+        setShowDonate(true);
         break;
       }
       case Space.DOWNSIZE: {
-        setModalContent(
-          <View>
-            <Text>Downsized!</Text>
-            <Button
-              title="Pay"
-              onPress={() => {
-                // todo skip 2 turns
-                if (myPlayer.cash < myPlayer.expenses()) {
-                  presentBorrowBottomSheet();
-                } else {
-                  myPlayer.takeCash(myPlayer.expenses());
-                  clearModal();
-                }
-              }}
-            />
-          </View>
-        );
+        setShowDownsize(true);
         break;
       }
       case Space.NEW_CHILD: {
-        setModalContent(
-          <View>
-            <Text>New Child!</Text>
-            <Button
-              title="Dismiss"
-              onPress={() => {
-                myPlayer.addKid();
-                clearModal();
-              }}
-            />
-          </View>
-        );
+        setShowNewChild(true);
         break;
       }
     }
@@ -178,8 +112,6 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     Alert.alert(p.name + " won the game!");
   };
 
-  console.log("rerendered screen");
-
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Button title="Go Home" onPress={goHome} />
@@ -202,7 +134,53 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
         </>
       )}
 
-      <Modal>{modalContent}</Modal>
+      <Modal isVisible={isModalVisible}>
+        {showDeal && (
+          <DealCardFlow
+            game={game}
+            forPlayer={myPlayer}
+            onPayFail={(amountNeeded: number) => {
+              presentBorrowBottomSheet({ initialBorrowAmount: amountNeeded });
+            }}
+            onDismiss={() => {
+              setShowDeal(false);
+            }}
+          />
+        )}
+        {loseMoneyCard && (
+          <LoseMoneyCard
+            forPlayer={myPlayer}
+            model={loseMoneyCard}
+            onPayFail={() => {
+              presentBorrowBottomSheet();
+            }}
+            onDismiss={() => setLoseMoneyCard(undefined)}
+          />
+        )}
+        {sellAssetCard && (
+          <SellAssetCard
+            model={game.drawSellAssetCard()}
+            forPlayer={myPlayer}
+            onDismiss={() => setSellAssetCard(undefined)}
+          />
+        )}
+        {showDonate && (
+          <Donate forPlayer={myPlayer} onDismiss={() => setShowDonate(false)} />
+        )}
+        {showDownsize && (
+          <Downsize
+            forPlayer={myPlayer}
+            onPayFail={() => {}}
+            onDismiss={() => setShowDownsize(false)}
+          />
+        )}
+        {showNewChild && (
+          <NewChild
+            forPlayer={myPlayer}
+            onDismiss={() => setShowNewChild(false)}
+          />
+        )}
+      </Modal>
 
       <BottomSheet onDismiss={clearBottomSheet}>
         {bottomSheetContent}

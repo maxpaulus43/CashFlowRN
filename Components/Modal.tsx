@@ -8,9 +8,12 @@ import Animated, {
 } from "react-native-reanimated";
 const { height, width } = Dimensions.get("window");
 
-const Modal: React.FC = ({ children }) => {
+interface props {
+  isVisible: boolean;
+}
+
+const Modal: React.FC<props> = ({ isVisible, children }) => {
   const yOffset = useSharedValue(height);
-  const isVisible = children ? true : false;
 
   useEffect(() => {
     yOffset.value = withSpring(isVisible ? 0 : height, {

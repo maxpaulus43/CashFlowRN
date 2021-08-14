@@ -17,14 +17,16 @@ const BorrowMoney: React.FC<BorrowMoneyProps> = ({
   message,
   initialBorrowAmount,
 }) => {
-  const loanAmount = useRef(1000);
+  let amt = initialBorrowAmount ?? 1000;
+  amt = Math.ceil(amt / 1000) * 1000;
+  const loanAmount = useRef(amt);
   return (
     <View>
       {message && <Text>{message}</Text>}
       <Text>How Much: </Text>
       <NumberPicker
-        initialValue={initialBorrowAmount ?? loanAmount.current}
-        increment={loanAmount.current}
+        initialValue={loanAmount.current}
+        increment={1000}
         onChangeValue={(value) => {
           loanAmount.current = value;
         }}

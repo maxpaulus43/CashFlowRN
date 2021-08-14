@@ -38,7 +38,8 @@ const BuyStockView: React.FC<DealCardProps> = ({
   let buttonTitle = "Buy";
   const playerCantAffordIt = p.cash < totalAssetCost;
   if (playerCantAffordIt) {
-    buttonTitle += `(Must Borrow $${totalAssetCost - p.cash})`;
+    let amt = Math.ceil(totalAssetCost - p.cash / 1000) * 1000;
+    buttonTitle += `(Must Borrow $${amt})`;
   }
 
   const buyStock = () => {
