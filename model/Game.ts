@@ -7,6 +7,8 @@ import SellAssetCard from "./SellAssetCard";
 
 export default class Game {
   private _winHandler?: (winner: Player) => void;
+  private _loseHandler?: ((loser: Player) => void) | undefined;
+
   readonly board: BoardModel;
   readonly players: Player[];
   private currentPlayerIdx: number;
@@ -91,6 +93,21 @@ export default class Game {
     };
     for (const p of this.players) {
       p.winHandler = this._winHandler;
+    }
+  }
+
+  public get loseHandler(): ((loser: Player) => void) | undefined {
+    return this._loseHandler;
+  }
+  public set loseHandler(value: ((loser: Player) => void) | undefined) {
+    this._loseHandler = (loser: Player) => {
+      this.isGameOver = true;
+      if (value) {
+        value(loser);
+      }
+    };
+    for (const p of this.players) {
+      p.loseHandler = this._loseHandler;
     }
   }
 }

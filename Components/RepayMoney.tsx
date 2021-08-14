@@ -41,8 +41,6 @@ const RepayMoney: React.FC<RepayMoneyProps> = ({ forPlayer: p, onDismiss }) => {
         disabled={!selectedLiability || p.cash < repayAmount}
         onPress={() => {
           p.payAmountForLiability(repayAmount, selectedLiability);
-          // setSelectedLiability(p.liabilities[0]?.id);
-          // onPaid();
           onDismiss();
         }}
       />

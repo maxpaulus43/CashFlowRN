@@ -34,14 +34,14 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   const [bottomSheetContent, setBottomSheetContent] =
     useState<React.ReactNode>();
   const clearBottomSheet = () => setBottomSheetContent(undefined);
-  const [showDeal, setShowDeal] = useState(false);
+  const [showDealFlow, setShowDealFlow] = useState(false);
   const [loseMoneyCard, setLoseMoneyCard] = useState<LoseMoneyModel>();
   const [sellAssetCard, setSellAssetCard] = useState<SellAssetModel>();
   const [showDonate, setShowDonate] = useState(false);
   const [showNewChild, setShowNewChild] = useState(false);
   const [showDownsize, setShowDownsize] = useState(false);
   const isModalVisible: boolean =
-    showDeal ||
+    showDealFlow ||
     loseMoneyCard !== undefined ||
     sellAssetCard !== undefined ||
     showDonate ||
@@ -53,7 +53,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     const space = game.getSpaceForCurrentPlayer();
     switch (space) {
       case Space.DEAL: {
-        setShowDeal(true);
+        setShowDealFlow(true);
         break;
       }
       case Space.LOSE_MONEY: {
@@ -109,8 +109,12 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   };
 
   game.winHandler = (p: Player) => {
-    Alert.alert(p.name + " won the game!");
+    Alert.alert(p.name + " won the game by becoming financially free!");
   };
+
+  game.loseHandler = (p: Player) => {
+    Alert.alert(p.name + " lost the game by going bankrupt!");
+  }
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -135,7 +139,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
       )}
 
       <Modal isVisible={isModalVisible}>
-        {showDeal && (
+        {showDealFlow && (
           <DealCardFlow
             game={game}
             forPlayer={myPlayer}
@@ -143,7 +147,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
               presentBorrowBottomSheet({ initialBorrowAmount: amountNeeded });
             }}
             onDismiss={() => {
-              setShowDeal(false);
+              setShowDealFlow(false);
             }}
           />
         )}

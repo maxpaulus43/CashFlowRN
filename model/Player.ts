@@ -16,6 +16,7 @@ export default class Player {
   readonly occupation: string;
   didRoll: boolean = false;
   winHandler?: (winner: Player) => void;
+  loseHandler?: (loser: Player) => void;
   private _donationDice: number = 0;
   public get donationDice(): number {
     return this._donationDice;
@@ -62,10 +63,12 @@ export default class Player {
 
   takeCash(amount: number) {
     this._cash -= amount;
+    this.checkLoseCondition();
   }
 
   getPaid() {
     this.giveCash(this.paydayAmount());
+    this.checkLoseCondition();
   }
 
   addDonationDice(n: number) {
@@ -172,6 +175,7 @@ export default class Player {
   payAmountForLiability(amount: number, liabilityId: string) {
     // assume that liabilityId already exists in the dict
     const l = this._liabilities[liabilityId];
+    this.takeCash(amount);
     l.decreaseDebt(amount);
     if (l.debtAmount <= 0) {
       delete this._liabilities[liabilityId];
@@ -184,6 +188,12 @@ export default class Player {
       if (this.winHandler) {
         this.winHandler(this);
       }
+    }
+  }
+
+  private checkLoseCondition() {
+    if (this._cash < 0 && this.loseHandler) {
+      this.loseHandler(this);
     }
   }
 }
