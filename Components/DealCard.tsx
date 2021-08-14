@@ -34,11 +34,15 @@ const BuyStockView: React.FC<DealCardProps> = ({
   const totalAssetCost = stock.cost * amount;
   const playersExistingStocks = p.getStocksForId(stock.id);
   const playerCanSell = playersExistingStocks.length > 0;
+  const playersExistingStockCount = playersExistingStocks.reduce(
+    (sum, [_, count]) => sum + count,
+    0
+  );
 
   let buttonTitle = "Buy";
   const playerCantAffordIt = p.cash < totalAssetCost;
   if (playerCantAffordIt) {
-    let amt = Math.ceil(totalAssetCost - p.cash / 1000) * 1000;
+    let amt = Math.ceil((totalAssetCost - p.cash) / 1000) * 1000;
     buttonTitle += `(Must Borrow $${amt})`;
   }
 
@@ -53,6 +57,7 @@ const BuyStockView: React.FC<DealCardProps> = ({
 
   const sellStock = () => {
     p.sellStockAmount(stock, amount);
+    setAmount(1);
   };
 
   return (
@@ -65,7 +70,13 @@ const BuyStockView: React.FC<DealCardProps> = ({
       <Text>How Many Stocks?</Text>
       <NumberPicker increment={1} onChangeValue={setAmount} />
       <Button title={buttonTitle} onPress={buyStock} />
-      {playerCanSell && <Button title="Sell" onPress={sellStock} />}
+      {playerCanSell && (
+        <Button
+          title="Sell"
+          disabled={playersExistingStockCount < amount}
+          onPress={sellStock}
+        />
+      )}
       <Button title="Cancel" onPress={onDismiss} />
     </View>
   );

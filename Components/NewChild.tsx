@@ -10,11 +10,12 @@ interface props {
 const NewChild: React.FC<props> = ({ forPlayer: p, onDismiss }) => {
   return (
     <View>
-      <Text>Downsized!</Text>
+      <Text>New Child!</Text>
       <Button
         title="Dismiss"
         onPress={() => {
           p.addKid();
+          onDismiss();
         }}
       />
     </View>

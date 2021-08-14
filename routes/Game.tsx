@@ -174,7 +174,9 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
         {showDownsize && (
           <Downsize
             forPlayer={myPlayer}
-            onPayFail={() => {}}
+            onPayFail={() => {
+              presentBorrowBottomSheet();
+            }}
             onDismiss={() => setShowDownsize(false)}
           />
         )}
