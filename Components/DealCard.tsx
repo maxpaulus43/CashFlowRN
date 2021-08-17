@@ -32,12 +32,8 @@ const BuyStockView: React.FC<DealCardProps> = ({
   const [amount, setAmount] = useState(1);
   const stock = model.asset as Stock;
   const totalAssetCost = stock.cost * amount;
-  const playersExistingStocks = p.getStocksForId(stock.id);
-  const playerCanSell = playersExistingStocks.length > 0;
-  const playersExistingStockCount = playersExistingStocks.reduce(
-    (sum, [_, count]) => sum + count,
-    0
-  );
+  const [_, playersExistingStockCount] = p.getStocksForId(stock.id);
+  const playerCanSell = playersExistingStockCount > 0;
 
   let buttonTitle = "Buy";
   const playerCantAffordIt = p.cash < totalAssetCost;
@@ -74,7 +70,10 @@ const BuyStockView: React.FC<DealCardProps> = ({
         <Button
           title="Sell"
           disabled={playersExistingStockCount < amount}
-          onPress={sellStock}
+          onPress={() => {
+            sellStock();
+            onDismiss();
+          }}
         />
       )}
       <Button title="Cancel" onPress={onDismiss} />

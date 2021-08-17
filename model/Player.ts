@@ -22,10 +22,10 @@ export default class Player {
     return this._donationDice;
   }
 
-  private _stocks: JsonEqualsMap<Stock, number> = new JsonEqualsMap();
-  public get stocks(): [s: Stock, count: number][] {
-    return this._stocks.entries();
-  }
+  private stocks: [s: Stock, count: number][] = [];
+  private stockPriceCount: {
+    [stockId: string]: { [atPrice: string]: number };
+  } = {};
 
   private _properties: Property[] = [];
   public get properties(): Property[] {
@@ -95,7 +95,7 @@ export default class Player {
 
   passiveIncome() {
     let sum = 0;
-    for (const [s, count] of this._stocks.entries()) {
+    for (const [s, count] of this.stocks) {
       sum += s.cashFlow * count;
     }
     for (const p of this.properties) {
@@ -123,26 +123,70 @@ export default class Player {
     return this.totalIncome() - this.expenses();
   }
 
-  getStocksForId(stockId: string) {
-    return this.stocks.filter(([stock]) => stock.id === stockId);
+  getStocksForId(stockId: string): [stock: Stock | undefined, count: number] {
+    for (const item of this.stocks) {
+      if (item[0].id === stockId) {
+        return item;
+      }
+    }
+    return [undefined, 0];
   }
 
   buyStockAmount(s: Stock, amount: number) {
     this.takeCash(s.cost * amount);
-    const currentAmount = this._stocks.get(s) ?? 0;
-    const newAmount = currentAmount + amount;
-    this._stocks.set(s, newAmount);
+
+    let doesAlreadyOwnStock = false;
+    for (const item of this.stocks) {
+      const stockId = item[0].id;
+      if (stockId === s.id) {
+        doesAlreadyOwnStock = true;
+        item[1] += amount;
+        const oldAmount = this.stockPriceCount[stockId][s.cost] ?? 0;
+        this.stockPriceCount[stockId][s.cost] = oldAmount + amount;
+        break;
+      }
+    }
+
+    if (!doesAlreadyOwnStock) {
+      this.stocks.push([s, amount]);
+      this.stockPriceCount[s.id] = {};
+      this.stockPriceCount[s.id][s.cost] = amount;
+    }
+
     this.checkWinCondition();
   }
 
   sellStockAmount(s: Stock, amount: number) {
     this.giveCash(s.cost * amount);
-    const currentAmount = this._stocks.get(s) ?? 0;
-    const newAmount = currentAmount - amount;
-    if (newAmount < 0) {
-      this._stocks.delete(s);
-    } else {
-      this._stocks.set(s, newAmount);
+
+    for (let i = 0; i < this.stocks.length; i++) {
+      const stockCount = this.stocks[i];
+      const stockId = stockCount[0].id;
+
+      if (stockId === s.id) {
+        stockCount[1] -= amount;
+        if (stockCount[1] <= 0) {
+          this.stocks.splice(i, 1);
+          delete this.stockPriceCount[s.id];
+        } else {
+          let stockPriceCount = this.stockPriceCount[s.id];
+          let sortedPrices = Object.entries(stockPriceCount)
+            .map(([p, amountOfP]) => [parseInt(p), amountOfP])
+            .sort((a, b) => a[0] - b[0]);
+
+          for (const [p, amountOfP] of sortedPrices) {
+            if (amountOfP > amount) {
+              this.stockPriceCount[s.id][p] = amountOfP - amount;
+              break;
+            } else {
+              delete this.stockPriceCount[s.id][p];
+              amount -= amountOfP;
+            }
+          }
+        }
+
+        break;
+      }
     }
   }
 
