@@ -28,13 +28,17 @@ const SPRING_CFG = {
 };
 
 interface BottomSheetProps extends ViewProps {
+  isVisible: boolean;
   onDismiss: () => void;
 }
 
-const BottomSheet: React.FC<BottomSheetProps> = ({ children, onDismiss }) => {
+const BottomSheet: React.FC<BottomSheetProps> = ({
+  children,
+  isVisible,
+  onDismiss,
+}) => {
   const yOffset = useSharedValue(height);
-  const contentHeight = useRef(0);
-  const isVisible = children ? true : false;
+  const contentHeight = useSharedValue(0);
 
   useEffect(() => {
     yOffset.value = withSpring(isVisible ? 0 : height, SPRING_CFG);
@@ -55,7 +59,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ children, onDismiss }) => {
     onEnd: ({ velocityY, translationY }, ctx) => {
       if (
         velocityY > VELOCITY_THRESHOLD ||
-        translationY > contentHeight.current / 2
+        translationY > contentHeight.value / 2
       ) {
         runOnJS(onDismiss)();
       } else {
@@ -83,9 +87,10 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ children, onDismiss }) => {
               layout: { height },
             },
           }) => {
-            contentHeight.current = height;
+            contentHeight.value = height;
           }}
         >
+          <View style={styles.handle} />
           {children}
         </Animated.View>
       </PanGestureHandler>
@@ -100,11 +105,20 @@ const styles = StyleSheet.create({
     height,
     justifyContent: "flex-end",
   },
+  handle: {
+    position: "absolute",
+    top: 5,
+    left: (width - 50) / 2,
+    height: 5,
+    width: 50,
+    backgroundColor: "lightgray",
+    borderRadius: 4,
+  },
   content: {
     backgroundColor: "white",
     padding: 15,
-    borderTopStartRadius: 15,
-    borderTopEndRadius: 15,
+    borderTopStartRadius: 20,
+    borderTopEndRadius: 20,
     shadowColor: "gray",
     shadowOpacity: 0.3,
     shadowRadius: 8,

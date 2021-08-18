@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useReducer, useState } from "react";
+import React, { useReducer, useRef, useState } from "react";
 import { Button, View, Text, Alert } from "react-native";
 import BalanceSheet from "../Components/BalanceSheet";
 import Board from "../Components/Board";
@@ -31,9 +31,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   const myPlayer = route.params?.player as Player;
   const [, updateScreen] = useReducer((x) => x + 1, 0);
   const isMyTurn = game.getCurrentPlayer().id === myPlayer.id;
-  const [bottomSheetContent, setBottomSheetContent] =
-    useState<React.ReactNode>();
-  const clearBottomSheet = () => setBottomSheetContent(undefined);
+
   const [showDealFlow, setShowDealFlow] = useState(false);
   const [loseMoneyCard, setLoseMoneyCard] = useState<LoseMoneyModel>();
   const [sellAssetCard, setSellAssetCard] = useState<SellAssetModel>();
@@ -47,6 +45,16 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     showDonate ||
     showDownsize ||
     showNewChild;
+
+  const [showBorrowBottomSheet, setShowBorrowBottomSheet] = useState(false);
+  const [showRepayBottomSheet, setShowRepayBottomSheet] = useState(false);
+  const isBottomSheetVisible = showBorrowBottomSheet || showRepayBottomSheet;
+  const borrowMoneyOptions = useRef<BorrowMoneyOptions>();
+  const clearBottomSheet = () => {
+    setShowBorrowBottomSheet(false);
+    setShowRepayBottomSheet(false);
+    borrowMoneyOptions.current = undefined;
+  };
 
   const roll = () => {
     game.rollForCurrentPlayer();
@@ -80,23 +88,12 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   };
 
   const presentRepayBottomSheet = () => {
-    setBottomSheetContent(
-      <RepayMoney
-        forPlayer={myPlayer}
-        onPaid={updateScreen}
-        onDismiss={clearBottomSheet}
-      />
-    );
+    setShowRepayBottomSheet(true);
   };
 
   const presentBorrowBottomSheet = (options?: BorrowMoneyOptions) => {
-    setBottomSheetContent(
-      <BorrowMoney
-        forPlayer={myPlayer}
-        onDismiss={clearBottomSheet}
-        {...options}
-      />
-    );
+    borrowMoneyOptions.current = options;
+    setShowBorrowBottomSheet(true);
   };
 
   const endTurn = () => {
@@ -114,7 +111,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
 
   game.loseHandler = (p: Player) => {
     Alert.alert(p.name + " lost the game by going bankrupt!");
-  }
+  };
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -188,8 +185,24 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
         )}
       </Modal>
 
-      <BottomSheet onDismiss={clearBottomSheet}>
-        {bottomSheetContent}
+      <BottomSheet
+        isVisible={isBottomSheetVisible}
+        onDismiss={clearBottomSheet}
+      >
+        {showBorrowBottomSheet && (
+          <BorrowMoney
+            forPlayer={myPlayer}
+            onDismiss={clearBottomSheet}
+            {...borrowMoneyOptions.current}
+          />
+        )}
+        {showRepayBottomSheet && (
+          <RepayMoney
+            forPlayer={myPlayer}
+            onPaid={updateScreen}
+            onDismiss={clearBottomSheet}
+          />
+        )}
       </BottomSheet>
 
       <SideSheet>
