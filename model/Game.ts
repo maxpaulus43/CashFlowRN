@@ -1,4 +1,4 @@
-import BoardModel, { Space } from "./Board";
+import Board, { Space } from "./Board";
 import DealCard from "./DealCard";
 import Deck from "./Deck";
 import LoseMoneyCard from "./LoseMoneyCard";
@@ -9,7 +9,7 @@ export default class Game {
   private _winHandler?: (winner: Player) => void;
   private _loseHandler?: ((loser: Player) => void) | undefined;
 
-  readonly board: BoardModel;
+  readonly board: Board;
   readonly players: Player[];
   private currentPlayerIdx: number;
   private bigDealDeck: Deck<DealCard>;
@@ -25,7 +25,7 @@ export default class Game {
     this.sellAssetDeck = Deck.makeSellAssetDeck();
     this.loseMoneyDeck = Deck.makeLoseMoneyDeck();
     this.currentPlayerIdx = 0;
-    this.board = new BoardModel();
+    this.board = new Board();
     for (const p of players) {
       this.board.addPlayer(p.id);
     }

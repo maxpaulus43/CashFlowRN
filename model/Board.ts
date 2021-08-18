@@ -9,17 +9,8 @@ export enum Space {
   LOSE_MONEY,
   DONATE,
 }
-export default class BoardModel {
+export default class Board {
   private spaces = [
-    Space.PAYDAY,
-    Space.DEAL,
-    Space.SELL_ASSET,
-    Space.DEAL,
-    Space.LOSE_MONEY,
-    Space.DEAL,
-    Space.NEW_CHILD,
-    Space.DEAL,
-    Space.PAYDAY,
     Space.DEAL,
     Space.SELL_ASSET,
     Space.DEAL,
@@ -35,6 +26,15 @@ export default class BoardModel {
     Space.DEAL,
     Space.DONATE,
     Space.DEAL,
+    Space.PAYDAY,
+    Space.DEAL,
+    Space.SELL_ASSET,
+    Space.DEAL,
+    Space.LOSE_MONEY,
+    Space.DEAL,
+    Space.NEW_CHILD,
+    Space.DEAL,
+    Space.PAYDAY,
   ];
   private playerPosition: { [playerId: string]: number } = {};
 
@@ -43,7 +43,7 @@ export default class BoardModel {
   }
 
   addPlayer(playerId: string) {
-    this.playerPosition[playerId] = 0;
+    this.playerPosition[playerId] = 9;
   }
 
   updatePlayerPositionByN(player: Player, n: number) {
@@ -60,7 +60,6 @@ export default class BoardModel {
   }
 
   getSpaceForPlayer(playerId: string): Space {
-    // return Math.random() < 0.5 ? Space.SELL_ASSET : Space.DEAL; // todo remove this
     return this.spaces[this.playerPosition[playerId]];
   }
 }

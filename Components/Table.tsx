@@ -10,13 +10,14 @@ const Table: React.FC<TableProps> = ({ data: rows, style }) => (
     {rows.map((cols, idx) => {
       return (
         <Row
+          key={JSON.stringify(cols)}
           style={{
             borderTopWidth: idx === 0 ? 0 : 1,
             borderTopColor: "wheat",
           }}
         >
           {cols.map((c) => (
-            <Text>{c}</Text>
+            <Text key={c}>{c}</Text>
           ))}
         </Row>
       );
@@ -37,6 +38,5 @@ export const Row: React.FC<ViewProps> = ({ children, style }) => (
     {children}
   </View>
 );
-
 
 export default Table;
