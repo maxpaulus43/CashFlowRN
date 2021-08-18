@@ -27,26 +27,32 @@ const ProgressBar: React.FC<props> = ({ progress, progressLabel }) => {
       <View style={styles.bar} onLayout={setBarWidth}>
         <View style={[styles.progress, { width: `${progress * 100}%` }]} />
       </View>
-      <View
-        style={{ transform: [{ translateX: progress * barWidth.current - 5 }] }}
-      >
-        <Text style={{ fontSize: 15 }}>↑</Text>
-      </View>
-      <View
-        style={{
-          alignItems: "flex-start",
-          transform: [
-            {
-              translateX: clamp(
-                progress * barWidth.current - labelWidth.current / 2,
-                [0, barWidth.current - labelWidth.current]
-              ),
-            },
-          ],
-        }}
-      >
-        <Text onLayout={setLabelWidth}>{progressLabel}</Text>
-      </View>
+      {progressLabel && (
+        <>
+          <View
+            style={{
+              transform: [{ translateX: progress * barWidth.current - 5 }],
+            }}
+          >
+            <Text style={{ fontSize: 15 }}>↑</Text>
+          </View>
+          <View
+            style={{
+              alignItems: "flex-start",
+              transform: [
+                {
+                  translateX: clamp(
+                    progress * barWidth.current - labelWidth.current / 2,
+                    [0, barWidth.current - labelWidth.current]
+                  ),
+                },
+              ],
+            }}
+          >
+            <Text onLayout={setLabelWidth}>{progressLabel}</Text>
+          </View>
+        </>
+      )}
     </View>
   );
 };
@@ -63,7 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     paddingRight: 4,
-  }
+  },
 });
 
 function clamp(inputValue: number, outputRange: [low: number, high: number]) {

@@ -24,7 +24,7 @@ const Table: React.FC<TableProps> = ({ data: rows, style }) => (
   </View>
 );
 
-const Row: React.FC<ViewProps> = ({ children, style }) => (
+export const Row: React.FC<ViewProps> = ({ children, style }) => (
   <View
     style={[
       {
@@ -37,5 +37,6 @@ const Row: React.FC<ViewProps> = ({ children, style }) => (
     {children}
   </View>
 );
+
 
 export default Table;

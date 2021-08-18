@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { ScrollView, Text, View, StyleSheet, ViewProps } from "react-native";
 import Player from "../model/Player";
 import ProgressBar from "./ProgressBar";
@@ -9,13 +9,25 @@ interface BalanceSheetProps {
 }
 
 const H1: React.FC = ({ children }) => (
-  <View style={{ backgroundColor: "rebeccapurple", padding: 2 }}>
-    <Text style={{ fontSize: 20, color: "white" }}>{children}</Text>
+  <View
+    style={{
+      backgroundColor: "rebeccapurple",
+      padding: 5,
+      paddingLeft: 10,
+      margin: -5,
+      marginBottom: 5,
+    }}
+  >
+    <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
+      {children}
+    </Text>
   </View>
 );
 
-const H3: React.FC = ({ children }) => (
-  <Text style={{ fontSize: 15, fontWeight: "bold" }}>{children}</Text>
+const H3: React.FC<{children: ReactNode,  noBorder?: boolean}> = ({ children, noBorder = false }) => (
+  <View style={{borderTopColor: "gray", borderTopWidth: noBorder ? 0 : 1}}>
+    <Text style={{ fontSize: 15, fontWeight: "bold" }}>{children}</Text>
+  </View>
 );
 
 const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
@@ -30,10 +42,10 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
   const expensesData = [
     ["Taxes", p.taxExpenses],
     ["Other", p.otherExpenses()],
-  ].concat(p.liabilities.map((l) => [l.name, l.debtAmount]));
+  ].concat(p.liabilities.map((l) => [l.name, l.expenseAmount()]));
   const dividendsIncomeData = p
     .getDividendStocks()
-    .map(([s]) => [s.id, s.cashFlow]);
+    .map(([s, count]) => [s.id, s.cashFlow * count]);
   const realEstateIncomeData = p.properties.map((p) => [p.id, p.cashFlow]);
   const stockAssetData = p
     .flattenedStockPriceCount()
@@ -44,14 +56,18 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
   const liabilitiesData = p.liabilities.map((l) => [l.id, l.debtAmount]);
 
   return (
-    <View style={{ padding: 10, backgroundColor: "beige" }}>
+    <View style={styles.container}>
       <ScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           justifyContent: "center",
+          paddingBottom: 10,
         }}
       >
         <View style={styles.box}>
-          <Text>Total Expenses: {expenses}</Text>
+          <View style={{ alignItems: "flex-end" }}>
+            <Text>Total Expenses: {expenses}</Text>
+          </View>
           <ProgressBar
             progress={p.passiveIncome() / expenses}
             progressLabel={`Passive Income: ${p.passiveIncome()}`}
@@ -81,7 +97,7 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
         <View style={styles.box}>
           <H1>Assets</H1>
 
-          <H3>Stocks/Funds/CDs</H3>
+          <H3 noBorder>Stocks/Funds/CDs</H3>
           <Table data={stockAssetData} />
 
           <H3>Real Estate/ Business</H3>
@@ -98,13 +114,17 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "beige",
+    paddingHorizontal: 10,
+  },
   box: {
     padding: 5,
-    marginTop: 6,
+    marginTop: 10,
     backgroundColor: "white",
-    shadowColor: "tan",
+    shadowColor: "black",
     shadowRadius: 5,
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.2,
   },
 });
 
