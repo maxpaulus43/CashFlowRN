@@ -76,9 +76,9 @@ const NumberPicker: React.FC<NumberPickerProps> = ({
       </PanGestureHandler>
 
       <TapGestureHandler onEnded={incr}>
-        <Animated.View>
+        <View>
           <Text>➕</Text>
-        </Animated.View>
+        </View>
       </TapGestureHandler>
     </View>
   );
