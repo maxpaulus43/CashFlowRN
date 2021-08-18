@@ -23,7 +23,7 @@ export default class Player {
   }
 
   private stocks: [s: Stock, count: number][] = [];
-  private stockPriceCount: {
+  readonly stockPriceCount: {
     [stockId: string]: { [atPrice: string]: number };
   } = {};
 
@@ -115,12 +115,36 @@ export default class Player {
     return sum;
   }
 
+  otherExpenses() {
+    return this.numberOfKids * this.expensesPerKid;
+  }
+
+  flattenedStockPriceCount(): [
+    stockId: string,
+    price: number,
+    count: number
+  ][] {
+    let result: [string, number, number][] = [];
+    
+    for (const stockId in this.stockPriceCount) {
+      for (const atPrice in this.stockPriceCount[stockId]) {
+        const count = this.stockPriceCount[stockId][atPrice];
+        result.push([stockId, parseInt(atPrice), count]);
+      }
+    }
+    return result;
+  }
+
   totalIncome() {
     return this.salary + this.passiveIncome();
   }
 
   paydayAmount() {
     return this.totalIncome() - this.expenses();
+  }
+
+  getDividendStocks() {
+    return this.stocks.filter(([s, _]) => s.cashFlow > 0);
   }
 
   getStocksForId(stockId: string): [stock: Stock | undefined, count: number] {
