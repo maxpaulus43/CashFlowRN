@@ -40,6 +40,7 @@ const DealCardFlow: React.FC<props> = ({
           setDeal(game.drawSmallDealCard());
         }}
       />
+      <Button title="Cancel" onPress={onDismiss} />
     </View>
   );
 };

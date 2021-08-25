@@ -1,16 +1,16 @@
 import Player from "./Player";
 
 export enum Space {
-  DEAL,
-  DOWNSIZE,
-  PAYDAY,
-  NEW_CHILD,
-  SELL_ASSET,
-  LOSE_MONEY,
-  DONATE,
+  DEAL = "Deal",
+  DOWNSIZE = "Downsize",
+  PAYDAY = "Pay Day",
+  NEW_CHILD = "New Child",
+  SELL_ASSET = "Market",
+  LOSE_MONEY = "Loss",
+  DONATE = "Donate",
 }
 export default class Board {
-  private spaces = [
+  readonly spaces = [
     Space.DEAL,
     Space.SELL_ASSET,
     Space.DEAL,
@@ -49,7 +49,7 @@ export default class Board {
   updatePlayerPositionByN(player: Player, n: number) {
     const oldPosition = this.playerPosition[player.id];
     const newPosition = (oldPosition + n) % this.spaces.length;
-    if (Math.floor(oldPosition / 8) !== Math.floor(newPosition % 8)) {
+    if (Math.floor((oldPosition + 1) / 8) !== Math.floor((newPosition + 1) / 8)) {
       player.getPaid();
     }
     this.playerPosition[player.id] = newPosition;

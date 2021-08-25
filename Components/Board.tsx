@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from "react";
-import { View, Dimensions, Text, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import { View, Dimensions, StyleSheet } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
-import { useDerivedValue } from "react-native-reanimated";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import BoardModel from "../model/Board";
 import BoardSvg from "./BoardSvg";
@@ -10,9 +9,7 @@ const { width, height } = Dimensions.get("window");
 const diameter = width - 50;
 const pieceDiameter = 20;
 
-const timingCfg = {
-
-}
+export const PIECE_MOVE_ANIMATION_DURATION = 400;
 
 interface BoardProps {
   model: BoardModel;
@@ -20,15 +17,15 @@ interface BoardProps {
 
 const Board: React.FC<BoardProps> = ({ model }) => {
   const pos = model.getPositionForPlayer(model.getPlayerIds()[0]);
-  let x = useSharedValue(0);
-  let y = useSharedValue(0);
+  let x = useSharedValue(diameter / 2);
+  let y = useSharedValue(diameter / 2);
 
   useEffect(() => {
-    let { x: a, y: b } = getPlayerCoordinatesForPosition(pos);
-    a -= pieceDiameter / 2;
-    b -= pieceDiameter / 2;
-    x.value = withTiming(a, {duration: 500});
-    y.value = withTiming(b, {duration: 500});
+    let { x: newX, y: newY } = getPlayerCoordinatesForPosition(pos);
+    newX -= pieceDiameter / 2;
+    newY -= pieceDiameter / 2;
+    x.value = withTiming(newX, { duration: PIECE_MOVE_ANIMATION_DURATION });
+    y.value = withTiming(newY, { duration: PIECE_MOVE_ANIMATION_DURATION });
   }, [pos]);
 
   const s = useAnimatedStyle(() => {
@@ -39,10 +36,22 @@ const Board: React.FC<BoardProps> = ({ model }) => {
 
   return (
     <View style={{ width: diameter, height: diameter }}>
-      <Text>Pos: {pos}</Text>
       <View style={StyleSheet.absoluteFill}>
         <BoardSvg width={diameter} height={diameter} />
       </View>
+      {/* {model.spaces.map((space, idx) => {
+        let { x, y } = getPlayerCoordinatesForPosition(idx);
+        return (
+          <View
+            style={{
+              position: "absolute",
+              transform: [{ translateX: x - 18 }, { translateY: y - 4 }, {rotate: `${idx * (360 / 24)}deg`}],
+            }}
+          >
+            <Text style={{color: "white"}}>{space}</Text>
+          </View>
+        );
+      })} */}
       <Animated.View
         style={[
           {
@@ -64,9 +73,12 @@ function getPlayerCoordinatesForPosition(position: number): {
   y: number;
 } {
   const center = { x: diameter / 2, y: diameter / 2 };
+  const rotationalOffset = Math.PI / 24;
+  const radialOffset = -30;
+
   const polarPoint = {
-    theta: -position * ((Math.PI * 2) / 24) + Math.PI / 25,
-    radius: diameter / 2 - 30,
+    theta: -position * ((Math.PI * 2) / 24) + rotationalOffset,
+    radius: diameter / 2 + radialOffset,
   };
 
   const coords = polar2Canvas(polarPoint, center);

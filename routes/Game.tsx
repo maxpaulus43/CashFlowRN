@@ -2,10 +2,9 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useReducer, useRef, useState } from "react";
 import { Button, View, Text, Alert } from "react-native";
 import BalanceSheet from "../Components/BalanceSheet";
-import Board from "../Components/Board";
+import Board, { PIECE_MOVE_ANIMATION_DURATION } from "../Components/Board";
 import BottomSheet from "../Components/BottomSheet";
 import Modal from "../Components/Modal";
-import DealCard from "../Components/DealCard";
 import LoseMoneyCard from "../Components/LoseMoneyCard";
 import SellAssetCard from "../Components/SellAssetCard";
 import { Space } from "../model/Board";
@@ -16,7 +15,6 @@ import RepayMoney from "../Components/RepayMoney";
 import BorrowMoney, { BorrowMoneyOptions } from "../Components/BorrowMoney";
 import SideSheet from "../Components/SideSheet";
 import Donate from "../Components/Donate";
-import DealModel from "../model/DealCard";
 import LoseMoneyModel from "../model/LoseMoneyCard";
 import SellAssetModel from "../model/SellAssetCard";
 import DealCardFlow from "../Components/DealCardFlow";
@@ -59,32 +57,35 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   const roll = () => {
     game.rollForCurrentPlayer();
     const space = game.getSpaceForCurrentPlayer();
-    switch (space) {
-      case Space.DEAL: {
-        setShowDealFlow(true);
-        break;
+    updateScreen();
+    setTimeout(() => {
+      switch (space) {
+        case Space.DEAL: {
+          setShowDealFlow(true);
+          break;
+        }
+        case Space.LOSE_MONEY: {
+          setLoseMoneyCard(game.drawLoseMoneyCard());
+          break;
+        }
+        case Space.SELL_ASSET: {
+          setSellAssetCard(game.drawSellAssetCard());
+          break;
+        }
+        case Space.DONATE: {
+          setShowDonate(true);
+          break;
+        }
+        case Space.DOWNSIZE: {
+          setShowDownsize(true);
+          break;
+        }
+        case Space.NEW_CHILD: {
+          setShowNewChild(true);
+          break;
+        }
       }
-      case Space.LOSE_MONEY: {
-        setLoseMoneyCard(game.drawLoseMoneyCard());
-        break;
-      }
-      case Space.SELL_ASSET: {
-        setSellAssetCard(game.drawSellAssetCard());
-        break;
-      }
-      case Space.DONATE: {
-        setShowDonate(true);
-        break;
-      }
-      case Space.DOWNSIZE: {
-        setShowDownsize(true);
-        break;
-      }
-      case Space.NEW_CHILD: {
-        setShowNewChild(true);
-        break;
-      }
-    }
+    }, PIECE_MOVE_ANIMATION_DURATION);
   };
 
   const presentRepayBottomSheet = () => {

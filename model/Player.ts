@@ -1,4 +1,3 @@
-import JsonEqualsMap from "../utils/JsonEqualsMap";
 import { Property, Stock } from "./Asset";
 import Liability from "./Liability";
 
