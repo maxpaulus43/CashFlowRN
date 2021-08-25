@@ -1,21 +1,24 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import Player from "../model/Player";
+import Table from "./Table";
 
 interface PlayerInfoProps {
   forPlayer: Player;
 }
 
 const PlayerInfo: React.FC<PlayerInfoProps> = ({ forPlayer: p }) => {
+  const playerData = [
+    ["Cash", p.cash],
+    ["Active Income", p.salary],
+    ["Passive Income", p.passiveIncome()],
+    ["Total Income", p.totalIncome()],
+    ["Total Expenses", p.expenses()],
+    ["PayDay", p.paydayAmount()],
+  ];
   return (
     <View>
-      <Text>Cash: {p.cash}</Text>
-      <Text>Active Income: {p.salary}</Text>
-      <Text>Passive Income: {p.passiveIncome()}</Text>
-      <Text>Total Income: {p.totalIncome()}</Text>
-      <Text>Total Expenses: -{p.expenses()}</Text>
-      <Text>----------------------------</Text>
-      <Text>PayDay: {p.paydayAmount()}</Text>
+      <Table data={playerData} style={{ minWidth: 150 }} />
     </View>
   );
 };

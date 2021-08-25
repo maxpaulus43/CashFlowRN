@@ -13,9 +13,10 @@ export const PIECE_MOVE_ANIMATION_DURATION = 400;
 
 interface BoardProps {
   model: BoardModel;
+  renderCenterContent?: () => React.ReactNode;
 }
 
-const Board: React.FC<BoardProps> = ({ model }) => {
+const Board: React.FC<BoardProps> = ({ model, renderCenterContent }) => {
   const pos = model.getPositionForPlayer(model.getPlayerIds()[0]);
   let x = useSharedValue(diameter / 2);
   let y = useSharedValue(diameter / 2);
@@ -35,10 +36,25 @@ const Board: React.FC<BoardProps> = ({ model }) => {
   });
 
   return (
-    <View style={{ width: diameter, height: diameter }}>
+    <View
+      style={{
+        width: diameter,
+        height: diameter,
+      }}
+    >
       <View style={StyleSheet.absoluteFill}>
         <BoardSvg width={diameter} height={diameter} />
       </View>
+      
+      {typeof renderCenterContent === "function" && (
+        <View style={StyleSheet.absoluteFill}>
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            {renderCenterContent()}
+          </View>
+        </View>
+      )}
       {/* {model.spaces.map((space, idx) => {
         let { x, y } = getPlayerCoordinatesForPosition(idx);
         return (

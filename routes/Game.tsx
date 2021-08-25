@@ -111,6 +111,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   };
 
   game.loseHandler = (p: Player) => {
+    // todo instead of losing, just sell assets
     Alert.alert(p.name + " lost the game by going bankrupt!");
   };
 
@@ -118,8 +119,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Button title="Go Home" onPress={goHome} />
       <Text>Current Player: {game.getCurrentPlayer().name}</Text>
-      <PlayerInfo forPlayer={myPlayer} />
-      <Board model={game.board} />
+      <Board model={game.board} renderCenterContent={()=><PlayerInfo forPlayer={myPlayer} />}/>
       {isMyTurn && (
         <>
           <Button
