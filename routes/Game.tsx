@@ -46,6 +46,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     showDonate ||
     showDownsize ||
     showNewChild;
+  const [isGameOver, setIsGameOver] = useState(false);
 
   const [showBorrowBottomSheet, setShowBorrowBottomSheet] = useState(false);
   const [showRepayBottomSheet, setShowRepayBottomSheet] = useState(false);
@@ -111,11 +112,13 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
 
   game.winHandler = (p: Player) => {
     Alert.alert(p.name + " won the game by becoming financially free!");
+    setIsGameOver(true);
   };
 
   game.loseHandler = (p: Player) => {
     // todo instead of losing, just sell assets
     Alert.alert(p.name + " lost the game by going bankrupt!");
+    setIsGameOver(true);
   };
 
   return (
@@ -139,18 +142,19 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
               <Btn
                 title="Repay"
                 onPress={presentRepayBottomSheet}
-                disabled={myPlayer.liabilities.length <= 0}
+                disabled={isGameOver || myPlayer.liabilities.length <= 0}
               />
               <Btn
                 title="Borrow"
                 onPress={() => presentBorrowBottomSheet()}
+                disabled={isGameOver}
               />
             </View>
 
             {!myPlayer.didRoll ? (
-              <Btn title="Roll 🎲" onPress={roll} />
+              <Btn title="Roll 🎲" onPress={roll} disabled={isGameOver} />
             ) : (
-              <Btn title="End Turn" onPress={endTurn} />
+              <Btn title="End Turn" onPress={endTurn} disabled={isGameOver} />
             )}
           </>
         )}

@@ -12,6 +12,18 @@
     }
   },
   {
+    "title": "Great deal! - 3Br/2Ba",
+    "text": "3/2 House repossessed by goverment.",
+    "asset": {
+      "id": "3/2 Great Deal",
+      "type": "Property",
+      "propertyType": "ThreeBedTwoBath",
+      "cost": 35000,
+      "cashFlow": 220,
+      "downPayment": 2000
+    }
+  },
+  {
     "title": "Start A Company part Time",
     "text": "Invent a new way of making widgets. No profits during startup. Long hours, no extra pay.",
     "asset": {
@@ -30,6 +42,26 @@
       "type": "Stock",
       "cost": 30,
       "cashFlow": 100
+    }
+  },
+  {
+    "title": "Stock - MYT4U Electronic Co.",
+    "text": "Electronics seller headed by a 32 year old harvard grad.",
+    "asset": {
+      "id": "MYT4U",
+      "type": "Stock",
+      "cost": 20,
+      "cashFlow": 0
+    }
+  },
+  {
+    "title": "Mutual Fund - GRO4US Fund",
+    "text": "Powerhousr market drives strong fund's price upt to record high.",
+    "asset": {
+      "id": "GRO4US",
+      "type": "Stock",
+      "cost": 40,
+      "cashFlow": 0
     }
   }
 ]

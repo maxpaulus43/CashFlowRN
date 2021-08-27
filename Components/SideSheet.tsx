@@ -100,10 +100,12 @@ const SideSheet: React.FC = ({ children }) => {
         <TapGestureHandler onEnded={openSheet}>
           <View
             style={{
-              width: 30,
+              borderTopEndRadius: 100,
+              borderBottomEndRadius: 100,
+              width: 40,
               height: 50,
               backgroundColor: "beige",
-              transform: [{ translateX: width }, { translateY: height / 2 }],
+              transform: [{ translateX: width }, { translateY: height / 4 * 3 }],
             }}
           />
         </TapGestureHandler>

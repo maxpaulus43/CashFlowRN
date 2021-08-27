@@ -47,7 +47,7 @@ const Modal: React.FC<props> = ({ isVisible, children }) => {
     >
       <View
         style={{
-          height: 280,
+          height: height * 0.5,
           width: width * 0.8,
           backgroundColor: "beige",
           shadowColor: "gray",

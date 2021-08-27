@@ -15,12 +15,24 @@
     "title": "Apartment House for Sale",
     "text": "2 buildings totalling 23 units for sale. Owner managed with on-site assistant. Retirement prompts sale.",
     "asset": {
-      "id": "apt Owner Retired",
+      "id": "Apt Owner Retired",
       "type": "Property",
       "cost": 575000,
       "cashFlow": 3400,
       "downPayment": 75000,
       "propertyType": "AptBuilding"
+    }
+  },
+  {
+    "title": "Automated Vending Machine Business For Sale",
+    "text": "30 vending machines at long term contract locations. Owner is desparate.",
+    "asset": {
+      "id": "Vend Machine Business",
+      "type": "Property",
+      "cost": 100000,
+      "cashFlow": 1600,
+      "downPayment": 20000,
+      "propertyType": "Company"
     }
   }
 ]

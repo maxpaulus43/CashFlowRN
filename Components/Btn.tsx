@@ -1,25 +1,40 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { TextStyle } from "react-native";
+import { View, StyleSheet, Text, ViewStyle } from "react-native";
 import PressableView from "./PressableView";
 
 interface BtnProps {
   onPress: () => void;
   disabled?: boolean;
   title: string;
+  style?: ViewStyle;
+  textStyle?: TextStyle;
 }
 
-const Btn: React.FC<BtnProps> = ({ title, onPress, disabled = false }) => {
+const Btn: React.FC<BtnProps> = ({
+  title,
+  onPress,
+  style,
+  textStyle,
+  disabled = false,
+}) => {
   const pressHandler = disabled ? () => {} : onPress;
   const s = disabled ? styles.disabled : styles.btn;
+  const defaultTextStyle = disabled ? styles.disabledText : styles.btnText;
   return (
-    <PressableView onPress={pressHandler} style={s}>
-      <Text style={styles.btnText}>{title}</Text>
+    <PressableView onPress={pressHandler} style={[s, style]}>
+      <Text style={[defaultTextStyle, textStyle]}>{title}</Text>
     </PressableView>
   );
 };
 
 const styles = StyleSheet.create({
-  disabled: {},
+  disabled: {
+    backgroundColor: "#8C8593",
+    padding: 15,
+    borderRadius: 100,
+    margin: 5,
+  },
   btn: {
     backgroundColor: "rebeccapurple",
     padding: 15,
@@ -28,8 +43,13 @@ const styles = StyleSheet.create({
   },
   btnText: {
     textAlign: "center",
-    fontSize: 15,
+    fontSize: 20,
     color: "white",
+  },
+  disabledText: {
+    textAlign: "center",
+    fontSize: 20,
+    color: "#DDDDDD",
   },
 });
 

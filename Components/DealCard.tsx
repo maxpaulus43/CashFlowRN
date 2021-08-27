@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, StyleSheet } from "react-native";
 import { AssetType, Property, Stock } from "../model/Asset";
 import DealCardModel from "../model/DealCard";
 import Player from "../model/Player";
+import Btn from "./Btn";
 import NumberPicker from "./NumberPicker";
 interface DealCardProps {
   model: DealCardModel;
@@ -57,26 +58,39 @@ const BuyStockView: React.FC<DealCardProps> = ({
   };
 
   return (
-    <View>
-      <Text>STOCK DEAL</Text>
-      <Text>{model.title}</Text>
-      <Text>{model.text}</Text>
-      <Text>Cost: {stock.cost}</Text>
-      <Text>Cash Flow: {stock.cashFlow}</Text>
-      <Text>How Many Stocks?</Text>
-      <NumberPicker increment={1} onChangeValue={setAmount} />
-      <Button title={buttonTitle} onPress={buyStock} />
-      {playerCanSell && (
-        <Button
-          title="Sell"
-          disabled={playersExistingStockCount < amount}
-          onPress={() => {
-            sellStock();
-            onDismiss();
-          }}
+    <View style={styles.card}>
+      <View>
+        <Text>STOCK DEAL</Text>
+        <Text>{model.title}</Text>
+        <Text>{model.text}</Text>
+        <Text>Cost: {stock.cost}</Text>
+        <Text>Cash Flow: {stock.cashFlow}</Text>
+        <Text>How Many Stocks?</Text>
+        <NumberPicker increment={1} onChangeValue={setAmount} />
+      </View>
+      <View>
+        <Btn
+          title={buttonTitle}
+          onPress={buyStock}
+          style={styles.userActionButton}
         />
-      )}
-      <Button title="Cancel" onPress={onDismiss} />
+        {playerCanSell && (
+          <Btn
+            title="Sell"
+            disabled={playersExistingStockCount < amount}
+            onPress={() => {
+              sellStock();
+              onDismiss();
+            }}
+            style={styles.userActionButton}
+          />
+        )}
+        <Btn
+          title="Cancel"
+          onPress={onDismiss}
+          style={styles.userActionButton}
+        />
+      </View>
     </View>
   );
 };
@@ -104,17 +118,49 @@ const BuyPropertyView: React.FC<DealCardProps> = ({
   };
 
   return (
-    <View>
-      <Text>PROPERTY DEAL</Text>
-      <Text>{model.title}</Text>
-      <Text>{model.text}</Text>
-      <Text>Cost: {property.cost}</Text>
-      <Text>Cash Flow: {property.cashFlow}</Text>
-      <Text>Down Payment:{property.downPayment}</Text>
-      <Button title={buttonTitle} onPress={buyProperty} />
-      <Button title="Cancel" onPress={onDismiss} />
+    <View style={styles.card}>
+      <View style={{ alignItems: "center" }}>
+        <View>
+          <Text>PROPERTY DEAL</Text>
+          <Text>{model.title}</Text>
+        </View>
+
+        <View>
+          <Text>{model.text}</Text>
+        </View>
+
+        <View>
+          <Text>Cost: {property.cost}</Text>
+          <Text>Cash Flow: {property.cashFlow}</Text>
+          <Text>Down Payment:{property.downPayment}</Text>
+        </View>
+      </View>
+
+      <View style={{ maxWidth: "80%" }}>
+        <Btn
+          title={buttonTitle}
+          onPress={buyProperty}
+          style={styles.userActionButton}
+        />
+        <Btn
+          title="Cancel"
+          onPress={onDismiss}
+          style={styles.userActionButton}
+        />
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  card: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  userActionButton: {
+    backgroundColor: "#07beb8",
+  },
+});
 
 export default DealCard;

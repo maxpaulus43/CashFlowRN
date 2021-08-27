@@ -1,7 +1,12 @@
 [
-    {
-        "title": "Lose Money",
-        "text": "You Must Pay NOW",
-        "cost": 100
-    }
+  {
+    "title": "Lose Money",
+    "text": "You Must Pay NOW",
+    "cost": 100
+  },
+  {
+    "title": "Buy a food processor",
+    "text": "Pay $150",
+    "cost": 150
+  }
 ]
