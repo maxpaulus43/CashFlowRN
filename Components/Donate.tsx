@@ -9,11 +9,17 @@ interface DonateProps {
 
 const Donate: React.FC<DonateProps> = ({ forPlayer: p, onDismiss }) => {
   const donateAmount = p.totalIncome() * 0.1;
+  const playerCanDonate = p.cash >= donateAmount;
+  let buttonTitle = "Donate";
+  if (!playerCanDonate) {
+    buttonTitle += " (Insufficient Funds)";
+  }
   return (
     <View>
       {p.cash > donateAmount && (
         <Button
-          title="Donate"
+          disabled={!playerCanDonate}
+          title={buttonTitle}
           onPress={() => {
             p.takeCash(donateAmount);
             p.addDonationDice(3);

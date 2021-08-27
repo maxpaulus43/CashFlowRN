@@ -10,8 +10,6 @@ interface PlayerInfoProps {
 const PlayerInfo: React.FC<PlayerInfoProps> = ({ forPlayer: p }) => {
   const playerData = [
     ["Cash", p.cash],
-    ["Active Income", p.salary],
-    ["Passive Income", p.passiveIncome()],
     ["Total Income", p.totalIncome()],
     ["Total Expenses", p.expenses()],
     ["PayDay", p.paydayAmount()],

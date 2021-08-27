@@ -49,7 +49,9 @@ export default class Board {
   updatePlayerPositionByN(player: Player, n: number) {
     const oldPosition = this.playerPosition[player.id];
     const newPosition = (oldPosition + n) % this.spaces.length;
-    if (Math.floor((oldPosition + 1) / 8) !== Math.floor((newPosition + 1) / 8)) {
+    if (
+      Math.floor((oldPosition + 1) / 8) !== Math.floor((newPosition + 1) / 8)
+    ) {
       player.getPaid();
     }
     this.playerPosition[player.id] = newPosition;

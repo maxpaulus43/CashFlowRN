@@ -21,6 +21,8 @@ import DealCardFlow from "../Components/DealCardFlow";
 import Downsize from "../Components/Downsize";
 import NewChild from "../Components/NewChild";
 import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Btn from "../Components/Btn";
 
 const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   route,
@@ -117,25 +119,42 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   };
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Button title="Go Home" onPress={goHome} />
-      <Text>Current Player: {game.getCurrentPlayer().name}</Text>
-      <Board model={game.board} renderCenterContent={()=><PlayerInfo forPlayer={myPlayer} />}/>
-      {isMyTurn && (
-        <>
-          <Button
-            title="Repay"
-            onPress={presentRepayBottomSheet}
-            disabled={myPlayer.liabilities.length <= 0}
-          />
-          <Button title="Borrow" onPress={() => presentBorrowBottomSheet()} />
-          {!myPlayer.didRoll ? (
-            <Button title="Roll" onPress={roll} />
-          ) : (
-            <Button title="End Turn" onPress={endTurn} />
-          )}
-        </>
-      )}
+    <SafeAreaView style={[StyleSheet.absoluteFill, styles.content]}>
+      <View style={styles.header}>
+        <Button title="Go Home" onPress={goHome} />
+        <Text>Current Player: {game.getCurrentPlayer().name}</Text>
+      </View>
+
+      <View style={styles.body}>
+        <Board
+          model={game.board}
+          renderCenterContent={() => <PlayerInfo forPlayer={myPlayer} />}
+        />
+      </View>
+
+      <View style={styles.footer}>
+        {isMyTurn && (
+          <>
+            <View style={styles.userActions}>
+              <Btn
+                title="Repay"
+                onPress={presentRepayBottomSheet}
+                disabled={myPlayer.liabilities.length <= 0}
+              />
+              <Btn
+                title="Borrow"
+                onPress={() => presentBorrowBottomSheet()}
+              />
+            </View>
+
+            {!myPlayer.didRoll ? (
+              <Btn title="Roll 🎲" onPress={roll} />
+            ) : (
+              <Btn title="End Turn" onPress={endTurn} />
+            )}
+          </>
+        )}
+      </View>
 
       <Modal isVisible={isModalVisible}>
         {showDealFlow && (
@@ -173,8 +192,8 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
         {showDownsize && (
           <Downsize
             forPlayer={myPlayer}
-            onPayFail={() => {
-              presentBorrowBottomSheet();
+            onPayFail={(initialBorrowAmount: number) => {
+              presentBorrowBottomSheet({ initialBorrowAmount });
             }}
             onDismiss={() => setShowDownsize(false)}
           />
@@ -210,22 +229,28 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
       <SideSheet>
         <BalanceSheet forPlayer={myPlayer} />
       </SideSheet>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  content: {
+    padding: 15,
+  },
   header: {
     flexDirection: "row",
-    width: "100%",
-    paddingHorizontal: 15,
     justifyContent: "space-between",
     alignItems: "center",
   },
+  body: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  footer: {},
   userActions: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    width: "90%",
+    justifyContent: "center",
   },
 });
 

@@ -13,7 +13,7 @@ const Table: React.FC<TableProps> = ({ data: rows, style }) => (
           key={JSON.stringify(cols)}
           style={{
             borderTopWidth: idx === 0 ? 0 : 1,
-            borderTopColor: "wheat",
+            borderTopColor: "lightgray",
           }}
         >
           {cols.map((c) => (

@@ -72,9 +72,10 @@ const SideSheet: React.FC = ({ children }) => {
             width,
             height,
             position: "absolute",
-            shadowColor: "gray",
-            shadowRadius: 8,
-            shadowOpacity: 0.3,
+            shadowColor: "black",
+            shadowRadius: 20,
+            shadowOpacity: 0.5,
+            shadowOffset: {width: -15, height: 0}
           },
           balanceSheetStyle,
         ]}
