@@ -29,13 +29,13 @@ const DealCardFlow: React.FC<props> = ({
   ) : (
     <View>
       <Button
-        title="big deal"
+        title="Big Deal"
         onPress={() => {
           setDeal(game.drawBigDealCard());
         }}
       />
       <Button
-        title="small deal"
+        title="Small Deal"
         onPress={() => {
           setDeal(game.drawSmallDealCard());
         }}

@@ -20,6 +20,7 @@ import SellAssetModel from "../model/SellAssetCard";
 import DealCardFlow from "../Components/DealCardFlow";
 import Downsize from "../Components/Downsize";
 import NewChild from "../Components/NewChild";
+import { StyleSheet } from "react-native";
 
 const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   route,
@@ -212,5 +213,20 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: "row",
+    width: "100%",
+    paddingHorizontal: 15,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  userActions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "90%",
+  },
+});
 
 export default Game;
