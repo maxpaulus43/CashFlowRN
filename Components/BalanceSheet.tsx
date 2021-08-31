@@ -70,6 +70,8 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
           marginBottom,
         }}
       >
+        <Text style={{textAlign: "center", fontSize: 30}}>Balance Sheet 📋</Text>
+
         <View style={styles.box}>
           <View style={{ alignItems: "flex-end" }}>
             <Text>Total Expenses: {expenses}</Text>

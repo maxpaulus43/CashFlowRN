@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { View, ViewProps } from "react-native";
 import { StyleSheet } from "react-native";
 import { Dimensions } from "react-native";

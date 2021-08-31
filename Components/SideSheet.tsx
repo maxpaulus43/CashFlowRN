@@ -76,6 +76,13 @@ const SideSheet: React.FC = ({ children }) => {
     };
   });
 
+  const handleStyle = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(xOffset.value, [-sheetWidth, 0], [1, 0]),
+      transform: [{translateX: interpolate(xOffset.value, [-sheetWidth, 0], [sheetWidth, sheetWidth - 50])}, { translateY: (height * 5 / 8) }]
+    }
+  })
+
   return (
     <PanGestureHandler onGestureEvent={handler}>
       <Animated.View
@@ -108,8 +115,8 @@ const SideSheet: React.FC = ({ children }) => {
           {children}
         </View>
         <TapGestureHandler onEnded={toggleSheet}>
-          <View
-            style={{
+          <Animated.View
+            style={[{
               justifyContent: "center",
               alignItems: "center",
               borderTopEndRadius: 50,
@@ -117,14 +124,11 @@ const SideSheet: React.FC = ({ children }) => {
               width: 40,
               height: 50,
               backgroundColor: sheetColor,
-              transform: [
-                { translateX: sheetWidth },
-                { translateY: (height * 5 / 8) },
-              ],
-            }}
+              zIndex: -1
+            }, handleStyle]}
           >
             <Text style={{ fontSize: 30 }}>📋</Text>
-          </View>
+          </Animated.View>
         </TapGestureHandler>
       </Animated.View>
     </PanGestureHandler>
