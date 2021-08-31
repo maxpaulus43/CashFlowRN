@@ -4,8 +4,8 @@ import Card from "./Card";
 // todo make "your business improves" card
 export default class SellAssetCard extends Card {
   propertyType: PropertyType;
-  offerAmount: number;
-  incomeIncrease: number;
+  offerAmount?: number;
+  incomeIncrease?: number;
 
   constructor(
     title: string,
