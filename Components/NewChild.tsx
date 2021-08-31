@@ -10,7 +10,10 @@ interface props {
 const NewChild: React.FC<props> = ({ forPlayer: p, onDismiss }) => {
   return (
     <View>
-      <Text>New Child!</Text>
+      <Text style={{ textAlign: "center" }}>
+        Congrats! You had a new Child! Your expenses have increased by{" "}
+        {p.expensesPerKid.toLocaleString()}
+      </Text>
       <Button
         title="Dismiss"
         onPress={() => {

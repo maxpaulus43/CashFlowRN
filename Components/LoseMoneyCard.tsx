@@ -16,19 +16,17 @@ const LoseMoneyCard: React.FC<LoseMoneyProps> = ({
   onPayFail,
   onDismiss,
 }) => {
-  const [didFailToPay, setDidFailToPay] = useState(false);
   return (
     <View>
-      {didFailToPay && <Text>You Must Borrow Money to pay</Text>}
-      <Text>LOSE MONEY</Text>
       <Text>{model.title}</Text>
-      <Text>{model.text}</Text>
-      <Text>Cost: {model.cost}</Text>
       <Button
-        title="Pay"
+        title={`Pay ${model.cost} ${
+          p.cash < model.cost
+            ? `(Must Borrow $${(model.cost - p.cash).toLocaleString()})`
+            : ""
+        }`}
         onPress={() => {
           if (p.cash < model.cost) {
-            setDidFailToPay(true);
             onPayFail();
           } else {
             p.takeCash(model.cost);

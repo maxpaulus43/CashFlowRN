@@ -16,6 +16,25 @@
         "text": "The small business you founded lucked out. Your sales increase 150% and your monthly net income goes up $400",
         "propertyType": "Company",
         "incomeIncrease": 400
+    },
+    {
+        "title": "Widget Company Buyer",
+        "text": "Inventor offers you $50,000 for your novel widget company. If you sell, give up the cashflow you currently recieve from this company.",
+        "propertyType": "Company",
+        "offerAmount": 50000
+    },
+    {
+        "title": "Apt House Buyer",
+        "text": "You're offered $40,000 per unit for all units in apartment houses of any size.",
+        "propertyType": "AptBuilding",
+        "offerAmount": 40000
+    },
+    {
+        "title": "Condo Buyer - 2Br/1Ba",
+        "text": "You're offered $55,000 for a 2/1 rental.",
+        "propertyType": "TwoBedOneBath",
+        "offerAmount": 55000
     }
+    
 
 ]

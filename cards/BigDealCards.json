@@ -34,5 +34,29 @@
       "downPayment": 20000,
       "propertyType": "Company"
     }
+  },
+  {
+    "title": "8-Plex for sale",
+    "text": "Owner's legal troubles lead to forced sale of this 8-plex.",
+    "asset": {
+      "id": "8-Plex forced sale",
+      "type": "Property",
+      "cost": 200000,
+      "cashFlow": 1600,
+      "downPayment": 40000,
+      "propertyType": "EightPlex"
+    }
+  },
+  {
+    "title": "Duplex for sale",
+    "text": "Well maintained and in a nice area.",
+    "asset": {
+      "id": "8-Plex forced sale",
+      "type": "Property",
+      "cost": 60000,
+      "cashFlow": 300,
+      "downPayment": 6000,
+      "propertyType": "Duplex"
+    }
   }
 ]

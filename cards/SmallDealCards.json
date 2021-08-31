@@ -63,5 +63,35 @@
       "cost": 40,
       "cashFlow": 0
     }
-  }
+  },
+  {
+    "title": "Stock - MYT4U Electronic Co.",
+    "text": "Company Reorganizes. Massive Losses. Stockholders lose half their ownership rights.",
+    "asset": {
+      "id": "MYT4U",
+      "type": "StockSplit",
+      "splitFrom": 2,
+      "splitTo": 1
+    }
+  },
+  {
+    "title": "Certificate Of Deposit",
+    "text": "Bank offers nice certificate of deposit. Guaranteed interest and redeemable after any holding period.",
+    "asset": {
+      "id": "CertDeposit",
+      "type": "Stock",
+      "cost": 5000,
+      "cashFlow": 20
+    }
+  },
+  {
+    "title": "Stock - MYT4U Electronic Co.",
+    "text": "Things are going so well for the company that their stocks have just split!",
+    "asset": {
+      "id": "MYT4U",
+      "type": "StockSplit",
+      "splitFrom": 1,
+      "splitTo": 2
+    }
+  },
 ]

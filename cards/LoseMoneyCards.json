@@ -8,5 +8,20 @@
     "title": "Buy a food processor",
     "text": "Pay $150",
     "cost": 150
+  },
+  {
+    "title": "Water Heater Leaks",
+    "Text": "Pay $450",
+    "cost": 450
+  },
+  {
+    "title": "Buy a cappucino machine",
+    "Text": "Pay $150",
+    "cost": 150
+  },
+  {
+    "title": "High School Reunion",
+    "Text": "Pay $150",
+    "cost": 250
   }
 ]
