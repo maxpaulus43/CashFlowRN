@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import { ScrollView, Text, View, StyleSheet, ViewProps } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Player from "../model/Player";
 import ProgressBar from "./ProgressBar";
 import Table from "./Table";
@@ -24,13 +25,18 @@ const H1: React.FC = ({ children }) => (
   </View>
 );
 
-const H3: React.FC<{children: ReactNode,  noBorder?: boolean}> = ({ children, noBorder = false }) => (
-  <View style={{borderTopColor: "gray", borderTopWidth: noBorder ? 0 : 1}}>
+const H3: React.FC<{ children: ReactNode; noBorder?: boolean }> = ({
+  children,
+  noBorder = false,
+}) => (
+  <View style={{ borderTopColor: "gray", borderTopWidth: noBorder ? 0 : 1 }}>
     <Text style={{ fontSize: 15, fontWeight: "bold" }}>{children}</Text>
   </View>
 );
 
 const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
+  const { bottom: marginBottom, top: marginTop } = useSafeAreaInsets();
+
   const expenses = p.expenses();
 
   const generalData = [
@@ -60,8 +66,8 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          justifyContent: "center",
-          paddingBottom: 10,
+          marginTop,
+          marginBottom,
         }}
       >
         <View style={styles.box}>
@@ -115,16 +121,15 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "beige",
     paddingHorizontal: 10,
+    height: "100%",
   },
   box: {
     padding: 5,
     marginTop: 10,
     backgroundColor: "white",
-    shadowColor: "black",
-    shadowRadius: 5,
-    shadowOpacity: 0.2,
+    borderWidth: 1,
+    borderColor: "lightgray"
   },
 });
 

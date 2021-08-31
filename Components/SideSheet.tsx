@@ -1,5 +1,5 @@
-import React from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Dimensions, Text } from "react-native";
 import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
@@ -11,28 +11,39 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import { interpolate } from "react-native-reanimated";
 
 const { height, width } = Dimensions.get("window");
+const sheetWidth = width - 40;
 const DRAG_THRESHOLD = 100;
 const VELOCITY_THRESHOLD = 500;
+const sheetColor = "beige";
 const cfg = {
-  stiffness: 50,
-  mass: 0.5,
-  damping: 10,
+  stiffness: 0.2,
+  mass: 0.001,
+  damping: 10000,
   overshootClamping: false,
   restSpeedThreshold: 0.001,
   restDisplacementThreshold: 0.001,
 };
 
 const SideSheet: React.FC = ({ children }) => {
-  const xOffset = useSharedValue(-width);
+  const xOffset = useSharedValue(-sheetWidth);
   const closeSheet = () => {
     "worklet";
-    xOffset.value = withSpring(-width, cfg);
+    xOffset.value = withSpring(-sheetWidth, cfg);
   };
   const openSheet = () => {
     "worklet";
     xOffset.value = withSpring(0, cfg);
+  };
+  const toggleSheet = () => {
+    "worklet";
+    if (xOffset.value === 0) {
+      closeSheet();
+    } else {
+      openSheet();
+    }
   };
   const handler = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
@@ -60,7 +71,8 @@ const SideSheet: React.FC = ({ children }) => {
 
   const balanceSheetStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: xOffset.value }],
+      transform: [{ translateX: Math.min(xOffset.value, 0) }],
+      width: interpolate(xOffset.value, [-sheetWidth, 0], [sheetWidth + 10, width])
     };
   });
 
@@ -69,15 +81,11 @@ const SideSheet: React.FC = ({ children }) => {
       <Animated.View
         style={[
           {
-            width,
-            height,
             position: "absolute",
-            shadowColor: "black",
-            shadowRadius: 20,
-            shadowOpacity: 0.5,
-            shadowOffset: {width: -15, height: 0}
+            height,
           },
-          balanceSheetStyle,
+          styles.shadow,
+          balanceSheetStyle
         ]}
       >
         <TapGestureHandler onEnded={closeSheet}>
@@ -88,32 +96,48 @@ const SideSheet: React.FC = ({ children }) => {
             }}
           />
         </TapGestureHandler>
+
         <View
           style={{
-            ...StyleSheet.absoluteFillObject,
-            height: height * 0.7,
-            transform: [{ translateY: (height * 0.3) / 2 }],
+            position: "absolute",
+            width: sheetWidth,
+            height,
+            backgroundColor: sheetColor,
           }}
         >
           {children}
         </View>
-        <TapGestureHandler onEnded={openSheet}>
+        <TapGestureHandler onEnded={toggleSheet}>
           <View
             style={{
-              borderTopEndRadius: 100,
-              borderBottomEndRadius: 100,
+              justifyContent: "center",
+              alignItems: "center",
+              borderTopEndRadius: 50,
+              borderBottomEndRadius: 50,
               width: 40,
               height: 50,
-              backgroundColor: "beige",
-              transform: [{ translateX: width }, { translateY: height / 4 * 3 }],
+              backgroundColor: sheetColor,
+              transform: [
+                { translateX: sheetWidth },
+                { translateY: (height * 5 / 8) },
+              ],
             }}
-          />
+          >
+            <Text style={{ fontSize: 30 }}>📋</Text>
+          </View>
         </TapGestureHandler>
       </Animated.View>
     </PanGestureHandler>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: "black",
+    shadowRadius: 20,
+    shadowOpacity: 0.5,
+    shadowOffset: { width: -15, height: 0 },
+  },
+});
 
 export default SideSheet;
