@@ -239,6 +239,10 @@ export default class Player {
     }
   }
 
+  getLiabilityForId(id: string): Liability | undefined {
+    return id in this._liabilities ? this._liabilities[id] : undefined;
+  }
+
   payAmountForLiability(amount: number, liabilityId: string) {
     // assume that liabilityId already exists in the dict
     const l = this._liabilities[liabilityId];

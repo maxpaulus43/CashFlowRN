@@ -1,8 +1,7 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, Alert } from "react-native";
 import Player from "../model/Player";
-import NumberPicker from "./NumberPicker";
 
 interface RepayMoneyProps {
   forPlayer: Player;
@@ -10,12 +9,17 @@ interface RepayMoneyProps {
   onDismiss: () => void;
 }
 const RepayMoney: React.FC<RepayMoneyProps> = ({ forPlayer: p, onDismiss }) => {
-  const [repayAmount, setRepayAmount] = useState(1000);
   const [selectedLiability, setSelectedLiability] = useState<string>(
     p.liabilities[0]?.id
   );
+  const l = p.getLiabilityForId(selectedLiability);
+  const [repayAmount, setRepayAmount] = useState(l?.debtAmount ?? 1000);
   return (
     <View>
+      <Text style={{ textAlign: "center" }}>
+        Which Liability would you like to pay off?
+      </Text>
+
       <Picker
         selectedValue={selectedLiability}
         itemStyle={{
@@ -23,18 +27,42 @@ const RepayMoney: React.FC<RepayMoneyProps> = ({ forPlayer: p, onDismiss }) => {
         }}
         onValueChange={(value: string) => {
           setSelectedLiability(value);
+          const l = p.getLiabilityForId(value);
+          setRepayAmount(l?.debtAmount ?? 1000);
         }}
       >
         {p.liabilities.map((l) => (
           <Picker.Item
-            label={`${l.name} ($${l.debtAmount})`}
+            label={`${l.name} ($${l.debtAmount.toLocaleString()})`}
             key={l.id}
             value={l.id}
           />
         ))}
       </Picker>
-      <Text>How Much would you like to repay?</Text>
-      <NumberPicker increment={1000} onChangeValue={setRepayAmount} />
+
+      <Text style={{ textAlign: "center" }}>
+        How Much would you like to repay?
+      </Text>
+
+      <Picker<number>
+        selectedValue={repayAmount}
+        itemStyle={{
+          height: 100,
+        }}
+        onValueChange={setRepayAmount}
+      >
+        {Array.from(
+          Array(Math.ceil((l?.debtAmount ?? 1000) / 1000)).keys()
+        ).map((i) => {
+          return (
+            <Picker.Item
+              label={`$${((i + 1) * 1000).toLocaleString()}`}
+              key={i}
+              value={(i + 1) * 1000}
+            />
+          );
+        })}
+      </Picker>
 
       <Button
         title="Repay"

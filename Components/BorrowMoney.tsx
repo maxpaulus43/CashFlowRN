@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
+import { Picker } from "@react-native-picker/picker";
+import React, { useState } from "react";
 import { View, Text, Button } from "react-native";
 import Player from "../model/Player";
-import NumberPicker from "./NumberPicker";
 export interface BorrowMoneyOptions {
   message?: string;
   initialBorrowAmount?: number;
@@ -19,22 +19,27 @@ const BorrowMoney: React.FC<BorrowMoneyProps> = ({
 }) => {
   let amt = initialBorrowAmount ?? 1000;
   amt = Math.ceil(amt / 1000) * 1000;
-  const loanAmount = useRef(amt);
+  const [loanAmount, setLoanAmount] = useState(amt);
   return (
     <View>
       {message && <Text>{message}</Text>}
-      <Text>How Much: </Text>
-      <NumberPicker
-        initialValue={loanAmount.current}
-        increment={1000}
-        onChangeValue={(value) => {
-          loanAmount.current = value;
-        }}
-      />
+      <Text style={{ textAlign: "center" }}>How Much: </Text>
+      <Picker<number>
+        itemStyle={{ height: 100 }}
+        selectedValue={loanAmount}
+        onValueChange={setLoanAmount}
+      >
+        {Array.from(Array(500).keys()).map((i) => {
+          const n = (i + 1) * 1000;
+          return (
+            <Picker.Item label={"$" + n.toLocaleString()} key={n} value={n} />
+          );
+        })}
+      </Picker>
       <Button
         title="Borrow"
         onPress={() => {
-          p.borrowMoneyAmount(loanAmount.current);
+          p.borrowMoneyAmount(loanAmount);
           onDismiss();
         }}
       />
