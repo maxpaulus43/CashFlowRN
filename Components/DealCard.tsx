@@ -17,11 +17,22 @@ const DealCard: React.FC<DealCardProps> = (props) => {
     case AssetType.Stock: {
       return <BuyStockView {...props} />;
     }
-    case AssetType.Company:
+    case AssetType.Company: {
+      return <BuyCompanyView {...props} />;
+    }
     case AssetType.Property: {
       return <BuyPropertyView {...props} />;
     }
   }
+};
+
+const BuyCompanyView: React.FC<DealCardProps> = ({ onDismiss }) => {
+  return (
+    <View>
+      <Text>I want to buy your Company!!</Text>
+      <Btn title="Cancel" onPress={onDismiss} style={styles.userActionButton} />
+    </View>
+  );
 };
 
 const BuyStockView: React.FC<DealCardProps> = ({

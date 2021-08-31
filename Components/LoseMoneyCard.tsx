@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { View, Text, Button } from "react-native";
+import React from "react";
+import { View, Text } from "react-native";
 import LoseMoneyModel from "../model/LoseMoneyCard";
 import Player from "../model/Player";
+import Btn from "./Btn";
 
 interface LoseMoneyProps {
   model: LoseMoneyModel;
@@ -19,7 +20,7 @@ const LoseMoneyCard: React.FC<LoseMoneyProps> = ({
   return (
     <View>
       <Text>{model.title}</Text>
-      <Button
+      <Btn
         title={`Pay ${model.cost} ${
           p.cash < model.cost
             ? `(Must Borrow $${(model.cost - p.cash).toLocaleString()})`

@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text } from "react-native";
 import Player from "../model/Player";
+import Btn from "./Btn";
 
 interface props {
   forPlayer: Player;
@@ -14,7 +15,7 @@ const NewChild: React.FC<props> = ({ forPlayer: p, onDismiss }) => {
         Congrats! You had a new Child! Your expenses have increased by{" "}
         {p.expensesPerKid.toLocaleString()}
       </Text>
-      <Button
+      <Btn
         title="Dismiss"
         onPress={() => {
           p.addKid();

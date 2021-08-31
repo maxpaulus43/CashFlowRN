@@ -1,9 +1,10 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text } from "react-native";
 import { Property } from "../model/Asset";
 import Player from "../model/Player";
 import SellAssetModel from "../model/SellAssetCard";
+import Btn from "./Btn";
 
 interface SellAssetProps {
   model: SellAssetModel;
@@ -39,10 +40,10 @@ const SellAssetCard: React.FC<SellAssetProps> = ({
             itemStyle={{ height: 100 }}
           >
             {sellablePlayerAssets.map((p) => (
-              <Picker.Item label={p.id} value={p.id} key={p.id}/>
+              <Picker.Item label={p.id} value={p.id} key={p.id} />
             ))}
           </Picker>
-          <Button
+          <Btn
             disabled={!selectedPropertyId}
             title="Sell"
             onPress={() => {
@@ -56,7 +57,7 @@ const SellAssetCard: React.FC<SellAssetProps> = ({
           <Text>No Assets of this kind</Text>
         </View>
       )}
-      <Button title="Dismiss" onPress={onDismiss} />
+      <Btn title="Dismiss" onPress={onDismiss} />
     </View>
   );
 };

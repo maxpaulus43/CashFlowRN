@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Button, View } from "react-native";
+import { View } from "react-native";
 import DealModel from "../model/DealCard";
 import Game from "../model/Game";
 import Player from "../model/Player";
+import Btn from "./Btn";
 import DealCard from "./DealCard";
 
 interface props {
@@ -28,19 +29,19 @@ const DealCardFlow: React.FC<props> = ({
     />
   ) : (
     <View>
-      <Button
+      <Btn
         title="Big Deal"
         onPress={() => {
           setDeal(game.drawBigDealCard());
         }}
       />
-      <Button
+      <Btn
         title="Small Deal"
         onPress={() => {
           setDeal(game.drawSmallDealCard());
         }}
       />
-      <Button title="Cancel" onPress={onDismiss} />
+      <Btn title="Cancel" onPress={onDismiss} />
     </View>
   );
 };

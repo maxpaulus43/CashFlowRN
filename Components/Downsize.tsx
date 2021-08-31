@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { View, Text, Button } from "react-native";
+import React from "react";
+import { View, Text } from "react-native";
 import Player from "../model/Player";
+import Btn from "./Btn";
 
 interface props {
   forPlayer: Player;
@@ -17,7 +18,7 @@ const Downsize: React.FC<props> = ({ forPlayer: p, onPayFail, onDismiss }) => {
   return (
     <View>
       <Text>Downsized!</Text>
-      <Button
+      <Btn
         title={title}
         onPress={() => {
           // todo skip 2 turns
