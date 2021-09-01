@@ -3,13 +3,17 @@ import { View, Text } from "react-native";
 import Player from "../model/Player";
 import Btn from "./Btn";
 
-interface props {
+interface DownsizeViewProps {
   forPlayer: Player;
   onPayFail: (amountNeeded: number) => void;
   onDismiss: () => void;
 }
 
-const Downsize: React.FC<props> = ({ forPlayer: p, onPayFail, onDismiss }) => {
+const DownsizeView: React.FC<DownsizeViewProps> = ({
+  forPlayer: p,
+  onPayFail,
+  onDismiss,
+}) => {
   const mustBorrowAmt = p.expenses() - p.cash;
   const title = `Pay${
     mustBorrowAmt > 0 ? ` (Must borrow at least ${mustBorrowAmt})` : ""
@@ -34,4 +38,4 @@ const Downsize: React.FC<props> = ({ forPlayer: p, onPayFail, onDismiss }) => {
   );
 };
 
-export default Downsize;
+export default DownsizeView;

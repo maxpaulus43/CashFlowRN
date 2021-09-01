@@ -3,12 +3,15 @@ import { View, Text } from "react-native";
 import Player from "../model/Player";
 import Btn from "./Btn";
 
-interface props {
+interface NewChildViewProps {
   forPlayer: Player;
   onDismiss: () => void;
 }
 
-const NewChild: React.FC<props> = ({ forPlayer: p, onDismiss }) => {
+const NewChildView: React.FC<NewChildViewProps> = ({
+  forPlayer: p,
+  onDismiss,
+}) => {
   return (
     <View>
       <Text style={{ textAlign: "center" }}>
@@ -26,4 +29,4 @@ const NewChild: React.FC<props> = ({ forPlayer: p, onDismiss }) => {
   );
 };
 
-export default NewChild;
+export default NewChildView;

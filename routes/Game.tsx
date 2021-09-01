@@ -5,8 +5,8 @@ import BalanceSheet from "../Components/BalanceSheet";
 import Board, { PIECE_MOVE_ANIMATION_DURATION } from "../Components/Board";
 import BottomSheet from "../Components/BottomSheet";
 import Modal from "../Components/Modal";
-import LoseMoneyCard from "../Components/LoseMoneyCard";
-import SellAssetCard from "../Components/SellAssetCard";
+import LoseMoneyCardView from "../Components/LoseMoneyCardView";
+import MarketCardView from "../Components/MarketCardView";
 import { Space } from "../model/Board";
 import GameModel from "../model/Game";
 import Player from "../model/Player";
@@ -14,12 +14,12 @@ import PlayerInfo from "../Components/PlayerInfo";
 import RepayMoney from "../Components/RepayMoney";
 import BorrowMoney, { BorrowMoneyOptions } from "../Components/BorrowMoney";
 import SideSheet from "../Components/SideSheet";
-import Donate from "../Components/Donate";
+import DonateView from "../Components/DonateView";
 import LoseMoneyModel from "../model/LoseMoneyCard";
-import SellAssetModel from "../model/SellAssetCard";
-import DealCardFlow from "../Components/DealCardFlow";
-import Downsize from "../Components/Downsize";
-import NewChild from "../Components/NewChild";
+import MarketCardModel from "../model/MarketCard";
+import DealFlowView from "../Components/DealFlowView";
+import DownsizeView from "../Components/DownsizeView";
+import NewChildView from "../Components/NewChildView";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Btn from "../Components/Btn";
@@ -35,14 +35,14 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
 
   const [showDealFlow, setShowDealFlow] = useState(false);
   const [loseMoneyCard, setLoseMoneyCard] = useState<LoseMoneyModel>();
-  const [sellAssetCard, setSellAssetCard] = useState<SellAssetModel>();
+  const [marketCard, setMarketCard] = useState<MarketCardModel>();
   const [showDonate, setShowDonate] = useState(false);
   const [showNewChild, setShowNewChild] = useState(false);
   const [showDownsize, setShowDownsize] = useState(false);
   const isModalVisible: boolean =
     showDealFlow ||
     loseMoneyCard !== undefined ||
-    sellAssetCard !== undefined ||
+    marketCard !== undefined ||
     showDonate ||
     showDownsize ||
     showNewChild;
@@ -73,7 +73,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
           break;
         }
         case Space.SELL_ASSET: {
-          setSellAssetCard(game.drawSellAssetCard());
+          setMarketCard(game.drawMarketCard());
           break;
         }
         case Space.DONATE: {
@@ -162,7 +162,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
 
       <Modal isVisible={isModalVisible}>
         {showDealFlow && (
-          <DealCardFlow
+          <DealFlowView
             game={game}
             forPlayer={myPlayer}
             onPayFail={(amountNeeded: number) => {
@@ -174,7 +174,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
           />
         )}
         {loseMoneyCard && (
-          <LoseMoneyCard
+          <LoseMoneyCardView
             forPlayer={myPlayer}
             model={loseMoneyCard}
             onPayFail={() => {
@@ -183,18 +183,18 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
             onDismiss={() => setLoseMoneyCard(undefined)}
           />
         )}
-        {sellAssetCard && (
-          <SellAssetCard
-            model={game.drawSellAssetCard()}
+        {marketCard && (
+          <MarketCardView
+            model={game.drawMarketCard()}
             forPlayer={myPlayer}
-            onDismiss={() => setSellAssetCard(undefined)}
+            onDismiss={() => setMarketCard(undefined)}
           />
         )}
         {showDonate && (
-          <Donate forPlayer={myPlayer} onDismiss={() => setShowDonate(false)} />
+          <DonateView forPlayer={myPlayer} onDismiss={() => setShowDonate(false)} />
         )}
         {showDownsize && (
-          <Downsize
+          <DownsizeView
             forPlayer={myPlayer}
             onPayFail={(initialBorrowAmount: number) => {
               presentBorrowBottomSheet({ initialBorrowAmount });
@@ -203,7 +203,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
           />
         )}
         {showNewChild && (
-          <NewChild
+          <NewChildView
             forPlayer={myPlayer}
             onDismiss={() => setShowNewChild(false)}
           />

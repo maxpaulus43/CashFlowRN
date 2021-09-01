@@ -2,7 +2,7 @@ import { PropertyType } from "./Asset";
 import Card from "./Card";
 
 // todo make "your business improves" card
-export default class SellAssetCard extends Card {
+export default class MarketCard extends Card {
   propertyType: PropertyType;
   offerAmount?: number;
   incomeIncrease?: number;

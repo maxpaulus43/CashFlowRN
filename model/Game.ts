@@ -3,7 +3,7 @@ import DealCard from "./DealCard";
 import Deck from "./Deck";
 import LoseMoneyCard from "./LoseMoneyCard";
 import Player from "./Player";
-import SellAssetCard from "./SellAssetCard";
+import MarketCard from "./MarketCard";
 
 export default class Game {
   private _winHandler?: (winner: Player) => void;
@@ -14,7 +14,7 @@ export default class Game {
   private currentPlayerIdx: number;
   private bigDealDeck: Deck<DealCard>;
   private smallDealDeck: Deck<DealCard>;
-  private sellAssetDeck: Deck<SellAssetCard>;
+  private marketDeck: Deck<MarketCard>;
   private loseMoneyDeck: Deck<LoseMoneyCard>;
   private isGameOver = false;
 
@@ -22,7 +22,7 @@ export default class Game {
     this.players = players;
     this.bigDealDeck = Deck.makeBigDealDeck();
     this.smallDealDeck = Deck.makeSmallDealDeck();
-    this.sellAssetDeck = Deck.makeSellAssetDeck();
+    this.marketDeck = Deck.makeMarketCardDeck();
     this.loseMoneyDeck = Deck.makeLoseMoneyDeck();
     this.currentPlayerIdx = 0;
     this.board = new Board();
@@ -63,11 +63,11 @@ export default class Game {
     return this.loseMoneyDeck.drawCard()!;
   }
 
-  drawSellAssetCard(): SellAssetCard {
-    if (!this.sellAssetDeck.hasCards()) {
-      this.sellAssetDeck = Deck.makeSellAssetDeck();
+  drawMarketCard(): MarketCard {
+    if (!this.marketDeck.hasCards()) {
+      this.marketDeck = Deck.makeMarketCardDeck();
     }
-    return this.sellAssetDeck.drawCard()!;
+    return this.marketDeck.drawCard()!;
   }
 
   getSpaceForCurrentPlayer(): Space {

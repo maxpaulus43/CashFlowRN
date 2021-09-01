@@ -3,16 +3,16 @@ import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { Property } from "../model/Asset";
 import Player from "../model/Player";
-import SellAssetModel from "../model/SellAssetCard";
+import MarketCard from "../model/MarketCard";
 import Btn from "./Btn";
 
-interface SellAssetProps {
-  model: SellAssetModel;
+interface MarketCardViewProps {
+  model: MarketCard;
   forPlayer: Player;
   onDismiss: () => void;
 }
 
-const SellAssetCard: React.FC<SellAssetProps> = ({
+const MarketCardView: React.FC<MarketCardViewProps> = ({
   model,
   forPlayer: p,
   onDismiss,
@@ -62,4 +62,4 @@ const SellAssetCard: React.FC<SellAssetProps> = ({
   );
 };
 
-export default SellAssetCard;
+export default MarketCardView;

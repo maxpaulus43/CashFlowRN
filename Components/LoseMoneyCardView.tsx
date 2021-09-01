@@ -1,17 +1,17 @@
 import React from "react";
 import { View, Text } from "react-native";
-import LoseMoneyModel from "../model/LoseMoneyCard";
+import LoseMoneyCard from "../model/LoseMoneyCard";
 import Player from "../model/Player";
 import Btn from "./Btn";
 
-interface LoseMoneyProps {
-  model: LoseMoneyModel;
+interface LoseMoneyViewProps {
+  model: LoseMoneyCard;
   forPlayer: Player;
   onPayFail: () => void;
   onDismiss: () => void;
 }
 
-const LoseMoneyCard: React.FC<LoseMoneyProps> = ({
+const LoseMoneyCardView: React.FC<LoseMoneyViewProps> = ({
   model,
   forPlayer: p,
   onPayFail,
@@ -39,4 +39,4 @@ const LoseMoneyCard: React.FC<LoseMoneyProps> = ({
   );
 };
 
-export default LoseMoneyCard;
+export default LoseMoneyCardView;

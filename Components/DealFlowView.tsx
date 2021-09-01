@@ -1,27 +1,27 @@
 import React, { useState } from "react";
 import { View } from "react-native";
-import DealModel from "../model/DealCard";
+import DealCard from "../model/DealCard";
 import Game from "../model/Game";
 import Player from "../model/Player";
 import Btn from "./Btn";
-import DealCard from "./DealCard";
+import DealCardView from "./DealCardView";
 
-interface props {
+interface DealFlowViewProps {
   forPlayer: Player;
   game: Game;
   onPayFail: (amountNeeded: number) => void;
   onDismiss: () => void;
 }
 
-const DealCardFlow: React.FC<props> = ({
+const DealFlowView: React.FC<DealFlowViewProps> = ({
   forPlayer: myPlayer,
   game,
   onPayFail,
   onDismiss,
 }) => {
-  const [deal, setDeal] = useState<DealModel>();
+  const [deal, setDeal] = useState<DealCard>();
   return deal ? (
-    <DealCard
+    <DealCardView
       forPlayer={myPlayer}
       model={deal}
       onPayFail={onPayFail}
@@ -46,4 +46,4 @@ const DealCardFlow: React.FC<props> = ({
   );
 };
 
-export default DealCardFlow;
+export default DealFlowView;

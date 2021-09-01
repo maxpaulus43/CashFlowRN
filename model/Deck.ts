@@ -1,7 +1,7 @@
 import Card from "./Card";
 import DealCard from "./DealCard";
 import LoseMoneyCard from "./LoseMoneyCard";
-import SellAssetCard from "./SellAssetCard";
+import MarketCard from "./MarketCard";
 import BigDealCardsData from "../cards/BigDealCards.json";
 import SmallDealCardsData from "../cards/SmallDealCards.json";
 import MarketCardsData from "../cards/MarketCards.json";
@@ -29,8 +29,8 @@ export default class Deck<T extends Card> {
     return new Deck([...cards]);
   }
 
-  static makeSellAssetDeck(): Deck<SellAssetCard> {
-    const cards = MarketCardsData as SellAssetCard[];
+  static makeMarketCardDeck(): Deck<MarketCard> {
+    const cards = MarketCardsData as MarketCard[];
     return new Deck([...cards]);
   }
 

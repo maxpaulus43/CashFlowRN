@@ -3,12 +3,12 @@ import { View, Text } from "react-native";
 import Player from "../model/Player";
 import Btn from "./Btn";
 
-interface DonateProps {
+interface DonateViewProps {
   forPlayer: Player;
   onDismiss: () => void;
 }
 
-const Donate: React.FC<DonateProps> = ({ forPlayer: p, onDismiss }) => {
+const DonateView: React.FC<DonateViewProps> = ({ forPlayer: p, onDismiss }) => {
   const donateAmount = p.totalIncome() * 0.1;
   const playerCanDonate = p.cash >= donateAmount;
   let buttonTitle = "Donate";
@@ -36,4 +36,4 @@ const Donate: React.FC<DonateProps> = ({ forPlayer: p, onDismiss }) => {
   );
 };
 
-export default Donate;
+export default DonateView;

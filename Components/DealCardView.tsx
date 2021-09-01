@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { AssetType, Property, Stock } from "../model/Asset";
-import DealCardModel from "../model/DealCard";
+import DealCard from "../model/DealCard";
 import Player from "../model/Player";
 import Btn from "./Btn";
 import NumberPicker from "./NumberPicker";
-interface DealCardProps {
-  model: DealCardModel;
+
+interface DealCardViewProps {
+  model: DealCard;
   forPlayer: Player;
   onPayFail: (amountNeeded: number) => void;
   onDismiss: () => void;
 }
 
-const DealCard: React.FC<DealCardProps> = (props) => {
+const DealCardView: React.FC<DealCardViewProps> = (props) => {
   switch (props.model.asset.type) {
     case AssetType.Stock: {
       return <BuyStockView {...props} />;
@@ -26,7 +27,7 @@ const DealCard: React.FC<DealCardProps> = (props) => {
   }
 };
 
-const BuyCompanyView: React.FC<DealCardProps> = ({ onDismiss }) => {
+const BuyCompanyView: React.FC<DealCardViewProps> = ({ onDismiss }) => {
   return (
     <View>
       <Text>I want to buy your Company!!</Text>
@@ -35,7 +36,7 @@ const BuyCompanyView: React.FC<DealCardProps> = ({ onDismiss }) => {
   );
 };
 
-const BuyStockView: React.FC<DealCardProps> = ({
+const BuyStockView: React.FC<DealCardViewProps> = ({
   model,
   forPlayer: p,
   onPayFail,
@@ -106,7 +107,7 @@ const BuyStockView: React.FC<DealCardProps> = ({
   );
 };
 
-const BuyPropertyView: React.FC<DealCardProps> = ({
+const BuyPropertyView: React.FC<DealCardViewProps> = ({
   model,
   forPlayer: p,
   onPayFail,
@@ -174,4 +175,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DealCard;
+export default DealCardView;
