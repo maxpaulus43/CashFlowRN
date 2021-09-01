@@ -1,12 +1,8 @@
-import Card from "./Card";
-import DealCard from "./DealCard";
-import LoseMoneyCard from "./LoseMoneyCard";
-import MarketCard from "./MarketCard";
+import { Card, DealCard, LoseMoneyCard, MarketCard, Stock} from ".";
 import BigDealCardsData from "../cards/BigDealCards.json";
 import SmallDealCardsData from "../cards/SmallDealCards.json";
-import MarketCardsData from "../cards/MarketCards.json";
 import LoseMoneyCardsData from "../cards/LoseMoneyCards.json";
-import { AssetType } from "./Asset";
+import MarketCardsData from "../cards/MarketCards.json";
 import StockMarket from "../services/StockMarket";
 
 export default class Deck<T extends Card> {
@@ -21,8 +17,8 @@ export default class Deck<T extends Card> {
     const cards = SmallDealCardsData as DealCard[];
     // randomize Stock prices
     cards
-      .map((c) => c.asset)
-      .filter((a) => a.type === AssetType.Stock)
+      .filter((c) => c.dealType === "Stock")
+      .map(c => c.info as Stock)
       .forEach((stock) => {
         stock.cost = StockMarket.getPriceForStock(stock.id);
       });

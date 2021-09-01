@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { ScrollView, Text, View, StyleSheet, ViewProps } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Player from "../model/Player";
+import { Player } from "../model";
 import ProgressBar from "./ProgressBar";
 import Table from "./Table";
 
@@ -70,7 +70,9 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
           marginBottom,
         }}
       >
-        <Text style={{textAlign: "center", fontSize: 30}}>Balance Sheet 📋</Text>
+        <Text style={{ textAlign: "center", fontSize: 30 }}>
+          Balance Sheet 📋
+        </Text>
 
         <View style={styles.box}>
           <View style={{ alignItems: "flex-end" }}>
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: "white",
     borderWidth: 1,
-    borderColor: "lightgray"
+    borderColor: "lightgray",
   },
 });
 

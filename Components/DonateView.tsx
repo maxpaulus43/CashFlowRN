@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import Player from "../model/Player";
+import { Player } from "../model";
 import Btn from "./Btn";
 
 interface DonateViewProps {

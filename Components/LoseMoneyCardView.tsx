@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import LoseMoneyCard from "../model/LoseMoneyCard";
-import Player from "../model/Player";
+import { LoseMoneyCard, Player } from "../model";
 import Btn from "./Btn";
 
 interface LoseMoneyViewProps {

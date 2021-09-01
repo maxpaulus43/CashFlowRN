@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { View, Dimensions, StyleSheet } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { useSharedValue, withTiming } from "react-native-reanimated";
-import BoardModel from "../model/Board";
+import { Board } from "../model";
 import BoardSvg from "./BoardSvg";
 
 const { width, height } = Dimensions.get("window");
@@ -11,12 +11,15 @@ const pieceDiameter = 20;
 
 export const PIECE_MOVE_ANIMATION_DURATION = 400;
 
-interface BoardProps {
-  model: BoardModel;
+interface BoardViewProps {
+  model: Board;
   renderCenterContent?: () => React.ReactNode;
 }
 
-const Board: React.FC<BoardProps> = ({ model, renderCenterContent }) => {
+const BoardView: React.FC<BoardViewProps> = ({
+  model,
+  renderCenterContent,
+}) => {
   const pos = model.getPositionForPlayer(model.getPlayerIds()[0]);
   let x = useSharedValue(diameter / 2);
   let y = useSharedValue(diameter / 2);
@@ -45,7 +48,7 @@ const Board: React.FC<BoardProps> = ({ model, renderCenterContent }) => {
       <View style={StyleSheet.absoluteFill}>
         <BoardSvg width={diameter} height={diameter} />
       </View>
-      
+
       {typeof renderCenterContent === "function" && (
         <View style={StyleSheet.absoluteFill}>
           <View
@@ -101,7 +104,7 @@ function getPlayerCoordinatesForPosition(position: number): {
   return coords;
 }
 
-export default Board;
+export default BoardView;
 
 interface Vector {
   x: number;

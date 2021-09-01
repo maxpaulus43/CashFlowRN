@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { View } from "react-native";
-import DealCard from "../model/DealCard";
-import Game from "../model/Game";
-import Player from "../model/Player";
+import { DealCard, Game, Player } from "../model";
 import Btn from "./Btn";
 import DealCardView from "./DealCardView";
 

@@ -1,7 +1,7 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
 import { View, Text, Button } from "react-native";
-import Player from "../model/Player";
+import { Player } from "../model";
 export interface BorrowMoneyOptions {
   message?: string;
   initialBorrowAmount?: number;

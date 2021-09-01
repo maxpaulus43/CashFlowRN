@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, StyleSheet, Dimensions, Text } from "react-native";
 import {
   PanGestureHandler,
@@ -72,16 +72,29 @@ const SideSheet: React.FC = ({ children }) => {
   const balanceSheetStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateX: Math.min(xOffset.value, 0) }],
-      width: interpolate(xOffset.value, [-sheetWidth, 0], [sheetWidth + 10, width])
+      width: interpolate(
+        xOffset.value,
+        [-sheetWidth, 0],
+        [sheetWidth + 10, width]
+      ),
     };
   });
 
   const handleStyle = useAnimatedStyle(() => {
     return {
       opacity: interpolate(xOffset.value, [-sheetWidth, 0], [1, 0]),
-      transform: [{translateX: interpolate(xOffset.value, [-sheetWidth, 0], [sheetWidth, sheetWidth - 50])}, { translateY: (height * 5 / 8) }]
-    }
-  })
+      transform: [
+        {
+          translateX: interpolate(
+            xOffset.value,
+            [-sheetWidth, 0],
+            [sheetWidth, sheetWidth - 50]
+          ),
+        },
+        { translateY: (height * 5) / 8 },
+      ],
+    };
+  });
 
   return (
     <PanGestureHandler onGestureEvent={handler}>
@@ -92,7 +105,7 @@ const SideSheet: React.FC = ({ children }) => {
             height,
           },
           styles.shadow,
-          balanceSheetStyle
+          balanceSheetStyle,
         ]}
       >
         <TapGestureHandler onEnded={closeSheet}>
@@ -116,16 +129,19 @@ const SideSheet: React.FC = ({ children }) => {
         </View>
         <TapGestureHandler onEnded={toggleSheet}>
           <Animated.View
-            style={[{
-              justifyContent: "center",
-              alignItems: "center",
-              borderTopEndRadius: 50,
-              borderBottomEndRadius: 50,
-              width: 40,
-              height: 50,
-              backgroundColor: sheetColor,
-              zIndex: -1
-            }, handleStyle]}
+            style={[
+              {
+                justifyContent: "center",
+                alignItems: "center",
+                borderTopEndRadius: 50,
+                borderBottomEndRadius: 50,
+                width: 40,
+                height: 50,
+                backgroundColor: sheetColor,
+                zIndex: -1,
+              },
+              handleStyle,
+            ]}
           >
             <Text style={{ fontSize: 30 }}>📋</Text>
           </Animated.View>

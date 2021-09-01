@@ -1,7 +1,7 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
 import { View, Text, Button, Alert } from "react-native";
-import Player from "../model/Player";
+import { Player } from "../model";
 
 interface RepayMoneyProps {
   forPlayer: Player;

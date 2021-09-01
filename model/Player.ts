@@ -1,4 +1,4 @@
-import { Property, Stock } from "./Asset";
+import { Property, Stock } from ".";
 import Liability from "./Liability";
 
 export default class Player {
@@ -124,7 +124,7 @@ export default class Player {
     count: number
   ][] {
     let result: [string, number, number][] = [];
-    
+
     for (const stockId in this.stockPriceCount) {
       for (const atPrice in this.stockPriceCount[stockId]) {
         const count = this.stockPriceCount[stockId][atPrice];

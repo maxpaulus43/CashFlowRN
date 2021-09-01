@@ -2,27 +2,24 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useReducer, useRef, useState } from "react";
 import { Button, View, Text, Alert } from "react-native";
 import BalanceSheet from "../Components/BalanceSheet";
-import Board, { PIECE_MOVE_ANIMATION_DURATION } from "../Components/Board";
+import BoardView, { PIECE_MOVE_ANIMATION_DURATION } from "../Components/BoardView";
 import BottomSheet from "../Components/BottomSheet";
 import Modal from "../Components/Modal";
 import LoseMoneyCardView from "../Components/LoseMoneyCardView";
 import MarketCardView from "../Components/MarketCardView";
-import { Space } from "../model/Board";
-import GameModel from "../model/Game";
-import Player from "../model/Player";
 import PlayerInfo from "../Components/PlayerInfo";
 import RepayMoney from "../Components/RepayMoney";
 import BorrowMoney, { BorrowMoneyOptions } from "../Components/BorrowMoney";
 import SideSheet from "../Components/SideSheet";
 import DonateView from "../Components/DonateView";
-import LoseMoneyModel from "../model/LoseMoneyCard";
-import MarketCardModel from "../model/MarketCard";
 import DealFlowView from "../Components/DealFlowView";
 import DownsizeView from "../Components/DownsizeView";
 import NewChildView from "../Components/NewChildView";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Btn from "../Components/Btn";
+import { Game as GameModel, LoseMoneyCard, MarketCard, Player } from "../model";
+import { Space } from "../model/Board";
 
 const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   route,
@@ -34,8 +31,8 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   const isMyTurn = game.getCurrentPlayer().id === myPlayer.id;
 
   const [showDealFlow, setShowDealFlow] = useState(false);
-  const [loseMoneyCard, setLoseMoneyCard] = useState<LoseMoneyModel>();
-  const [marketCard, setMarketCard] = useState<MarketCardModel>();
+  const [loseMoneyCard, setLoseMoneyCard] = useState<LoseMoneyCard>();
+  const [marketCard, setMarketCard] = useState<MarketCard>();
   const [showDonate, setShowDonate] = useState(false);
   const [showNewChild, setShowNewChild] = useState(false);
   const [showDownsize, setShowDownsize] = useState(false);
@@ -129,7 +126,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
       </View>
 
       <View style={styles.body}>
-        <Board
+        <BoardView
           model={game.board}
           renderCenterContent={() => <PlayerInfo forPlayer={myPlayer} />}
         />
@@ -191,7 +188,10 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
           />
         )}
         {showDonate && (
-          <DonateView forPlayer={myPlayer} onDismiss={() => setShowDonate(false)} />
+          <DonateView
+            forPlayer={myPlayer}
+            onDismiss={() => setShowDonate(false)}
+          />
         )}
         {showDownsize && (
           <DownsizeView

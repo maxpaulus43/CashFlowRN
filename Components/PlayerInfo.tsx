@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import Player from "../model/Player";
+import { Player } from "../model";
 import Table from "./Table";
 
 interface PlayerInfoProps {

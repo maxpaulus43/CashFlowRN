@@ -2,10 +2,10 @@
   {
     "title": "House For Sale - 3Br/2Ba",
     "text": "3/2 House in older area. No bids at last week's auction.",
-    "asset": {
+    "dealType": "Property",
+    "info": {
       "id": "3/2 No Bids",
-      "type": "Property",
-      "propertyType": "ThreeBedTwoBath",
+      "type": "ThreeBedTwoBath",
       "cost": 50000,
       "cashFlow": -100,
       "downPayment": 0
@@ -14,10 +14,10 @@
   {
     "title": "Great deal! - 3Br/2Ba",
     "text": "3/2 House repossessed by goverment.",
-    "asset": {
+    "dealType": "Property",
+    "info": {
       "id": "3/2 Great Deal",
-      "type": "Property",
-      "propertyType": "ThreeBedTwoBath",
+      "type": "ThreeBedTwoBath",
       "cost": 35000,
       "cashFlow": 220,
       "downPayment": 2000
@@ -26,9 +26,9 @@
   {
     "title": "Start A Company part Time",
     "text": "Invent a new way of making widgets. No profits during startup. Long hours, no extra pay.",
-    "asset": {
+    "dealType": "Property",
+    "info": {
       "id": "startup No Profits",
-      "type": "Company",
       "cost": 3000,
       "cashFlow": 0,
       "downPayment": 3000
@@ -37,9 +37,9 @@
   {
     "title": "Stock - MYT4U Electronic Co.",
     "text": "Low Interest rates lead to substantial share price for this home electronics seller",
-    "asset": {
+    "dealType": "Stock",
+    "info": {
       "id": "MYT4U",
-      "type": "Stock",
       "cost": 30,
       "cashFlow": 100
     }
@@ -47,9 +47,9 @@
   {
     "title": "Stock - MYT4U Electronic Co.",
     "text": "Electronics seller headed by a 32 year old harvard grad.",
-    "asset": {
+    "dealType": "Stock",
+    "info": {
       "id": "MYT4U",
-      "type": "Stock",
       "cost": 20,
       "cashFlow": 0
     }
@@ -57,9 +57,9 @@
   {
     "title": "Mutual Fund - GRO4US Fund",
     "text": "Powerhousr market drives strong fund's price upt to record high.",
-    "asset": {
+    "dealType": "Stock",
+    "info": {
       "id": "GRO4US",
-      "type": "Stock",
       "cost": 40,
       "cashFlow": 0
     }
@@ -67,9 +67,9 @@
   {
     "title": "Stock - MYT4U Electronic Co.",
     "text": "Company Reorganizes. Massive Losses. Stockholders lose half their ownership rights.",
-    "asset": {
+    "dealType": "StockSplit",
+    "info": {
       "id": "MYT4U",
-      "type": "StockSplit",
       "splitFrom": 2,
       "splitTo": 1
     }
@@ -77,9 +77,9 @@
   {
     "title": "Certificate Of Deposit",
     "text": "Bank offers nice certificate of deposit. Guaranteed interest and redeemable after any holding period.",
-    "asset": {
+    "dealType": "Stock",
+    "info": {
       "id": "CertDeposit",
-      "type": "Stock",
       "cost": 5000,
       "cashFlow": 20
     }
@@ -87,9 +87,9 @@
   {
     "title": "Stock - MYT4U Electronic Co.",
     "text": "Things are going so well for the company that their stocks have just split!",
-    "asset": {
+    "dealType": "StockSplit",
+    "info": {
       "id": "MYT4U",
-      "type": "StockSplit",
       "splitFrom": 1,
       "splitTo": 2
     }

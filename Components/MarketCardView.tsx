@@ -1,9 +1,7 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
 import { View, Text } from "react-native";
-import { Property } from "../model/Asset";
-import Player from "../model/Player";
-import MarketCard from "../model/MarketCard";
+import { MarketCard, Offer, Player, Property } from "../model";
 import Btn from "./Btn";
 
 interface MarketCardViewProps {
@@ -18,7 +16,7 @@ const MarketCardView: React.FC<MarketCardViewProps> = ({
   onDismiss,
 }) => {
   const sellablePlayerAssets: Property[] = p.properties.filter(
-    (p) => model.propertyType === p.propertyType
+    (p) => model.type === p.type
   );
   const [selectedPropertyId, setSelectedPropertyId] = useState(
     sellablePlayerAssets[0]?.id
@@ -47,7 +45,10 @@ const MarketCardView: React.FC<MarketCardViewProps> = ({
             disabled={!selectedPropertyId}
             title="Sell"
             onPress={() => {
-              p.sellPropertyForAmount(selectedPropertyId!, model.offerAmount);
+              p.sellPropertyForAmount(
+                selectedPropertyId!,
+                (model.info as Offer).offerAmount
+              );
               onDismiss();
             }}
           />

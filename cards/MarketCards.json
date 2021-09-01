@@ -1,40 +1,55 @@
 [
-    {
-        "title": "Plex Buyer",
-        "text": "You're offered $25,000 per unit for all duplexes, 4plex, 8plex. If you sell, pay off the related mortgage and give up the cash flow you currently receive on this property",
-        "propertyType": "AllPlex",
-        "offerAmount": 25000
-    },
-    {
-        "title": "House Buyer",
-        "text": "You're offered $110,000 for a 3/2 rental house. If you sell, pay off the related mortgage and give up the cash flow you currently receive on this property.",
-        "propertyType": "ThreeBedTwoBath",
-        "offerAmount": 110000
-    },
-    {
-        "title": "Small Business Improves",
-        "text": "The small business you founded lucked out. Your sales increase 150% and your monthly net income goes up $400",
-        "propertyType": "Company",
-        "incomeIncrease": 400
-    },
-    {
-        "title": "Widget Company Buyer",
-        "text": "Inventor offers you $50,000 for your novel widget company. If you sell, give up the cashflow you currently recieve from this company.",
-        "propertyType": "Company",
-        "offerAmount": 50000
-    },
-    {
-        "title": "Apt House Buyer",
-        "text": "You're offered $40,000 per unit for all units in apartment houses of any size.",
-        "propertyType": "AptBuilding",
-        "offerAmount": 40000
-    },
-    {
-        "title": "Condo Buyer - 2Br/1Ba",
-        "text": "You're offered $55,000 for a 2/1 rental.",
-        "propertyType": "TwoBedOneBath",
-        "offerAmount": 55000
+  {
+    "title": "Plex Buyer",
+    "text": "You're offered $25,000 per unit for all duplexes, 4plex, 8plex. If you sell, pay off the related mortgage and give up the cash flow you currently receive on this property",
+    "type": "AllPlex",
+    "info": {
+      "offerAmount": 25000
     }
-    
-
+  },
+  {
+    "title": "House Buyer",
+    "text": "You're offered $110,000 for a 3/2 rental house. If you sell, pay off the related mortgage and give up the cash flow you currently receive on this property.",
+    "type": "ThreeBedTwoBath",
+    "info": {
+      "offerAmount": 110000,
+      "limit": 1
+    }
+  },
+  {
+    "title": "Small Business Improves",
+    "text": "Your small Vending Machine business lucked out. Your sales increase 150% and your monthly net income goes up $400",
+    "type": "Improvement",
+    "info": {
+      "id": "Vending Machine Biz",
+      "incomeIncrease": 400
+    }
+  },
+  {
+    "title": "Widget Company Buyer",
+    "text": "Inventor offers you $50,000 for your novel widget company. If you sell, give up the cashflow you currently recieve from this company.",
+    "type": "Company",
+    "info": {
+      "id": "Widget Company",
+      "offerAmount": 50000
+    }
+  },
+  {
+    "title": "Apt House Buyer",
+    "text": "You're offered $40,000 per unit for All units in apartment houses of any size.",
+    "type": "AptBuilding",
+    "info": {
+      "limit": 100,
+      "offerAmount": 40000
+    }
+  },
+  {
+    "title": "Condo Buyer - 2Br/1Ba",
+    "text": "You're offered $55,000 for any 2/1 rental.",
+    "type": "TwoBedOneBath",
+    "info": {
+      "limit": 1,
+      "offerAmount": 55000
+    }
+  }
 ]

@@ -2,61 +2,61 @@
   {
     "title": "House for Sale - 3Br/2Ba",
     "text": "Good Investment potential in the 3/2 house. Positive cash flow even though rents are weak.",
-    "asset": {
+    "dealType": "Property",
+    "info": {
       "id": "3/2 Good Investment",
-      "type": "Property",
+      "type": "ThreeBedTwoBath",
       "cost": 65000,
       "cashFlow": 300,
-      "downPayment": 8000,
-      "propertyType": "ThreeBedTwoBath"
+      "downPayment": 8000
     }
   },
   {
     "title": "Apartment House for Sale",
     "text": "2 buildings totalling 23 units for sale. Owner managed with on-site assistant. Retirement prompts sale.",
-    "asset": {
+    "dealType": "Property",
+    "info": {
       "id": "Apt Owner Retired",
-      "type": "Property",
+      "type": "AptBuilding",
       "cost": 575000,
       "cashFlow": 3400,
-      "downPayment": 75000,
-      "propertyType": "AptBuilding"
+      "downPayment": 75000
     }
   },
   {
     "title": "Automated Vending Machine Business For Sale",
     "text": "30 vending machines at long term contract locations. Owner is desparate.",
-    "asset": {
-      "id": "Vend Machine Business",
-      "type": "Property",
+    "dealType": "Property",
+    "info": {
+      "id": "Vending Machine Biz",
+      "type": "Company",
       "cost": 100000,
       "cashFlow": 1600,
-      "downPayment": 20000,
-      "propertyType": "Company"
+      "downPayment": 20000
     }
   },
   {
     "title": "8-Plex for sale",
     "text": "Owner's legal troubles lead to forced sale of this 8-plex.",
-    "asset": {
+    "dealType": "Property",
+    "info": {
       "id": "8-Plex forced sale",
-      "type": "Property",
+      "type": "EightPlex",
       "cost": 200000,
       "cashFlow": 1600,
-      "downPayment": 40000,
-      "propertyType": "EightPlex"
+      "downPayment": 40000
     }
   },
   {
     "title": "Duplex for sale",
     "text": "Well maintained and in a nice area.",
-    "asset": {
+    "dealType": "Property",
+    "info": {
       "id": "8-Plex forced sale",
-      "type": "Property",
+      "type": "Duplex",
       "cost": 60000,
       "cashFlow": 300,
-      "downPayment": 6000,
-      "propertyType": "Duplex"
+      "downPayment": 6000
     }
   }
 ]

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { AssetType, Property, Stock } from "../model/Asset";
-import DealCard from "../model/DealCard";
-import Player from "../model/Player";
+import { DealCard, Property, Stock, Player } from "../model";
 import Btn from "./Btn";
 import NumberPicker from "./NumberPicker";
 
@@ -14,23 +12,23 @@ interface DealCardViewProps {
 }
 
 const DealCardView: React.FC<DealCardViewProps> = (props) => {
-  switch (props.model.asset.type) {
-    case AssetType.Stock: {
+  switch (props.model.dealType) {
+    case "Stock": {
       return <BuyStockView {...props} />;
     }
-    case AssetType.Company: {
-      return <BuyCompanyView {...props} />;
-    }
-    case AssetType.Property: {
+    case "Property": {
       return <BuyPropertyView {...props} />;
+    }
+    case "StockSplit": {
+      return <StockSplitView {...props} />;
     }
   }
 };
 
-const BuyCompanyView: React.FC<DealCardViewProps> = ({ onDismiss }) => {
+const StockSplitView: React.FC<DealCardViewProps> = ({ onDismiss }) => {
   return (
     <View>
-      <Text>I want to buy your Company!!</Text>
+      <Text>Your Stocks Have Split!!</Text>
       <Btn title="Cancel" onPress={onDismiss} style={styles.userActionButton} />
     </View>
   );
@@ -43,7 +41,7 @@ const BuyStockView: React.FC<DealCardViewProps> = ({
   onDismiss,
 }) => {
   const [amount, setAmount] = useState(1);
-  const stock = model.asset as Stock;
+  const stock = model.info as Stock;
   const totalAssetCost = stock.cost * amount;
   const [_, playersExistingStockCount] = p.getStocksForId(stock.id);
   const playerCanSell = playersExistingStockCount > 0;
@@ -114,7 +112,7 @@ const BuyPropertyView: React.FC<DealCardViewProps> = ({
   onDismiss,
 }) => {
   let buttonTitle = "Buy";
-  const property = model.asset as Property;
+  const property = model.info as Property;
   const playerCantAffordIt = p.cash < property.downPayment;
   if (playerCantAffordIt) {
     buttonTitle += `(Must Borrow $${property.downPayment - p.cash})`;
