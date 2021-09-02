@@ -2,7 +2,9 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useReducer, useRef, useState } from "react";
 import { Button, View, Text, Alert } from "react-native";
 import BalanceSheet from "../Components/BalanceSheet";
-import BoardView, { PIECE_MOVE_ANIMATION_DURATION } from "../Components/BoardView";
+import BoardView, {
+  PIECE_MOVE_ANIMATION_DURATION,
+} from "../Components/BoardView";
 import BottomSheet from "../Components/BottomSheet";
 import Modal from "../Components/Modal";
 import LoseMoneyCardView from "../Components/LoseMoneyCardView";
@@ -69,7 +71,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
           setLoseMoneyCard(game.drawLoseMoneyCard());
           break;
         }
-        case Space.SELL_ASSET: {
+        case Space.MARKET: {
           setMarketCard(game.drawMarketCard());
           break;
         }
@@ -182,7 +184,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
         )}
         {marketCard && (
           <MarketCardView
-            model={game.drawMarketCard()}
+            model={marketCard}
             forPlayer={myPlayer}
             onDismiss={() => setMarketCard(undefined)}
           />

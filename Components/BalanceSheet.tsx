@@ -79,7 +79,7 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
             <Text>Total Expenses: {expenses}</Text>
           </View>
           <ProgressBar
-            progress={p.passiveIncome() / expenses}
+            progress={Math.min(Math.max(0, p.passiveIncome() / expenses), expenses)}
             progressLabel={`Passive Income: ${p.passiveIncome()}`}
           />
         </View>

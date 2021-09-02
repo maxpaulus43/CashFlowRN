@@ -216,7 +216,7 @@ export default class Player {
   buyProperty(property: Property) {
     this.takeCash(property.downPayment);
     this.properties.push(property);
-    // possibly add a liability
+    // todo possibly add a liability
     this.checkWinCondition();
   }
 
@@ -229,6 +229,16 @@ export default class Player {
         this.properties.splice(i, 1);
       }
     }
+  }
+
+  improveProperty(propertyId: string, amount: number) {
+    for (const p of this.properties) {
+      if (p.id === propertyId) {
+        p.cashFlow += amount;
+        break;
+      }
+    }
+    this.checkWinCondition();
   }
 
   addLiabiliy(l: Liability) {

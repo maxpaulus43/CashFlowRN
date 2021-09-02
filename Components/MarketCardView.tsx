@@ -1,7 +1,7 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
 import { View, Text } from "react-native";
-import { MarketCard, Offer, Player, Property } from "../model";
+import { Improvement, MarketCard, Offer, Player, Property } from "../model";
 import Btn from "./Btn";
 
 interface MarketCardViewProps {
@@ -10,26 +10,66 @@ interface MarketCardViewProps {
   onDismiss: () => void;
 }
 
+const MarketCardView2: React.FC<MarketCardViewProps> = (props) => {
+  switch (props.model.type) {
+    case "Improvement": {
+      return <AssetImprovedView {...props} />;
+    }
+    default: {
+      return <MarketCardView {...props} />;
+    }
+  }
+};
+
+const AssetImprovedView: React.FC<MarketCardViewProps> = ({
+  onDismiss,
+  model,
+  forPlayer: p,
+}) => {
+  const onPress = () => {
+    const improvement = model.info as Improvement;
+    p.improveProperty(improvement.id, improvement.incomeIncrease);
+    onDismiss();
+  };
+
+  return (
+    <View>
+      <Text>{model.title}</Text>
+      <Text>{model.text}</Text>
+      <Btn title="Dismiss" onPress={onPress} />
+    </View>
+  );
+};
+
 const MarketCardView: React.FC<MarketCardViewProps> = ({
   model,
   forPlayer: p,
   onDismiss,
 }) => {
-  const sellablePlayerAssets: Property[] = p.properties.filter(
-    (p) => model.type === p.type
-  );
+  const offer = model.info as Offer;
+  const [amountSoldSoFar, setAmountSoldSoFar] = useState(0);
+  const sellablePlayerAssets: Property[] =
+    model.type === "AllPlex"
+      ? p.properties.filter(
+          (p) =>
+            p.type === "Duplex" ||
+            p.type === "FourPlex" ||
+            p.type === "EightPlex"
+        )
+      : p.properties.filter((p) => model.type === p.type);
+
   const [selectedPropertyId, setSelectedPropertyId] = useState(
     sellablePlayerAssets[0]?.id
   );
-  const canSellAssets = sellablePlayerAssets.length > 0;
+  const playerHasSellableAssets = sellablePlayerAssets.length > 0;
 
   return (
     <View>
-      <Text>SELL ASSET</Text>
+      <Text>Market</Text>
       <Text>{model.title}</Text>
       <Text>{model.text}</Text>
 
-      {canSellAssets ? (
+      {playerHasSellableAssets ? (
         <View>
           <Text>Select Asset to sell:</Text>
           <Picker
@@ -49,7 +89,14 @@ const MarketCardView: React.FC<MarketCardViewProps> = ({
                 selectedPropertyId!,
                 (model.info as Offer).offerAmount
               );
-              onDismiss();
+
+              let newAmountSoldSoFar = amountSoldSoFar + 1;
+              let saleLimit = offer.limit ?? Number.MAX_SAFE_INTEGER;
+              if (newAmountSoldSoFar >= saleLimit) {
+                onDismiss();
+              } else {
+                setAmountSoldSoFar(newAmountSoldSoFar);
+              }
             }}
           />
         </View>
@@ -63,4 +110,4 @@ const MarketCardView: React.FC<MarketCardViewProps> = ({
   );
 };
 
-export default MarketCardView;
+export default MarketCardView2;
