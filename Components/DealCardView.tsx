@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { DealCard, Property, Stock, Player } from "../model";
+import { DealCard, Property, Stock, Player, StockSplit } from "../model";
 import Btn from "./Btn";
 import NumberPicker from "./NumberPicker";
 
@@ -25,11 +25,27 @@ const DealCardView: React.FC<DealCardViewProps> = (props) => {
   }
 };
 
-const StockSplitView: React.FC<DealCardViewProps> = ({ onDismiss }) => {
+const StockSplitView: React.FC<DealCardViewProps> = ({
+  onDismiss,
+  model,
+  forPlayer: p,
+}) => {
+  const info = model.info as StockSplit;
   return (
     <View>
-      <Text>Your Stocks Have Split!!</Text>
-      <Btn title="Cancel" onPress={onDismiss} style={styles.userActionButton} />
+      <Text>{model.title}</Text>
+      <Text>{model.text}</Text>
+      <Text>
+        {info.id} split From {info.splitFrom} to {info.splitTo}.
+      </Text>
+      <Btn
+        title="Dismiss"
+        onPress={() => {
+          p.splitStock(info.id, info.splitFrom, info.splitTo);
+          onDismiss();
+        }}
+        style={styles.userActionButton}
+      />
     </View>
   );
 };

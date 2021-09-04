@@ -155,62 +155,31 @@ export default class Player {
     return [undefined, 0];
   }
 
-  buyStockAmount(s: Stock, amount: number) {
-    this.takeCash(s.cost * amount);
-
-    let doesAlreadyOwnStock = false;
-    for (const item of this.stocks) {
-      const stockId = item[0].id;
-      if (stockId === s.id) {
-        doesAlreadyOwnStock = true;
-        item[1] += amount;
-        const oldAmount = this.stockPriceCount[stockId][s.cost] ?? 0;
-        this.stockPriceCount[stockId][s.cost] = oldAmount + amount;
+  splitStock(stockId: string, splitFrom: number, splitTo: number) {
+    for (const [s, count] of this.stocks) {
+      if (s.id === stockId) {
+        if (splitFrom < splitTo) {
+          const amtToAdd = (count * splitTo / splitFrom) - count;
+          this.addStockAmount(s, amtToAdd);
+          this.checkWinCondition();
+        } else if (splitFrom > splitTo) {
+          const amtToRemove = Math.floor(count - (count * splitTo / splitFrom));
+          this.removeStockAmount(s, amtToRemove);
+        }
         break;
       }
     }
+  }
 
-    if (!doesAlreadyOwnStock) {
-      this.stocks.push([s, amount]);
-      this.stockPriceCount[s.id] = {};
-      this.stockPriceCount[s.id][s.cost] = amount;
-    }
-
+  buyStockAmount(s: Stock, amount: number) {
+    this.takeCash(s.cost * amount);
+    this.addStockAmount(s, amount);
     this.checkWinCondition();
   }
 
   sellStockAmount(s: Stock, amount: number) {
     this.giveCash(s.cost * amount);
-
-    for (let i = 0; i < this.stocks.length; i++) {
-      const stockCount = this.stocks[i];
-      const stockId = stockCount[0].id;
-
-      if (stockId === s.id) {
-        stockCount[1] -= amount;
-        if (stockCount[1] <= 0) {
-          this.stocks.splice(i, 1);
-          delete this.stockPriceCount[s.id];
-        } else {
-          let stockPriceCount = this.stockPriceCount[s.id];
-          let sortedPrices = Object.entries(stockPriceCount)
-            .map(([p, amountOfP]) => [parseInt(p), amountOfP])
-            .sort((a, b) => a[0] - b[0]);
-
-          for (const [p, amountOfP] of sortedPrices) {
-            if (amountOfP > amount) {
-              this.stockPriceCount[s.id][p] = amountOfP - amount;
-              break;
-            } else {
-              delete this.stockPriceCount[s.id][p];
-              amount -= amountOfP;
-            }
-          }
-        }
-
-        break;
-      }
-    }
+    this.removeStockAmount(s, amount);
   }
 
   buyProperty(property: Property) {
@@ -275,6 +244,58 @@ export default class Player {
   private checkLoseCondition() {
     if (this._cash < 0 && this.loseHandler) {
       this.loseHandler(this);
+    }
+  }
+
+  private addStockAmount(s: Stock, amount: number) {
+    let doesAlreadyOwnStock = false;
+    for (const item of this.stocks) {
+      const stockId = item[0].id;
+      if (stockId === s.id) {
+        doesAlreadyOwnStock = true;
+        item[1] += amount;
+        const oldAmount = this.stockPriceCount[stockId][s.cost] ?? 0;
+        this.stockPriceCount[stockId][s.cost] = oldAmount + amount;
+        break;
+      }
+    }
+
+    if (!doesAlreadyOwnStock) {
+      this.stocks.push([s, amount]);
+      this.stockPriceCount[s.id] = {};
+      this.stockPriceCount[s.id][s.cost] = amount;
+    }
+  }
+
+  private removeStockAmount(s: Stock, amount: number) {
+    for (let i = 0; i < this.stocks.length; i++) {
+      const stockCount = this.stocks[i];
+      const stockId = stockCount[0].id;
+
+      if (stockId === s.id) {
+        stockCount[1] -= amount;
+        if (stockCount[1] <= 0) {
+          this.stocks.splice(i, 1);
+          delete this.stockPriceCount[s.id];
+        } else {
+          let stockPriceCount = this.stockPriceCount[s.id];
+          let sortedPrices = Object.entries(stockPriceCount)
+            .map(([p, amountAtP]) => [parseInt(p), amountAtP])
+            .sort(([priceA, _], [priceB, __]) => priceA - priceB);
+
+          for (const [p, amountOfP] of sortedPrices) {
+            if (amountOfP > amount) {
+              this.stockPriceCount[s.id][p] = amountOfP - amount;
+              break;
+            } else {
+              delete this.stockPriceCount[s.id][p];
+              amount -= amountOfP;
+            }
+          }
+        }
+
+        break;
+      }
     }
   }
 }
