@@ -51,7 +51,7 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
   ].concat(p.liabilities.map((l) => [l.name, l.expenseAmount()]));
   const dividendsIncomeData = p
     .getDividendStocks()
-    .map(([s, count]) => [s.id, s.cashFlow * count]);
+    .map(([stockId, cashFlow, count]) => [stockId, cashFlow * count]);
   const realEstateIncomeData = p.properties.map((p) => [p.id, p.cashFlow]);
   const stockAssetData = p
     .flattenedStockPriceCount()

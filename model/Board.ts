@@ -64,4 +64,17 @@ export default class Board {
   getSpaceForPlayer(playerId: string): Space {
     return this.spaces[this.playerPosition[playerId]];
   }
+
+  saveData() {
+    return {
+      playerPosition: this.playerPosition,
+    };
+  }
+
+  static fromSaveData(d: any) {
+    const { playerPosition } = d;
+    const b = new Board();
+    b.playerPosition = playerPosition;
+    return b;
+  }
 }

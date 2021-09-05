@@ -1,6 +1,14 @@
 import { Property, Stock } from ".";
 import Liability from "./Liability";
 
+type CostBasis = { [atPrice: number]: number };
+
+type StockData = {
+  [stockId: string]: {
+    cashFlow: number;
+    costBasis: CostBasis;
+  };
+};
 export default class Player {
   readonly id: string;
   readonly name: string;
@@ -21,10 +29,7 @@ export default class Player {
     return this._donationDice;
   }
 
-  private stocks: [s: Stock, count: number][] = [];
-  readonly stockPriceCount: {
-    [stockId: string]: { [atPrice: string]: number };
-  } = {};
+  private stocks: StockData = {};
 
   private _properties: Property[] = [];
   public get properties(): Property[] {
@@ -94,13 +99,25 @@ export default class Player {
 
   passiveIncome() {
     let sum = 0;
-    for (const [s, count] of this.stocks) {
-      sum += s.cashFlow * count;
+    for (const stockId in this.stocks) {
+      const count = this.amountOfStockForId(stockId);
+      sum += this.stocks[stockId].cashFlow * count;
     }
     for (const p of this.properties) {
       sum += p.cashFlow;
     }
     return sum;
+  }
+
+  amountOfStockForId(stockId: string) {
+    if (!(stockId in this.stocks)) {
+      return 0;
+    }
+
+    return Object.values(this.stocks[stockId].costBasis).reduce(
+      (sum, curr) => sum + curr,
+      0
+    );
   }
 
   expenses() {
@@ -124,10 +141,9 @@ export default class Player {
     count: number
   ][] {
     let result: [string, number, number][] = [];
-
-    for (const stockId in this.stockPriceCount) {
-      for (const atPrice in this.stockPriceCount[stockId]) {
-        const count = this.stockPriceCount[stockId][atPrice];
+    for (const stockId in this.stocks) {
+      for (const atPrice in this.stocks[stockId].costBasis) {
+        const count = this.stocks[stockId].costBasis[atPrice];
         result.push([stockId, parseInt(atPrice), count]);
       }
     }
@@ -142,33 +158,27 @@ export default class Player {
     return this.totalIncome() - this.expenses();
   }
 
-  getDividendStocks() {
-    return this.stocks.filter(([s, _]) => s.cashFlow > 0);
-  }
-
-  getStocksForId(stockId: string): [stock: Stock | undefined, count: number] {
-    for (const item of this.stocks) {
-      if (item[0].id === stockId) {
-        return item;
-      }
-    }
-    return [undefined, 0];
+  getDividendStocks(): [stockId: string, cashFlow: number, count: number][] {
+    return Object.entries(this.stocks)
+      .filter(([_, data]) => {
+        return data.cashFlow > 0;
+      })
+      .map(([stockId, data]) => {
+        return [stockId, data.cashFlow, this.amountOfStockForId(stockId)];
+      });
   }
 
   splitStock(stockId: string, splitFrom: number, splitTo: number) {
-    for (const item of this.stocks) {
-      const s = item[0];
-      if (s.id === stockId) {
-        for (const atPrice in this.stockPriceCount[s.id]) {
-          this.stockPriceCount[s.id][atPrice] = Math.ceil(
-            this.stockPriceCount[s.id][atPrice] * (splitTo / splitFrom)
-          );
-        }
-        item[1] = Math.ceil(item[1] * (splitTo / splitFrom));
-        this.checkWinCondition();
-        break;
-      }
+    if (!(stockId in this.stocks)) {
+      return;
     }
+    const costBasis = this.stocks[stockId].costBasis;
+    for (const atPrice in costBasis) {
+      costBasis[atPrice] = Math.ceil(
+        costBasis[atPrice] * (splitTo / splitFrom)
+      );
+    }
+    this.checkWinCondition();
   }
 
   buyStockAmount(s: Stock, amount: number) {
@@ -242,6 +252,61 @@ export default class Player {
     this.checkWinCondition();
   }
 
+  saveData() {
+    return {
+      id: this.id,
+      name: this.name,
+      cash: this.cash,
+      salary: this.salary,
+      taxExpenses: this.taxExpenses,
+      numberOfKids: this.numberOfKids,
+      expensesPerKid: this.expensesPerKid,
+      occupation: this.occupation,
+      didRoll: this.didRoll,
+      donationDice: this.donationDice,
+      stockData: this.stocks,
+      properties: this.properties,
+      liabilities: this.liabilities.map((l) => l.saveData()),
+    };
+  }
+
+  static fromSaveData(d: any) {
+    let {
+      id,
+      name,
+      cash,
+      salary,
+      taxExpenses,
+      numberOfKids,
+      expensesPerKid,
+      occupation,
+      didRoll,
+      donationDice,
+      stockData,
+      properties,
+      liabilities,
+    } = d;
+    let p = new Player(
+      name,
+      cash,
+      salary,
+      taxExpenses,
+      expensesPerKid,
+      occupation
+    );
+    p.numberOfKids = numberOfKids;
+    p.didRoll = didRoll;
+    p._donationDice = donationDice;
+    p.stocks = stockData;
+    p._properties = properties;
+    liabilities
+      .map((l: any) => Liability.fromSaveData(l))
+      .forEach((l: Liability) => {
+        p._liabilities[l.id] = l;
+      });
+    return p;
+  }
+
   private checkWinCondition() {
     if (this.passiveIncome() > this.expenses()) {
       if (this.winHandler) {
@@ -257,54 +322,40 @@ export default class Player {
   }
 
   private addStockAmount(s: Stock, amount: number) {
-    let doesAlreadyOwnStock = false;
-    for (const item of this.stocks) {
-      const stockId = item[0].id;
-      if (stockId === s.id) {
-        doesAlreadyOwnStock = true;
-        item[1] += amount;
-        const oldAmount = this.stockPriceCount[stockId][s.cost] ?? 0;
-        this.stockPriceCount[stockId][s.cost] = oldAmount + amount;
-        break;
-      }
+    if (s.id in this.stocks) {
+      const costBasis = this.stocks[s.id].costBasis;
+      const oldAmount = costBasis[s.cost] ?? 0;
+      costBasis[s.cost] = oldAmount + amount;
+    } else {
+      this.stocks[s.id] = { cashFlow: s.cashFlow, costBasis: {} };
+      this.stocks[s.id].costBasis[s.cost] = amount;
     }
-
-    if (!doesAlreadyOwnStock) {
-      this.stocks.push([s, amount]);
-      this.stockPriceCount[s.id] = {};
-      this.stockPriceCount[s.id][s.cost] = amount;
-    }
+    this.checkWinCondition();
   }
 
   private removeStockAmount(s: Stock, amount: number) {
-    for (let i = 0; i < this.stocks.length; i++) {
-      const stockCount = this.stocks[i];
-      const stockId = stockCount[0].id;
+    if (!(s.id in this.stocks)) {
+      return;
+    }
 
-      if (stockId === s.id) {
-        stockCount[1] -= amount;
-        if (stockCount[1] <= 0) {
-          this.stocks.splice(i, 1);
-          delete this.stockPriceCount[s.id];
-        } else {
-          let stockPriceCount = this.stockPriceCount[s.id];
-          let sortedPrices = Object.entries(stockPriceCount)
-            .map(([p, amountAtP]) => [parseInt(p), amountAtP])
-            .sort(([priceA, _], [priceB, __]) => priceA - priceB);
+    const costBasis = this.stocks[s.id].costBasis;
 
-          for (const [p, amountOfP] of sortedPrices) {
-            if (amountOfP > amount) {
-              this.stockPriceCount[s.id][p] = amountOfP - amount;
-              break;
-            } else {
-              delete this.stockPriceCount[s.id][p];
-              amount -= amountOfP;
-            }
-          }
-        }
+    const sortedCostBasis = Object.entries(costBasis)
+      .map(([p, amountAtP]) => [parseInt(p), amountAtP])
+      .sort(([priceA, _], [priceB, __]) => priceA - priceB);
 
+    for (const [p, amountOfP] of sortedCostBasis) {
+      if (amountOfP > amount) {
+        costBasis[p] = amountOfP - amount;
         break;
+      } else {
+        delete costBasis[p];
+        amount -= amountOfP;
       }
+    }
+
+    if (Object.keys(costBasis).length <= 0) {
+      delete this.stocks[s.id];
     }
   }
 }

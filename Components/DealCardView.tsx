@@ -59,7 +59,7 @@ const BuyStockView: React.FC<DealCardViewProps> = ({
   const [amount, setAmount] = useState(1);
   const stock = model.info as Stock;
   const totalAssetCost = stock.cost * amount;
-  const [_, playersExistingStockCount] = p.getStocksForId(stock.id);
+  const playersExistingStockCount = p.amountOfStockForId(stock.id);
   const playerCanSell = playersExistingStockCount > 0;
 
   let buttonTitle = "Buy";

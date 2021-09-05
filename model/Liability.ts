@@ -29,4 +29,20 @@ export default class Liability {
   public increaseDebt(byAmount: number) {
     this.debtAmount += byAmount;
   }
+
+  saveData() {
+    return {
+      id: this.id,
+      name: this.name,
+      debtAmount: this.debtAmount,
+      expenseName: this.expenseName,
+      interest: this.interest,
+    };
+  }
+
+  static fromSaveData(d: any) {
+    const { id, name, debtAmount, expenseName, interest } = d;
+    const l = new Liability(name, debtAmount, expenseName, interest);
+    return l;
+  }
 }

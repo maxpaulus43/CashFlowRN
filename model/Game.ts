@@ -1,15 +1,16 @@
+import { DealCard, LoseMoneyCard, MarketCard } from ".";
 import Board, { Space } from "./Board";
-import DealCard from "./DealCard";
 import Deck from "./Deck";
-import LoseMoneyCard from "./LoseMoneyCard";
 import Player from "./Player";
-import MarketCard from "./MarketCard";
 
 export default class Game {
   private _winHandler?: (winner: Player) => void;
-  private _loseHandler?: ((loser: Player) => void) | undefined;
+  private _loseHandler?: (loser: Player) => void;
 
-  readonly board: Board;
+  private _board: Board;
+  public get board(): Board {
+    return this._board;
+  }
   readonly players: Player[];
   private currentPlayerIdx: number;
   private bigDealDeck: Deck<DealCard>;
@@ -25,7 +26,7 @@ export default class Game {
     this.marketDeck = Deck.makeMarketCardDeck();
     this.loseMoneyDeck = Deck.makeLoseMoneyDeck();
     this.currentPlayerIdx = 0;
-    this.board = new Board();
+    this._board = new Board();
     for (const p of players) {
       this.board.addPlayer(p.id);
     }
@@ -109,5 +110,23 @@ export default class Game {
     for (const p of this.players) {
       p.loseHandler = this._loseHandler;
     }
+  }
+
+  public saveData() {
+    return {
+      currentPlayerIdx: this.currentPlayerIdx,
+      isGameOver: this.isGameOver,
+      board: this.board.saveData(),
+      players: this.players.map((p) => p.saveData()),
+    };
+  }
+
+  static fromSaveData(data: any) {
+    const { currentPlayerIdx, isGameOver, board, players } = data;
+    const g = new Game(players.map((p: any) => Player.fromSaveData(p)));
+    g.currentPlayerIdx = currentPlayerIdx;
+    g.isGameOver = isGameOver;
+    g._board = Board.fromSaveData(board);
+    return g;
   }
 }

@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import { Button, View, Text, Alert } from "react-native";
 import BalanceSheet from "../Components/BalanceSheet";
 import BoardView, {
@@ -22,6 +22,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Btn from "../Components/Btn";
 import { Game as GameModel, LoseMoneyCard, MarketCard, Player } from "../model";
 import { Space } from "../model/Board";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   route,
@@ -103,23 +104,28 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   const endTurn = () => {
     game.endTurn();
     updateScreen();
+    saveGameState(game);
   };
 
   const goHome = () => {
-    // todo save game state here and in other places tbd
     navigation.popToTop();
+    saveGameState(game);
   };
 
-  game.winHandler = (p: Player) => {
-    Alert.alert(p.name + " won the game by becoming financially free!");
-    setIsGameOver(true);
-  };
+  useEffect(() => {
+    game.winHandler = (p: Player) => {
+      Alert.alert(p.name + " won the game by becoming financially free!");
+      clearSavedGame();
+      setIsGameOver(true);
+    };
 
-  game.loseHandler = (p: Player) => {
-    // todo instead of losing, just sell assets
-    Alert.alert(p.name + " lost the game by going bankrupt!");
-    setIsGameOver(true);
-  };
+    game.loseHandler = (p: Player) => {
+      // todo instead of losing, just sell assets
+      Alert.alert(p.name + " lost the game by going bankrupt!");
+      clearSavedGame();
+      setIsGameOver(true);
+    };
+  }, []);
 
   return (
     <SafeAreaView style={[StyleSheet.absoluteFill, styles.content]}>
@@ -260,5 +266,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+const saveGameState = async (game: GameModel) => {
+  try {
+    const jsonValue = JSON.stringify(game.saveData());
+    await AsyncStorage.setItem("@CashFlowRNSavedGame", jsonValue);
+  } catch (e: any) {
+    console.error(e.toString());
+  }
+};
+
+const clearSavedGame = async () => {
+  try {
+    AsyncStorage.removeItem("@CashFlowRNSavedGame");
+  } catch (e: any) {
+    console.error(e.toString());
+  }
+};
 
 export default Game;
