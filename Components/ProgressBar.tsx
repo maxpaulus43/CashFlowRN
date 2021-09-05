@@ -11,6 +11,7 @@ interface props {
 }
 
 const ProgressBar: React.FC<props> = ({ progress, progressLabel }) => {
+  progress = clamp(progress, [0, 1]);
   const barWidth = useRef(0);
   const labelWidth = useRef(0);
 
@@ -41,10 +42,8 @@ const ProgressBar: React.FC<props> = ({ progress, progressLabel }) => {
               alignItems: "flex-start",
               transform: [
                 {
-                  translateX: clamp(
+                  translateX:
                     progress * barWidth.current - labelWidth.current / 2,
-                    [0, barWidth.current - labelWidth.current]
-                  ),
                 },
               ],
             }}
