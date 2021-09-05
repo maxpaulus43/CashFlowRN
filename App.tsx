@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { Game, Home, NewGame, Settings } from "./routes";
+import { Game, Home, NewGame, Settings } from "./screens";
 
 const Stack = createNativeStackNavigator();
 
