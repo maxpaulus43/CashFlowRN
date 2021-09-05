@@ -17,7 +17,10 @@ export default class Game {
   private smallDealDeck: Deck<DealCard>;
   private marketDeck: Deck<MarketCard>;
   private loseMoneyDeck: Deck<LoseMoneyCard>;
-  private isGameOver = false;
+  private _isGameOver = false;
+  public get isGameOver() {
+    return this._isGameOver;
+  }
 
   constructor(players: Player[]) {
     this.players = players;
@@ -85,11 +88,11 @@ export default class Game {
   public get winHandler(): ((winner: Player) => void) | undefined {
     return this._winHandler;
   }
-  public set winHandler(value: ((winner: Player) => void) | undefined) {
+  public set winHandler(cb: ((winner: Player) => void) | undefined) {
     this._winHandler = (winner: Player) => {
-      this.isGameOver = true;
-      if (value) {
-        value(winner);
+      this._isGameOver = true;
+      if (cb) {
+        cb(winner);
       }
     };
     for (const p of this.players) {
@@ -100,11 +103,11 @@ export default class Game {
   public get loseHandler(): ((loser: Player) => void) | undefined {
     return this._loseHandler;
   }
-  public set loseHandler(value: ((loser: Player) => void) | undefined) {
+  public set loseHandler(cb: ((loser: Player) => void) | undefined) {
     this._loseHandler = (loser: Player) => {
-      this.isGameOver = true;
-      if (value) {
-        value(loser);
+      this._isGameOver = true;
+      if (cb) {
+        cb(loser);
       }
     };
     for (const p of this.players) {
@@ -125,7 +128,7 @@ export default class Game {
     const { currentPlayerIdx, isGameOver, board, players } = data;
     const g = new Game(players.map((p: any) => Player.fromSaveData(p)));
     g.currentPlayerIdx = currentPlayerIdx;
-    g.isGameOver = isGameOver;
+    g._isGameOver = isGameOver;
     g._board = Board.fromSaveData(board);
     return g;
   }

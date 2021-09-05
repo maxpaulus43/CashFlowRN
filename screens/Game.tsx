@@ -115,15 +115,15 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   useEffect(() => {
     game.winHandler = (p: Player) => {
       Alert.alert(p.name + " won the game by becoming financially free!");
-      clearSavedGame();
       setIsGameOver(true);
+      clearSavedGame();
     };
 
     game.loseHandler = (p: Player) => {
       // todo instead of losing, just sell assets
       Alert.alert(p.name + " lost the game by going bankrupt!");
-      clearSavedGame();
       setIsGameOver(true);
+      clearSavedGame();
     };
   }, []);
 
@@ -268,6 +268,9 @@ const styles = StyleSheet.create({
 });
 
 const saveGameState = async (game: GameModel) => {
+  if (game.isGameOver) {
+    return;
+  }
   try {
     const jsonValue = JSON.stringify(game.saveData());
     await AsyncStorage.setItem("@CashFlowRNSavedGame", jsonValue);
@@ -278,7 +281,7 @@ const saveGameState = async (game: GameModel) => {
 
 const clearSavedGame = async () => {
   try {
-    AsyncStorage.removeItem("@CashFlowRNSavedGame");
+    await AsyncStorage.removeItem("@CashFlowRNSavedGame");
   } catch (e: any) {
     console.error(e.toString());
   }
