@@ -35,7 +35,7 @@ const H3: React.FC<{ children: ReactNode; noBorder?: boolean }> = ({
 );
 
 const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
-  const { bottom: marginBottom, top: marginTop } = useSafeAreaInsets();
+  const { bottom: paddingBottom, top: paddingTop } = useSafeAreaInsets();
 
   const expenses = p.expenses();
 
@@ -62,64 +62,66 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
   const liabilitiesData = p.liabilities.map((l) => [l.id, l.debtAmount]);
 
   return (
-    <View style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          marginTop,
-          marginBottom,
-        }}
-      >
-        <Text style={{ textAlign: "center", fontSize: 30 }}>
-          Balance Sheet 📋
-        </Text>
+    <ScrollView
+      style={styles.container}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{
+        paddingBottom,
+        paddingTop,
+      }}
+    >
+      <Text style={{ textAlign: "center", fontSize: 30 }}>
+        Balance Sheet 📋
+      </Text>
 
-        <View style={styles.box}>
-          <View style={{ alignItems: "flex-end" }}>
-            <Text>Total Expenses: {expenses}</Text>
-          </View>
-          <ProgressBar
-            progress={Math.min(Math.max(0, p.passiveIncome() / expenses), expenses)}
-            progressLabel={`Passive Income: ${p.passiveIncome()}`}
-          />
+      <View style={styles.box}>
+        <View style={{ alignItems: "flex-end" }}>
+          <Text>Total Expenses: {expenses}</Text>
         </View>
+        <ProgressBar
+          progress={Math.min(
+            Math.max(0, p.passiveIncome() / expenses),
+            expenses
+          )}
+          progressLabel={`Passive Income: ${p.passiveIncome()}`}
+        />
+      </View>
 
-        <View style={styles.box}>
-          <Table data={generalData} />
-        </View>
+      <View style={styles.box}>
+        <Table data={generalData} />
+      </View>
 
-        <View style={styles.box}>
-          <H1>Income</H1>
-          <Table data={[["Salary", p.salary]]} />
+      <View style={styles.box}>
+        <H1>Income</H1>
+        <Table data={[["Salary", p.salary]]} />
 
-          <H3>Interest/Dividends</H3>
-          <Table data={dividendsIncomeData} />
+        <H3>Interest/Dividends</H3>
+        <Table data={dividendsIncomeData} />
 
-          <H3>Real Estate/Business</H3>
-          <Table data={realEstateIncomeData} />
-        </View>
+        <H3>Real Estate/Business</H3>
+        <Table data={realEstateIncomeData} />
+      </View>
 
-        <View style={styles.box}>
-          <H1>Expenses</H1>
-          <Table data={expensesData} />
-        </View>
+      <View style={styles.box}>
+        <H1>Expenses</H1>
+        <Table data={expensesData} />
+      </View>
 
-        <View style={styles.box}>
-          <H1>Assets</H1>
+      <View style={styles.box}>
+        <H1>Assets</H1>
 
-          <H3 noBorder>Stocks/Funds/CDs</H3>
-          <Table data={stockAssetData} />
+        <H3 noBorder>Stocks/Funds/CDs</H3>
+        <Table data={stockAssetData} />
 
-          <H3>Real Estate/ Business</H3>
-          <Table data={realEstateAssetData} />
-        </View>
+        <H3>Real Estate/ Business</H3>
+        <Table data={realEstateAssetData} />
+      </View>
 
-        <View style={styles.box}>
-          <H1>Liabilities</H1>
-          <Table data={liabilitiesData} />
-        </View>
-      </ScrollView>
-    </View>
+      <View style={styles.box}>
+        <H1>Liabilities</H1>
+        <Table data={liabilitiesData} />
+      </View>
+    </ScrollView>
   );
 };
 
