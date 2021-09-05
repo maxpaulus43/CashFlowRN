@@ -156,16 +156,16 @@ export default class Player {
   }
 
   splitStock(stockId: string, splitFrom: number, splitTo: number) {
-    for (const [s, count] of this.stocks) {
+    for (const item of this.stocks) {
+      const s = item[0];
       if (s.id === stockId) {
-        if (splitFrom < splitTo) {
-          const amtToAdd = (count * splitTo / splitFrom) - count;
-          this.addStockAmount(s, amtToAdd);
-          this.checkWinCondition();
-        } else if (splitFrom > splitTo) {
-          const amtToRemove = Math.floor(count - (count * splitTo / splitFrom));
-          this.removeStockAmount(s, amtToRemove);
+        for (const atPrice in this.stockPriceCount[s.id]) {
+          this.stockPriceCount[s.id][atPrice] = Math.ceil(
+            this.stockPriceCount[s.id][atPrice] * splitTo / splitFrom
+          );
         }
+        item[1] = Math.ceil(item[1] * splitTo / splitFrom);
+        this.checkWinCondition();
         break;
       }
     }
