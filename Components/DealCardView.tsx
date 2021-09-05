@@ -134,6 +134,8 @@ const BuyPropertyView: React.FC<DealCardViewProps> = ({
     buttonTitle += `(Must Borrow $${property.downPayment - p.cash})`;
   }
 
+  const playerAlreadyOwnsProperty = p.doesAlreadyOwnProperty(model.info.id);
+
   const buyProperty = () => {
     if (playerCantAffordIt) {
       onPayFail(property.downPayment - p.cash);
@@ -163,11 +165,15 @@ const BuyPropertyView: React.FC<DealCardViewProps> = ({
       </View>
 
       <View style={{ maxWidth: "80%" }}>
-        <Btn
-          title={buttonTitle}
-          onPress={buyProperty}
-          style={styles.userActionButton}
-        />
+        {playerAlreadyOwnsProperty ? (
+          <Text>You Can't Buy this property because you already own it.</Text>
+        ) : (
+          <Btn
+            title={buttonTitle}
+            onPress={buyProperty}
+            style={styles.userActionButton}
+          />
+        )}
         <Btn
           title="Cancel"
           onPress={onDismiss}

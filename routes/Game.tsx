@@ -106,6 +106,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   };
 
   const goHome = () => {
+    // todo save game state here and in other places tbd
     navigation.popToTop();
   };
 

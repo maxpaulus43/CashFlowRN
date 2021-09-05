@@ -161,10 +161,10 @@ export default class Player {
       if (s.id === stockId) {
         for (const atPrice in this.stockPriceCount[s.id]) {
           this.stockPriceCount[s.id][atPrice] = Math.ceil(
-            this.stockPriceCount[s.id][atPrice] * splitTo / splitFrom
+            this.stockPriceCount[s.id][atPrice] * (splitTo / splitFrom)
           );
         }
-        item[1] = Math.ceil(item[1] * splitTo / splitFrom);
+        item[1] = Math.ceil(item[1] * (splitTo / splitFrom));
         this.checkWinCondition();
         break;
       }
@@ -180,6 +180,15 @@ export default class Player {
   sellStockAmount(s: Stock, amount: number) {
     this.giveCash(s.cost * amount);
     this.removeStockAmount(s, amount);
+  }
+
+  doesAlreadyOwnProperty(propertyId: string) {
+    for (const p of this.properties) {
+      if (p.id === propertyId) {
+        return true;
+      }
+    }
+    return false;
   }
 
   buyProperty(property: Property) {
