@@ -341,7 +341,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.maxpaulus43.CashFlowRN;
+				PRODUCT_BUNDLE_IDENTIFIER = com.maxpaulus43.CashFlowBoardgame;
 				PRODUCT_NAME = CashFlowRN;
 				SWIFT_OBJC_BRIDGING_HEADER = "CashFlowRN/CashFlowRN-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -368,7 +368,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.maxpaulus43.CashFlowRN;
+				PRODUCT_BUNDLE_IDENTIFIER = com.maxpaulus43.CashFlowBoardgame;
 				PRODUCT_NAME = CashFlowRN;
 				SWIFT_OBJC_BRIDGING_HEADER = "CashFlowRN/CashFlowRN-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
