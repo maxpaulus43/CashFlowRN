@@ -1,9 +1,10 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useRef, useState } from "react";
-import { View, Button, ActionSheetIOS, Text, TextInput } from "react-native";
+import { View, Button, Text, TextInput } from "react-native";
 import Game from "../model/Game";
 import Liability from "../model/Liability";
 import Player from "../model/Player";
+import { useActionSheet } from "@expo/react-native-action-sheet";
 
 enum Difficulty {
   XEASY = 0,
@@ -26,9 +27,10 @@ const NewGame: React.FC<NativeStackScreenProps<any, any>> = ({
 }) => {
   const [difficulty, setDifficulty] = useState(Difficulty.MEDIUM);
   const name = useRef("Jane Doe");
+  const { showActionSheetWithOptions } = useActionSheet();
 
   const presentDifficultyOptions = () => {
-    ActionSheetIOS.showActionSheetWithOptions(
+    showActionSheetWithOptions(
       { options: [...difficultyOptions, "Cancel"], cancelButtonIndex: 5 },
       (buttonIdx) => {
         if (buttonIdx === 5) return;
@@ -58,7 +60,7 @@ const NewGame: React.FC<NativeStackScreenProps<any, any>> = ({
             name.current ?? "Jane Doe"
           );
           const game = new Game([player]);
-          navigation.navigate("Game", { player, game });
+          navigation.navigate("Game", { game: game.saveData() });
         }}
       />
     </View>

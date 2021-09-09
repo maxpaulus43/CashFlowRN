@@ -51,7 +51,6 @@ export default class Player {
     expensesPerKid: number,
     occupation: string
   ) {
-    // todo random id
     this.id = name;
     this.name = name;
     this._cash = cash;
@@ -297,7 +296,7 @@ export default class Player {
     p.numberOfKids = numberOfKids;
     p.didRoll = didRoll;
     p._donationDice = donationDice;
-    p.stocks = stockData;
+    p.stocks = stockData ?? {};
     p._properties = properties;
     liabilities
       .map((l: any) => Liability.fromSaveData(l))

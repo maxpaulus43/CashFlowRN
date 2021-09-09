@@ -28,8 +28,8 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   route,
   navigation,
 }) => {
-  const game = route.params?.game as GameModel;
-  const myPlayer = route.params?.player as Player;
+  const game = useRef(GameModel.fromSaveData(route.params?.game)).current;
+  const myPlayer = game.players[0];
   const [, updateScreen] = useReducer((x) => x + 1, 0);
   const isMyTurn = game.getCurrentPlayer().id === myPlayer.id;
 
