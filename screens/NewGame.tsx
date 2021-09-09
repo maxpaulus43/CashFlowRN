@@ -5,6 +5,7 @@ import Game from "../model/Game";
 import Liability from "../model/Liability";
 import Player from "../model/Player";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import Btn from "../Components/Btn";
 
 enum Difficulty {
   XEASY = 0,
@@ -50,9 +51,9 @@ const NewGame: React.FC<NativeStackScreenProps<any, any>> = ({
       >
         {name.current}
       </TextInput>
-      <Button title="Choose Difficulty" onPress={presentDifficultyOptions} />
+      <Btn title="Choose Difficulty" onPress={presentDifficultyOptions} />
       <Text>Difficulty: {difficultyOptions[difficulty]}</Text>
-      <Button
+      <Btn
         title="Start"
         onPress={() => {
           const player = makePlayerForDifficulty(

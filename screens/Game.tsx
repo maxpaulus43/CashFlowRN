@@ -130,7 +130,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   return (
     <SafeAreaView style={[StyleSheet.absoluteFill, styles.content]}>
       <View style={styles.header}>
-        <Button title="Go Home" onPress={goHome} />
+        <Btn title="Go Home" onPress={goHome} />
         <Text>Current Player: {game.getCurrentPlayer().name}</Text>
       </View>
 
