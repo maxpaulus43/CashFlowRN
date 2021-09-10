@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
-import { ScrollView, Text, View, StyleSheet, ViewProps, FlatList } from "react-native";
+import {  Text, View, StyleSheet } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Player } from "../model";
 import ProgressBar from "./ProgressBar";
@@ -66,7 +67,7 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
       style={styles.container}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{
-        paddingBottom,
+        paddingBottom: paddingBottom + paddingTop, // give extra padding just cuz
         paddingTop
       }}
     >

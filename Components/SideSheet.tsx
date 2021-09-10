@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Text,
-  TouchableWithoutFeedback,
-  ScrollView,
-} from "react-native";
+import { View, StyleSheet, Dimensions, Text } from "react-native";
 import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
@@ -21,7 +14,7 @@ import Animated, {
 import { interpolate } from "react-native-reanimated";
 
 const { height, width } = Dimensions.get("screen");
-const sheetWidth = width - 40;
+const sheetWidth = width - 50;
 const DRAG_THRESHOLD = 100;
 const VELOCITY_THRESHOLD = 500;
 const sheetColor = "beige";
@@ -92,78 +85,62 @@ const SideSheet: React.FC = ({ children }) => {
       opacity: interpolate(xOffset.value, [-sheetWidth, 0], [1, 0]),
       transform: [
         {
-          translateX: interpolate(
-            xOffset.value,
-            [-sheetWidth, 0],
-            [sheetWidth, sheetWidth - 50]
-          ),
+          translateX: interpolate(xOffset.value, [-sheetWidth, 0], [0, -50]),
         },
-        { translateY: (height * 5) / 8 },
       ],
     };
   });
 
   return (
     <PanGestureHandler onGestureEvent={handler}>
-      <Animated.View
-        style={[
-          {
-            position: "absolute",
-            height,
-          },
-          styles.shadow,
-          balanceSheetStyle,
-        ]}
-      >
+      <Animated.View style={[styles.rootStyle, balanceSheetStyle]}>
         <TapGestureHandler onEnded={closeSheet}>
-          <View
-            style={{
-              opacity: 0,
-              ...StyleSheet.absoluteFillObject,
-            }}
-          />
+          <View style={styles.underlay} />
         </TapGestureHandler>
 
-        <View
-          style={{
-            position: "absolute",
-            width: sheetWidth,
-            height,
-            backgroundColor: sheetColor,
-          }}
-        >
+        <View style={styles.childContainer}>
+          <TapGestureHandler onEnded={toggleSheet}>
+            <Animated.View style={[styles.handle, handleStyle]}>
+              <Text style={{ fontSize: 30 }}>📋</Text>
+            </Animated.View>
+          </TapGestureHandler>
           {children}
         </View>
-        <TapGestureHandler onEnded={toggleSheet}>
-          <Animated.View
-            style={[
-              {
-                justifyContent: "center",
-                alignItems: "center",
-                borderTopEndRadius: 50,
-                borderBottomEndRadius: 50,
-                width: 40,
-                height: 50,
-                backgroundColor: sheetColor,
-                zIndex: -1,
-              },
-              handleStyle,
-            ]}
-          >
-            <Text style={{ fontSize: 30 }}>📋</Text>
-          </Animated.View>
-        </TapGestureHandler>
       </Animated.View>
     </PanGestureHandler>
   );
 };
 
 const styles = StyleSheet.create({
-  shadow: {
+  rootStyle: {
+    position: "absolute",
+    height: height,
     shadowColor: "black",
     shadowRadius: 20,
     shadowOpacity: 0.5,
     shadowOffset: { width: -15, height: 0 },
+  },
+  childContainer: {
+    width: sheetWidth,
+    height,
+    zIndex: 1,
+    backgroundColor: sheetColor,
+  },
+  underlay: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  handle: {
+    position: "absolute",
+    width: 50,
+    height: 50,
+    right: -50,
+    backgroundColor: sheetColor,
+    top: (height * 5) / 8,
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopEndRadius: 50,
+    borderBottomEndRadius: 50,
+    zIndex: -1,
   },
 });
 

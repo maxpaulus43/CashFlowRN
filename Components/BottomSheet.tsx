@@ -76,9 +76,9 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
-      <TouchableWithoutFeedback onPress={onDismiss}>
+      <TapGestureHandler onEnded={onDismiss}>
         <View style={styles.bg} />
-      </TouchableWithoutFeedback>
+      </TapGestureHandler>
       <PanGestureHandler onGestureEvent={handleGestureEvent}>
         <Animated.View
           style={styles.content}
@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
   },
   bg: {
     ...StyleSheet.absoluteFillObject,
-    opacity: 0,
   },
 });
 
