@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, ViewProps } from "react-native";
+import { TouchableWithoutFeedback, View, ViewProps } from "react-native";
 import { StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
 import {
@@ -14,7 +14,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("screen");
 
 const VELOCITY_THRESHOLD = 500;
 
@@ -76,9 +76,9 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
-      <TapGestureHandler onEnded={onDismiss}>
+      <TouchableWithoutFeedback onPress={onDismiss}>
         <View style={styles.bg} />
-      </TapGestureHandler>
+      </TouchableWithoutFeedback>
       <PanGestureHandler onGestureEvent={handleGestureEvent}>
         <Animated.View
           style={styles.content}

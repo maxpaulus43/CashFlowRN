@@ -5,7 +5,7 @@ import { useSharedValue, withTiming } from "react-native-reanimated";
 import { Board } from "../model";
 import BoardSvg from "./BoardSvg";
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("screen");
 const diameter = width - 50;
 const pieceDiameter = 20;
 

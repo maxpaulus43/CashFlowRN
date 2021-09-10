@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { Button, View, Text, Alert } from "react-native";
+import { View, Text, Alert } from "react-native";
 import BalanceSheet from "../Components/BalanceSheet";
 import BoardView, {
   PIECE_MOVE_ANIMATION_DURATION,

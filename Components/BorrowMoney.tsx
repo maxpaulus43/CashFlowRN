@@ -1,7 +1,8 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text } from "react-native";
 import { Player } from "../model";
+import Btn from "./Btn";
 export interface BorrowMoneyOptions {
   message?: string;
   initialBorrowAmount?: number;
@@ -36,14 +37,14 @@ const BorrowMoney: React.FC<BorrowMoneyProps> = ({
           );
         })}
       </Picker>
-      <Button
+      <Btn
         title="Borrow"
         onPress={() => {
           p.borrowMoneyAmount(loanAmount);
           onDismiss();
         }}
       />
-      <Button title="Cancel" onPress={onDismiss} />
+      <Btn title="Cancel" onPress={onDismiss} />
     </View>
   );
 };

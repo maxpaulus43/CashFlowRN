@@ -1,7 +1,8 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
-import { View, Text, Button, Alert } from "react-native";
+import { View, Text } from "react-native";
 import { Player } from "../model";
+import Btn from "./Btn";
 
 interface RepayMoneyProps {
   forPlayer: Player;
@@ -64,7 +65,7 @@ const RepayMoney: React.FC<RepayMoneyProps> = ({ forPlayer: p, onDismiss }) => {
         })}
       </Picker>
 
-      <Button
+      <Btn
         title="Repay"
         disabled={!selectedLiability || p.cash < repayAmount}
         onPress={() => {
@@ -72,7 +73,7 @@ const RepayMoney: React.FC<RepayMoneyProps> = ({ forPlayer: p, onDismiss }) => {
           onDismiss();
         }}
       />
-      <Button title="Cancel" onPress={onDismiss} />
+      <Btn title="Cancel" onPress={onDismiss} />
     </View>
   );
 };

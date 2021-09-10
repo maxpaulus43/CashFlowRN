@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useRef, useState } from "react";
-import { View, Button, Text, TextInput } from "react-native";
+import { View, Text, TextInput } from "react-native";
 import Game from "../model/Game";
 import Liability from "../model/Liability";
 import Player from "../model/Player";
@@ -44,6 +44,12 @@ const NewGame: React.FC<NativeStackScreenProps<any, any>> = ({
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>Your Name:</Text>
       <TextInput
+        style={{
+          borderColor: "gray",
+          borderWidth: 1,
+          padding: 5,
+          borderRadius: 5,
+        }}
         placeholder="enter a name"
         onChange={({ nativeEvent: { text } }) => {
           name.current = text;

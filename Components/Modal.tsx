@@ -8,7 +8,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { interpolate } from "react-native-reanimated";
-const { height, width } = Dimensions.get("window");
+const { height, width } = Dimensions.get("screen");
 
 interface props {
   isVisible: boolean;

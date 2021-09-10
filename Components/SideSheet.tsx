@@ -1,5 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Dimensions, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Text,
+  TouchableWithoutFeedback,
+  ScrollView,
+} from "react-native";
 import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
@@ -13,7 +20,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { interpolate } from "react-native-reanimated";
 
-const { height, width } = Dimensions.get("window");
+const { height, width } = Dimensions.get("screen");
 const sheetWidth = width - 40;
 const DRAG_THRESHOLD = 100;
 const VELOCITY_THRESHOLD = 500;
