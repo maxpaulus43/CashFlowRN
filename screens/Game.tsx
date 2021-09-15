@@ -168,7 +168,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
             </View>
 
             {!myPlayer.didRoll ? (
-              <Btn title="Roll 🎲" onPress={roll} disabled={isGameOver} />
+              <Btn title="Roll" onPress={roll} disabled={isGameOver} />
             ) : (
               <Btn title="End Turn" onPress={endTurn} disabled={isGameOver} />
             )}
