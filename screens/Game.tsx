@@ -67,7 +67,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     updateScreen();
 
     setTimeout(() => {
-      if (myPlayer.isBankrupt()) {
+      if (myPlayer.isBankruptButCanRecover()) {
         setShowBankrupt(true);
         return;
       }

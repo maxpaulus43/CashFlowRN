@@ -41,7 +41,7 @@ const Bankrupt: React.FC<BankruptProps> = ({ forPlayer: p, onDismiss }) => {
         </>
       )}
 
-      <Btn title="Done" disabled={p.isBankrupt()} onPress={onDismiss} />
+      <Btn title="Done" disabled={p.isBankruptButCanRecover()} onPress={onDismiss} />
     </View>
   );
 };

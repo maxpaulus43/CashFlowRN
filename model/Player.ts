@@ -24,6 +24,7 @@ export default class Player {
   didRoll: boolean = false;
   winHandler?: (winner: Player) => void;
   loseHandler?: (loser: Player) => void;
+
   private _donationDice: number = 0;
   public get donationDice(): number {
     return this._donationDice;
@@ -38,9 +39,7 @@ export default class Player {
 
   private _liabilities: { [id: string]: Liability } = {};
   public get liabilities(): Liability[] {
-    return Object.keys(this._liabilities).map(
-      (liabilityId) => this._liabilities[liabilityId]
-    );
+    return Object.values(this._liabilities);
   }
 
   constructor(
@@ -203,16 +202,15 @@ export default class Player {
   buyProperty(property: Property) {
     this.takeCash(property.downPayment);
     this.properties.push(property);
-    // todo possibly add a liability
     this.checkWinCondition();
   }
 
   sellPropertyForAmount(propertyId: string, forAmount: number) {
-    // todo optimize sellPropertyForAmount
-    this.giveCash(forAmount);
+    // todo optimize properties
     for (let i = 0; i < this.properties.length; i++) {
       const p = this.properties[i];
       if (propertyId === p.id) {
+        this.giveCash(forAmount - (p.cost - p.downPayment));
         this.properties.splice(i, 1);
       }
     }
@@ -222,7 +220,7 @@ export default class Player {
     for (let i = 0; i < this.properties.length; i++) {
       const p = this.properties[i];
       if (propertyId === p.id) {
-        this.giveCash(p.cost); // give something other than cost.
+        this.giveCash(p.downPayment / 2); // todo maybe change foreclose logic
         this.properties.splice(i, 1);
       }
     }
@@ -338,7 +336,7 @@ export default class Player {
     return this.properties.reduce((s, p) => s + p.cost, 0);
   }
 
-  isBankrupt() {
+  isBankruptButCanRecover() {
     const totalSellablePropertyValue = this.getTotalPropertyAssetValue() / 2;
     const totalSellableStockValue = this.getTotalStockAssetValue() / 2;
     const totalAssetValue =
@@ -347,7 +345,7 @@ export default class Player {
   }
 
   private checkLoseConditions() {
-    if (this._cash < 0 && !this.isBankrupt()) {
+    if (this._cash < 0 && !this.isBankruptButCanRecover()) {
       if (this.loseHandler) {
         this.loseHandler(this);
       }
