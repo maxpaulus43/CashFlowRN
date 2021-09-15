@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { Alert, StyleSheet } from "react-native";
-import { View, Button } from "react-native";
+import { View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Game } from "../model";
 import Btn from "../Components/Btn";

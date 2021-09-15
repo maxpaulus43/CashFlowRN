@@ -1,7 +1,8 @@
 import React from "react";
-import { View} from "react-native";
+import { View } from "react-native";
 import { Player } from "../model";
 import Btn from "./Btn";
+import Price from "./Price";
 import Txt from "./Txt";
 
 interface DownsizeViewProps {
@@ -17,12 +18,16 @@ const DownsizeView: React.FC<DownsizeViewProps> = ({
 }) => {
   const mustBorrowAmt = p.expenses() - p.cash;
   const title = `Pay${
-    mustBorrowAmt > 0 ? ` (Must borrow at least ${mustBorrowAmt})` : ""
+    mustBorrowAmt > 0 ? ` (Must borrow at least ${mustBorrowAmt.toLocaleString()})` : ""
   }`;
 
   return (
     <View>
-      <Txt>Downsized!</Txt>
+      <Txt bold>Downsized!</Txt>
+      <Txt>
+        You must pay a full set of your expenses! (
+        <Price value={p.expenses()} />)
+      </Txt>
       <Btn
         title={title}
         onPress={() => {

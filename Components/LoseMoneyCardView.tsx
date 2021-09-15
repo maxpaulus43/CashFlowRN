@@ -21,7 +21,7 @@ const LoseMoneyCardView: React.FC<LoseMoneyViewProps> = ({
     <View>
       <Txt>{model.title}</Txt>
       <Btn
-        title={`Pay ${model.cost} ${
+        title={`Pay ${model.cost.toLocaleString()} ${
           p.cash < model.cost
             ? `(Must Borrow $${(model.cost - p.cash).toLocaleString()})`
             : ""

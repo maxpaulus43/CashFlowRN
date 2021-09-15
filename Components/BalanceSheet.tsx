@@ -42,15 +42,17 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
   const expenses = p.expenses();
 
   const generalData = [
-    ["Cash", p.cash],
-    ["Total Income", p.totalIncome()],
-    ["Total Expenses", expenses],
-    ["PayDay", p.paydayAmount()],
+    ["Cash", p.cash.toLocaleString()],
+    ["Total Income", p.totalIncome().toLocaleString()],
+    ["Total Expenses", expenses.toLocaleString()],
+    ["PayDay", p.paydayAmount().toLocaleString()],
   ];
   const expensesData = [
-    ["Taxes", p.taxExpenses],
-    ["Other", p.otherExpenses()],
-  ].concat(p.liabilities.map((l) => [l.name, l.expenseAmount()]));
+    ["Taxes", p.taxExpenses.toLocaleString()],
+    ["Other", p.otherExpenses().toLocaleString()],
+  ].concat(
+    p.liabilities.map((l) => [l.name, l.expenseAmount().toLocaleString()])
+  );
   const dividendsIncomeData = p
     .getDividendStocks()
     .map(([stockId, cashFlow, count]) => [stockId, cashFlow * count]);
@@ -69,23 +71,20 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{
         paddingBottom: paddingBottom + paddingTop, // give extra padding just cuz
-        paddingTop
+        paddingTop,
       }}
     >
-      <Txt style={{ textAlign: "center", fontSize: 30 }}>
-        Balance Sheet 📋
-      </Txt>
+      <Txt style={{ textAlign: "center", fontSize: 30 }}>Balance Sheet 📋</Txt>
 
       <View style={styles.box}>
         <View style={{ alignItems: "flex-end" }}>
-          <Txt>Total Expenses: {expenses}</Txt>
+          <Txt>Total Expenses: {expenses.toLocaleString()}</Txt>
         </View>
         <ProgressBar
-          progress={Math.min(
-            Math.max(0, p.passiveIncome() / expenses),
-            expenses
-          )}
-          progressLabel={`Passive Income: ${p.passiveIncome()}`}
+          progress={p.passiveIncome() / expenses}
+          progressLabel={`Passive Income: ${p
+            .passiveIncome()
+            .toLocaleString()}`}
         />
       </View>
 
@@ -95,7 +94,7 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
 
       <View style={styles.box}>
         <H1>Income</H1>
-        <Table data={[["Salary", p.salary]]} />
+        <Table data={[["Salary", p.salary.toLocaleString()]]} />
 
         <H3>Interest/Dividends</H3>
         <Table data={dividendsIncomeData} />

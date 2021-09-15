@@ -1,10 +1,27 @@
 import React from "react";
-import { Text, StyleSheet, TextProps } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  TextProps,
+  TextStyle,
+  StyleProp,
+} from "react-native";
 
-interface TxtProps extends TextProps {}
+interface TxtProps extends TextProps {
+  center?: boolean;
+  bold?: boolean;
+}
 
-const Txt: React.FC<TxtProps> = ({ children, style }) => {
-  return <Text style={[{ fontFamily: "Cochin" }, style]}>{children}</Text>;
+const Txt: React.FC<TxtProps> = ({ children, style, center, bold }) => {
+  const styles: StyleProp<TextStyle>[] = [{ fontFamily: "Cochin", fontSize: 18 }];
+  if (center) {
+    styles.push({ textAlign: "center" });
+  }
+  if (bold) {
+    styles.push({ fontWeight: "bold" });
+  }
+  styles.push(style);
+  return <Text style={styles}>{children}</Text>;
 };
 
 const styles = StyleSheet.create({});

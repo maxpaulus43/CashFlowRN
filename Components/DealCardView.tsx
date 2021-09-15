@@ -3,8 +3,10 @@ import { View, StyleSheet } from "react-native";
 import { DealCard, Property, Stock, Player, StockSplit } from "../model";
 import Btn from "./Btn";
 import NumberPicker from "./NumberPicker";
+import Price from "./Price";
 import Txt from "./Txt";
 
+const spacer = <View style={{ height: 15 }} />;
 interface DealCardViewProps {
   model: DealCard;
   forPlayer: Player;
@@ -67,7 +69,7 @@ const BuyStockView: React.FC<DealCardViewProps> = ({
   const playerCantAffordIt = p.cash < totalAssetCost;
   if (playerCantAffordIt) {
     let amt = Math.ceil((totalAssetCost - p.cash) / 1000) * 1000;
-    buttonTitle += `(Must Borrow $${amt})`;
+    buttonTitle += `(Must Borrow $${amt.toLocaleString()})`;
   }
 
   const buyStock = () => {
@@ -86,16 +88,26 @@ const BuyStockView: React.FC<DealCardViewProps> = ({
 
   return (
     <View style={styles.card}>
-      <View>
-        <Txt>STOCK DEAL</Txt>
+      <View style={{ alignItems: "center" }}>
+        <Txt bold>STOCK DEAL</Txt>
+        {spacer}
+
         <Txt>{model.title}</Txt>
         <Txt>{model.text}</Txt>
-        <Txt>Cost: {stock.cost}</Txt>
-        <Txt>Cash Flow: {stock.cashFlow}</Txt>
+        {spacer}
+
+        <Txt>
+          Cost: <Txt bold><Price value={stock.cost} /></Txt>
+        </Txt>
+        <Txt>
+          Cash Flow: <Txt bold>{stock.cashFlow}</Txt>
+        </Txt>
+        {spacer}
+
         <Txt>How Many Stocks?</Txt>
         <NumberPicker increment={1} onChangeValue={setAmount} />
       </View>
-      <View>
+      <View style={{ flexDirection: "row" }}>
         <Btn
           title={buttonTitle}
           onPress={buyStock}
@@ -132,7 +144,7 @@ const BuyPropertyView: React.FC<DealCardViewProps> = ({
   const property = model.info as Property;
   const playerCantAffordIt = p.cash < property.downPayment;
   if (playerCantAffordIt) {
-    buttonTitle += `(Must Borrow $${property.downPayment - p.cash})`;
+    buttonTitle += `(Must Borrow $${(property.downPayment - p.cash).toLocaleString()})`;
   }
 
   const playerAlreadyOwnsProperty = p.doesAlreadyOwnProperty(model.info.id);
@@ -149,23 +161,22 @@ const BuyPropertyView: React.FC<DealCardViewProps> = ({
   return (
     <View style={styles.card}>
       <View style={{ alignItems: "center" }}>
-        <View>
-          <Txt>PROPERTY DEAL</Txt>
-          <Txt>{model.title}</Txt>
-        </View>
+        <Txt bold>PROPERTY DEAL</Txt>
+        {spacer}
 
-        <View>
-          <Txt>{model.text}</Txt>
-        </View>
+        <Txt>{model.title}</Txt>
+        {spacer}
 
-        <View>
-          <Txt>Cost: {property.cost}</Txt>
-          <Txt>Cash Flow: {property.cashFlow}</Txt>
-          <Txt>Down Payment:{property.downPayment}</Txt>
-        </View>
+        <Txt>{model.text}</Txt>
+        {spacer}
+
+        <Txt>Cost: <Price value={property.cost} /></Txt>
+        <Txt>Cash Flow: <Price value={property.cashFlow} /></Txt>
+        <Txt>Down Payment: <Price value={property.downPayment} /></Txt>
+        {spacer}
       </View>
 
-      <View style={{ maxWidth: "80%" }}>
+      <View style={{ flexDirection: "row" }}>
         {playerAlreadyOwnsProperty ? (
           <Txt>You Can't Buy this property because you already own it.</Txt>
         ) : (
@@ -188,10 +199,12 @@ const BuyPropertyView: React.FC<DealCardViewProps> = ({
 const styles = StyleSheet.create({
   card: {
     ...StyleSheet.absoluteFillObject,
+    padding: 10,
     justifyContent: "space-between",
     alignItems: "center",
   },
   userActionButton: {
+    flex: 1,
     backgroundColor: "#07beb8",
   },
 });

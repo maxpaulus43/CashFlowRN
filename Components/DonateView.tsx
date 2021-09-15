@@ -15,6 +15,8 @@ const DonateView: React.FC<DonateViewProps> = ({ forPlayer: p, onDismiss }) => {
   let buttonTitle = "Donate";
   if (!playerCanDonate) {
     buttonTitle += " (Insufficient Funds)";
+  } else {
+    buttonTitle += `(${donateAmount.toLocaleString()})`
   }
   return (
     <View>

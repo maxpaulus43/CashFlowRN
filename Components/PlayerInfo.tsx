@@ -9,10 +9,10 @@ interface PlayerInfoProps {
 
 const PlayerInfo: React.FC<PlayerInfoProps> = ({ forPlayer: p }) => {
   const playerData = [
-    ["Cash", p.cash],
-    ["Total Income", p.totalIncome()],
-    ["Total Expenses", p.expenses()],
-    ["PayDay", p.paydayAmount()],
+    ["Cash", "$" + p.cash.toLocaleString()],
+    ["Income", "$" + p.totalIncome().toLocaleString()],
+    ["Expenses", "$" + p.expenses().toLocaleString()],
+    ["PayDay", "$" + p.paydayAmount().toLocaleString()],
   ];
   return (
     <View>

@@ -4,7 +4,6 @@ import { StyleSheet, ViewStyle } from "react-native";
 import PressableView from "./PressableView";
 import Txt from "./Txt";
 
-
 interface BtnProps {
   title: string;
   onPress: () => void;
@@ -36,12 +35,16 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 100,
     margin: 5,
+    justifyContent: "center",
+    alignItems: "center",
   },
   btn: {
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#733B80",
     padding: 15,
-    borderWidth: 2,
-    borderColor: "black",
+    // borderWidth: 2,
+    // borderColor: "gray",
     borderRadius: 100,
     margin: 5,
   },
