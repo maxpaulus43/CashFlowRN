@@ -62,8 +62,9 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
     .map(([stockId, price, count]) => {
       return [`${count} shares of ${stockId}`, price];
     });
-  const realEstateAssetData = p.properties.map((p) => [p.id, p.cost]);
-  const liabilitiesData = p.liabilities.map((l) => [l.id, l.debtAmount]);
+  const realEstateAssetData = p.properties.map((p) => [p.id, p.cost.toLocaleString()]);
+  const liabilitiesData = p.liabilities.map((l) => [l.id, l.debtAmount.toLocaleString()]);
+  const realEstateLiabilitiesData = p.properties.map(p => [p.id, (p.cost - p.downPayment).toLocaleString()])
 
   return (
     <ScrollView
@@ -121,6 +122,9 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
       <View style={styles.box}>
         <H1>Liabilities</H1>
         <Table data={liabilitiesData} />
+
+        <H3>Real Estate/Business</H3>
+        <Table data={realEstateLiabilitiesData} />
       </View>
     </ScrollView>
   );
