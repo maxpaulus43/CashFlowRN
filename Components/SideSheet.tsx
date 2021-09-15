@@ -140,6 +140,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderTopEndRadius: 50,
     borderBottomEndRadius: 50,
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderColor: "peru",
     zIndex: -1,
   },
 });

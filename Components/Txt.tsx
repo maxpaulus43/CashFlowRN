@@ -5,6 +5,7 @@ import {
   TextProps,
   TextStyle,
   StyleProp,
+  Platform,
 } from "react-native";
 
 interface TxtProps extends TextProps {
@@ -13,7 +14,8 @@ interface TxtProps extends TextProps {
 }
 
 const Txt: React.FC<TxtProps> = ({ children, style, center, bold }) => {
-  const styles: StyleProp<TextStyle>[] = [{ fontFamily: "Cochin", fontSize: 18 }];
+  const fontFamily = Platform.select({ ios: "Cochin", android: "serif" });
+  const styles: StyleProp<TextStyle>[] = [{ fontFamily, fontSize: 18 }];
   if (center) {
     styles.push({ textAlign: "center" });
   }
