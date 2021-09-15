@@ -1,12 +1,17 @@
+import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { DealCard, Property, Stock, Player, StockSplit } from "../model";
 import Btn from "./Btn";
-import NumberPicker from "./NumberPicker";
 import Price from "./Price";
 import Txt from "./Txt";
 
 const spacer = <View style={{ height: 15 }} />;
+const nums = [
+  ...Array.from(Array(100).keys()).map((i) => i * 5),
+  ...Array.from(Array(50).keys()).map((i) => 500 + i * 50),
+  ...Array.from(Array(200).keys()).map((i) => 3000 + i * 100),
+];
 interface DealCardViewProps {
   model: DealCard;
   forPlayer: Player;
@@ -97,7 +102,10 @@ const BuyStockView: React.FC<DealCardViewProps> = ({
         {spacer}
 
         <Txt>
-          Cost: <Txt bold><Price value={stock.cost} /></Txt>
+          Cost:
+          <Txt bold>
+            <Price value={stock.cost} />
+          </Txt>
         </Txt>
         <Txt>
           Cash Flow: <Txt bold>{stock.cashFlow}</Txt>
@@ -105,7 +113,19 @@ const BuyStockView: React.FC<DealCardViewProps> = ({
         {spacer}
 
         <Txt>How Many Stocks?</Txt>
-        <NumberPicker increment={1} onChangeValue={setAmount} />
+        <View style={{ width: 130 }}>
+          <Picker
+            selectedValue={amount}
+            onValueChange={setAmount}
+            itemStyle={{ width: "100%", height: 70 }}
+          >
+            {nums.map((i) => {
+              return (
+                <Picker.Item label={i.toLocaleString()} key={i} value={i} />
+              );
+            })}
+          </Picker>
+        </View>
       </View>
       <View style={{ flexDirection: "row" }}>
         <Btn
@@ -144,7 +164,9 @@ const BuyPropertyView: React.FC<DealCardViewProps> = ({
   const property = model.info as Property;
   const playerCantAffordIt = p.cash < property.downPayment;
   if (playerCantAffordIt) {
-    buttonTitle += `(Must Borrow $${(property.downPayment - p.cash).toLocaleString()})`;
+    buttonTitle += `(Must Borrow $${(
+      property.downPayment - p.cash
+    ).toLocaleString()})`;
   }
 
   const playerAlreadyOwnsProperty = p.doesAlreadyOwnProperty(model.info.id);
@@ -170,9 +192,15 @@ const BuyPropertyView: React.FC<DealCardViewProps> = ({
         <Txt>{model.text}</Txt>
         {spacer}
 
-        <Txt>Cost: <Price value={property.cost} /></Txt>
-        <Txt>Cash Flow: <Price value={property.cashFlow} /></Txt>
-        <Txt>Down Payment: <Price value={property.downPayment} /></Txt>
+        <Txt>
+          Cost: <Price value={property.cost} />
+        </Txt>
+        <Txt>
+          Cash Flow: <Price value={property.cashFlow} />
+        </Txt>
+        <Txt>
+          Down Payment: <Price value={property.downPayment} />
+        </Txt>
         {spacer}
       </View>
 
