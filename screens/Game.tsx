@@ -24,6 +24,7 @@ import { Game as GameModel, LoseMoneyCard, MarketCard, Player } from "../model";
 import { Space } from "../model/Board";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Bankrupt from "../Components/Bankrupt";
+import { StatusBar } from "expo-status-bar";
 
 const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   route,
@@ -138,6 +139,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
 
   return (
     <SafeAreaView style={[StyleSheet.absoluteFill, styles.content]}>
+      <StatusBar style="dark"/>
       <View style={styles.header}>
         <Btn title="Go Home" onPress={goHome} />
         <Text>Current Player: {game.getCurrentPlayer().name}</Text>
