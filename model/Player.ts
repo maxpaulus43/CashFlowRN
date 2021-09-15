@@ -66,12 +66,12 @@ export default class Player {
 
   takeCash(amount: number) {
     this._cash -= amount;
-    this.checkLoseCondition();
+    this.checkLoseConditions();
   }
 
   getPaid() {
     this.giveCash(this.paydayAmount());
-    this.checkLoseCondition();
+    this.checkLoseConditions();
   }
 
   addDonationDice(n: number) {
@@ -218,6 +218,16 @@ export default class Player {
     }
   }
 
+  forecloseProperty(propertyId: string) {
+    for (let i = 0; i < this.properties.length; i++) {
+      const p = this.properties[i];
+      if (propertyId === p.id) {
+        this.giveCash(p.cost); // give something other than cost.
+        this.properties.splice(i, 1);
+      }
+    }
+  }
+
   improveProperty(propertyId: string, amount: number) {
     for (const p of this.properties) {
       if (p.id === propertyId) {
@@ -314,9 +324,33 @@ export default class Player {
     }
   }
 
-  private checkLoseCondition() {
-    if (this._cash < 0 && this.loseHandler) {
-      this.loseHandler(this);
+  private getTotalStockAssetValue(): number {
+    return Object.values(this.stocks)
+      .map(({ costBasis }) =>
+        Object.entries(costBasis).reduce((s, [atPrice, amount]) => {
+          return s + parseInt(atPrice) * amount;
+        }, 0)
+      )
+      .reduce((s, curr) => s + curr, 0);
+  }
+
+  private getTotalPropertyAssetValue(): number {
+    return this.properties.reduce((s, p) => s + p.cost, 0);
+  }
+
+  isBankrupt() {
+    const totalSellablePropertyValue = this.getTotalPropertyAssetValue() / 2;
+    const totalSellableStockValue = this.getTotalStockAssetValue() / 2;
+    const totalAssetValue =
+      totalSellablePropertyValue + totalSellableStockValue;
+    return this._cash < 0 && totalAssetValue > Math.abs(this._cash);
+  }
+
+  private checkLoseConditions() {
+    if (this._cash < 0 && !this.isBankrupt()) {
+      if (this.loseHandler) {
+        this.loseHandler(this);
+      }
     }
   }
 

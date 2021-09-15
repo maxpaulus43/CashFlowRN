@@ -4,9 +4,9 @@ import { View, StyleSheet, Text, ViewStyle } from "react-native";
 import PressableView from "./PressableView";
 
 interface BtnProps {
+  title: string;
   onPress: () => void;
   disabled?: boolean;
-  title: string;
   style?: ViewStyle;
   textStyle?: TextStyle;
 }

@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { View, Text, Alert, ScrollView } from "react-native";
+import { View, Text, Alert, BackHandler } from "react-native";
 import BalanceSheet from "../Components/BalanceSheet";
 import BoardView, {
   PIECE_MOVE_ANIMATION_DURATION,
@@ -23,6 +23,7 @@ import Btn from "../Components/Btn";
 import { Game as GameModel, LoseMoneyCard, MarketCard, Player } from "../model";
 import { Space } from "../model/Board";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Bankrupt from "../Components/Bankrupt";
 
 const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   route,
@@ -39,13 +40,15 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
   const [showDonate, setShowDonate] = useState(false);
   const [showNewChild, setShowNewChild] = useState(false);
   const [showDownsize, setShowDownsize] = useState(false);
+  const [showBankrupt, setShowBankrupt] = useState(false);
   const isModalVisible: boolean =
     showDealFlow ||
     loseMoneyCard !== undefined ||
     marketCard !== undefined ||
     showDonate ||
     showDownsize ||
-    showNewChild;
+    showNewChild ||
+    showBankrupt;
   const [isGameOver, setIsGameOver] = useState(false);
 
   const [showBorrowBottomSheet, setShowBorrowBottomSheet] = useState(false);
@@ -62,7 +65,12 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     game.rollForCurrentPlayer();
     const space = game.getSpaceForCurrentPlayer();
     updateScreen();
+
     setTimeout(() => {
+      if (myPlayer.isBankrupt()) {
+        setShowBankrupt(true);
+        return;
+      }
       switch (space) {
         case Space.DEAL: {
           setShowDealFlow(true);
@@ -120,11 +128,12 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
     };
 
     game.loseHandler = (p: Player) => {
-      // todo instead of losing, just sell assets
       Alert.alert(p.name + " lost the game by going bankrupt!");
       setIsGameOver(true);
       clearSavedGame();
     };
+
+    BackHandler.addEventListener("hardwareBackPress", () => true);
   }, []);
 
   return (
@@ -140,7 +149,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
           renderCenterContent={() => <PlayerInfo forPlayer={myPlayer} />}
         />
       </View>
-      
+
       <View style={styles.footer}>
         {isMyTurn && (
           <>
@@ -215,6 +224,12 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
           <NewChildView
             forPlayer={myPlayer}
             onDismiss={() => setShowNewChild(false)}
+          />
+        )}
+        {showBankrupt && (
+          <Bankrupt
+            forPlayer={myPlayer}
+            onDismiss={() => setShowBankrupt(false)}
           />
         )}
       </Modal>
