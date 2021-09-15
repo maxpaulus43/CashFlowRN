@@ -54,9 +54,8 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
 
   const [showBorrowBottomSheet, setShowBorrowBottomSheet] = useState(false);
   const [showRepayBottomSheet, setShowRepayBottomSheet] = useState(false);
-  const isBottomSheetVisible = showBorrowBottomSheet || showRepayBottomSheet;
   const borrowMoneyOptions = useRef<BorrowMoneyOptions>();
-  const clearBottomSheet = () => {
+  const clearBottomSheets = () => {
     setShowBorrowBottomSheet(false);
     setShowRepayBottomSheet(false);
     borrowMoneyOptions.current = undefined;
@@ -139,7 +138,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
 
   return (
     <SafeAreaView style={[StyleSheet.absoluteFill, styles.content]}>
-      <StatusBar style="dark"/>
+      <StatusBar style="dark" />
       <View style={styles.header}>
         <Btn title="Go Home" onPress={goHome} />
         <Text>Current Player: {game.getCurrentPlayer().name}</Text>
@@ -237,23 +236,25 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
       </Modal>
 
       <BottomSheet
-        isVisible={isBottomSheetVisible}
-        onDismiss={clearBottomSheet}
+        isVisible={showBorrowBottomSheet}
+        onDismiss={clearBottomSheets}
       >
-        {showBorrowBottomSheet && (
-          <BorrowMoney
-            forPlayer={myPlayer}
-            onDismiss={clearBottomSheet}
-            {...borrowMoneyOptions.current}
-          />
-        )}
-        {showRepayBottomSheet && (
-          <RepayMoney
-            forPlayer={myPlayer}
-            onPaid={updateScreen}
-            onDismiss={clearBottomSheet}
-          />
-        )}
+        <BorrowMoney
+          forPlayer={myPlayer}
+          onDismiss={clearBottomSheets}
+          {...borrowMoneyOptions.current}
+        />
+      </BottomSheet>
+
+      <BottomSheet
+        isVisible={showRepayBottomSheet}
+        onDismiss={clearBottomSheets}
+      >
+        <RepayMoney
+          forPlayer={myPlayer}
+          onPaid={updateScreen}
+          onDismiss={clearBottomSheets}
+        />
       </BottomSheet>
 
       <SideSheet>
