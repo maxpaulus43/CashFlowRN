@@ -266,6 +266,7 @@ const Game: React.FC<NativeStackScreenProps<any, any>> = ({
 const styles = StyleSheet.create({
   content: {
     padding: 15,
+    overflow: "hidden",
   },
   header: {
     flexDirection: "row",

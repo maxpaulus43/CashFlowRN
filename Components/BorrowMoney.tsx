@@ -38,14 +38,17 @@ const BorrowMoney: React.FC<BorrowMoneyProps> = ({
           );
         })}
       </Picker>
-      <Btn
-        title="Borrow"
-        onPress={() => {
-          p.borrowMoneyAmount(loanAmount);
-          onDismiss();
-        }}
-      />
-      <Btn title="Cancel" onPress={onDismiss} />
+      <View style={{ flexDirection: "row" }}>
+        <Btn
+          style={{ flex: 1 }}
+          title="Borrow"
+          onPress={() => {
+            p.borrowMoneyAmount(loanAmount);
+            onDismiss();
+          }}
+        />
+        <Btn title="Cancel" onPress={onDismiss} style={{ flex: 1 }} />
+      </View>
     </View>
   );
 };

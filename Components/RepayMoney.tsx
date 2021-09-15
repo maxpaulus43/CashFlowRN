@@ -66,15 +66,18 @@ const RepayMoney: React.FC<RepayMoneyProps> = ({ forPlayer: p, onDismiss }) => {
         })}
       </Picker>
 
-      <Btn
-        title="Repay"
-        disabled={!selectedLiability || p.cash < repayAmount}
-        onPress={() => {
-          p.payAmountForLiability(repayAmount, selectedLiability);
-          onDismiss();
-        }}
-      />
-      <Btn title="Cancel" onPress={onDismiss} />
+      <View style={{ flexDirection: "row" }}>
+        <Btn
+          style={{ flex: 1 }}
+          title="Repay"
+          disabled={!selectedLiability || p.cash < repayAmount}
+          onPress={() => {
+            p.payAmountForLiability(repayAmount, selectedLiability);
+            onDismiss();
+          }}
+        />
+        <Btn title="Cancel" onPress={onDismiss} style={{ flex: 1 }} />
+      </View>
     </View>
   );
 };
