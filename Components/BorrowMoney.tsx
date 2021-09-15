@@ -1,5 +1,5 @@
 import { Picker } from "@react-native-picker/picker";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Player } from "../model";
 import Btn from "./Btn";
@@ -19,9 +19,14 @@ const BorrowMoney: React.FC<BorrowMoneyProps> = ({
   message,
   initialBorrowAmount,
 }) => {
-  let amt = initialBorrowAmount ?? 1000;
-  amt = Math.ceil(amt / 1000) * 1000;
-  const [loanAmount, setLoanAmount] = useState(amt);
+  const [loanAmount, setLoanAmount] = useState(0);
+
+  useEffect(() => {
+    let amt = initialBorrowAmount ?? 1000;
+    amt = Math.ceil(amt / 1000) * 1000;
+    setLoanAmount(amt);
+  }, [initialBorrowAmount]);
+
   return (
     <View>
       {message && <Txt>{message}</Txt>}
