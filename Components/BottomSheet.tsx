@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { TouchableWithoutFeedback, View, ViewProps } from "react-native";
+import { View, ViewProps } from "react-native";
 import { StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
 import {

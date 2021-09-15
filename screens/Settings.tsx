@@ -1,11 +1,12 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import Txt from "../Components/Txt";
 
 const Settings: React.FC = () => {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Instructions:</Text>
-      <Text>Default Difficulty:</Text>
+      <Txt>Instructions:</Txt>
+      <Txt>Default Difficulty:</Txt>
     </View>
   );
 };

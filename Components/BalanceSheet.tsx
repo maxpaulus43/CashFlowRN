@@ -1,10 +1,11 @@
 import React, { ReactNode } from "react";
-import {  Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Player } from "../model";
 import ProgressBar from "./ProgressBar";
 import Table from "./Table";
+import Txt from "./Txt";
 
 interface BalanceSheetProps {
   forPlayer: Player;
@@ -20,9 +21,9 @@ const H1: React.FC = ({ children }) => (
       marginBottom: 5,
     }}
   >
-    <Text style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
+    <Txt style={{ fontSize: 20, color: "white", fontWeight: "bold" }}>
       {children}
-    </Text>
+    </Txt>
   </View>
 );
 
@@ -31,7 +32,7 @@ const H3: React.FC<{ children: ReactNode; noBorder?: boolean }> = ({
   noBorder = false,
 }) => (
   <View style={{ borderTopColor: "gray", borderTopWidth: noBorder ? 0 : 1 }}>
-    <Text style={{ fontSize: 15, fontWeight: "bold" }}>{children}</Text>
+    <Txt style={{ fontSize: 15, fontWeight: "bold" }}>{children}</Txt>
   </View>
 );
 
@@ -71,13 +72,13 @@ const BalanceSheet: React.FC<BalanceSheetProps> = ({ forPlayer: p }) => {
         paddingTop
       }}
     >
-      <Text style={{ textAlign: "center", fontSize: 30 }}>
+      <Txt style={{ textAlign: "center", fontSize: 30 }}>
         Balance Sheet 📋
-      </Text>
+      </Txt>
 
       <View style={styles.box}>
         <View style={{ alignItems: "flex-end" }}>
-          <Text>Total Expenses: {expenses}</Text>
+          <Txt>Total Expenses: {expenses}</Txt>
         </View>
         <ProgressBar
           progress={Math.min(

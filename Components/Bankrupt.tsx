@@ -1,8 +1,9 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Player } from "../model";
 import Btn from "./Btn";
+import Txt from "./Txt";
 
 interface BankruptProps {
   forPlayer: Player;
@@ -15,13 +16,13 @@ const Bankrupt: React.FC<BankruptProps> = ({ forPlayer: p, onDismiss }) => {
   );
   return (
     <View>
-      <Text>
+      <Txt>
         You have gone bankrupt. Sell your assets at half price until you can pay
         your debts.
-      </Text>
+      </Txt>
       {propertyToSell && (
         <>
-          <Text>Pick Some properties to sell AT HALF PRICE</Text>
+          <Txt>Pick Some properties to sell AT HALF PRICE</Txt>
           <Picker
             selectedValue={propertyToSell}
             itemStyle={{ height: 100 }}

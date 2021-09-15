@@ -1,8 +1,9 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { Player } from "../model";
 import Btn from "./Btn";
+import Txt from "./Txt";
 
 interface RepayMoneyProps {
   forPlayer: Player;
@@ -17,9 +18,9 @@ const RepayMoney: React.FC<RepayMoneyProps> = ({ forPlayer: p, onDismiss }) => {
   const [repayAmount, setRepayAmount] = useState(l?.debtAmount ?? 1000);
   return (
     <View>
-      <Text style={{ textAlign: "center" }}>
+      <Txt style={{ textAlign: "center" }}>
         Which Liability would you like to pay off?
-      </Text>
+      </Txt>
 
       <Picker
         selectedValue={selectedLiability}
@@ -41,9 +42,9 @@ const RepayMoney: React.FC<RepayMoneyProps> = ({ forPlayer: p, onDismiss }) => {
         ))}
       </Picker>
 
-      <Text style={{ textAlign: "center" }}>
+      <Txt style={{ textAlign: "center" }}>
         How Much would you like to repay?
-      </Text>
+      </Txt>
 
       <Picker<number>
         selectedValue={repayAmount}

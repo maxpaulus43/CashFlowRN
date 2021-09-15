@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View} from "react-native";
 import { Player } from "../model";
 import Btn from "./Btn";
+import Txt from "./Txt";
 
 interface DownsizeViewProps {
   forPlayer: Player;
@@ -21,7 +22,7 @@ const DownsizeView: React.FC<DownsizeViewProps> = ({
 
   return (
     <View>
-      <Text>Downsized!</Text>
+      <Txt>Downsized!</Txt>
       <Btn
         title={title}
         onPress={() => {

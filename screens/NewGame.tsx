@@ -1,11 +1,12 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useRef, useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, TextInput } from "react-native";
 import Game from "../model/Game";
 import Liability from "../model/Liability";
 import Player from "../model/Player";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import Btn from "../Components/Btn";
+import Txt from "../Components/Txt";
 
 enum Difficulty {
   XEASY = 0,
@@ -42,7 +43,7 @@ const NewGame: React.FC<NativeStackScreenProps<any, any>> = ({
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Your Name:</Text>
+      <Txt>Your Name:</Txt>
       <TextInput
         style={{
           borderColor: "gray",
@@ -58,7 +59,7 @@ const NewGame: React.FC<NativeStackScreenProps<any, any>> = ({
         {name.current}
       </TextInput>
       <Btn title="Choose Difficulty" onPress={presentDifficultyOptions} />
-      <Text>Difficulty: {difficultyOptions[difficulty]}</Text>
+      <Txt>Difficulty: {difficultyOptions[difficulty]}</Txt>
       <Btn
         title="Start"
         onPress={() => {

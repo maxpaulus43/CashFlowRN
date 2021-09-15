@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View} from "react-native";
 import { Player } from "../model";
 import Btn from "./Btn";
+import Txt from "./Txt";
 
 interface NewChildViewProps {
   forPlayer: Player;
@@ -14,10 +15,10 @@ const NewChildView: React.FC<NewChildViewProps> = ({
 }) => {
   return (
     <View>
-      <Text style={{ textAlign: "center" }}>
+      <Txt style={{ textAlign: "center" }}>
         Congrats! You had a new Child! Your expenses have increased by{" "}
         {p.expensesPerKid.toLocaleString()}
-      </Text>
+      </Txt>
       <Btn
         title="Dismiss"
         onPress={() => {

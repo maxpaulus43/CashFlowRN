@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { Player } from "../model";
 import Btn from "./Btn";
+import Txt from "./Txt";
 
 interface DonateViewProps {
   forPlayer: Player;
@@ -17,9 +18,9 @@ const DonateView: React.FC<DonateViewProps> = ({ forPlayer: p, onDismiss }) => {
   }
   return (
     <View>
-      <Text>
+      <Txt>
         Donate 10% of your income to roll 2 dice for the next 3 turns.
-      </Text>
+      </Txt>
       {p.cash > donateAmount && (
         <Btn
           disabled={!playerCanDonate}

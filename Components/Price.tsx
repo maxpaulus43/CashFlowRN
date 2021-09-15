@@ -1,10 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, ViewProps } from "react-native";
+import { StyleSheet, TextProps } from "react-native";
+import Txt from "./Txt";
 
-interface PriceProps extends ViewProps {}
+interface PriceProps extends TextProps {}
 
 const Price: React.FC<PriceProps> = ({ children }) => {
-  return <Text>${children}</Text>;
+  return <Txt>${children}</Txt>;
 };
 
 const styles = StyleSheet.create({});

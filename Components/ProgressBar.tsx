@@ -1,7 +1,8 @@
 import React from "react";
 import { useRef } from "react";
 import { LayoutChangeEvent, StyleSheet } from "react-native";
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import Txt from "./Txt";
 
 const DEFAULT_HEIGHT = 20;
 
@@ -35,7 +36,7 @@ const ProgressBar: React.FC<props> = ({ progress, progressLabel }) => {
               transform: [{ translateX: progress * barWidth.current - 5 }],
             }}
           >
-            <Text style={{ fontSize: 15 }}>↑</Text>
+            <Txt style={{ fontSize: 15 }}>↑</Txt>
           </View>
           <View
             style={{
@@ -48,7 +49,7 @@ const ProgressBar: React.FC<props> = ({ progress, progressLabel }) => {
               ],
             }}
           >
-            <Text onLayout={setLabelWidth}>{progressLabel}</Text>
+            <Txt onLayout={setLabelWidth}>{progressLabel}</Txt>
           </View>
         </>
       )}

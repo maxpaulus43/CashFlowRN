@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { DealCard, Property, Stock, Player, StockSplit } from "../model";
 import Btn from "./Btn";
 import NumberPicker from "./NumberPicker";
+import Txt from "./Txt";
 
 interface DealCardViewProps {
   model: DealCard;
@@ -33,11 +34,11 @@ const StockSplitView: React.FC<DealCardViewProps> = ({
   const info = model.info as StockSplit;
   return (
     <View>
-      <Text>{model.title}</Text>
-      <Text>{model.text}</Text>
-      <Text>
+      <Txt>{model.title}</Txt>
+      <Txt>{model.text}</Txt>
+      <Txt>
         {info.id} split From {info.splitFrom} to {info.splitTo}.
-      </Text>
+      </Txt>
       <Btn
         title="Dismiss"
         onPress={() => {
@@ -86,12 +87,12 @@ const BuyStockView: React.FC<DealCardViewProps> = ({
   return (
     <View style={styles.card}>
       <View>
-        <Text>STOCK DEAL</Text>
-        <Text>{model.title}</Text>
-        <Text>{model.text}</Text>
-        <Text>Cost: {stock.cost}</Text>
-        <Text>Cash Flow: {stock.cashFlow}</Text>
-        <Text>How Many Stocks?</Text>
+        <Txt>STOCK DEAL</Txt>
+        <Txt>{model.title}</Txt>
+        <Txt>{model.text}</Txt>
+        <Txt>Cost: {stock.cost}</Txt>
+        <Txt>Cash Flow: {stock.cashFlow}</Txt>
+        <Txt>How Many Stocks?</Txt>
         <NumberPicker increment={1} onChangeValue={setAmount} />
       </View>
       <View>
@@ -149,24 +150,24 @@ const BuyPropertyView: React.FC<DealCardViewProps> = ({
     <View style={styles.card}>
       <View style={{ alignItems: "center" }}>
         <View>
-          <Text>PROPERTY DEAL</Text>
-          <Text>{model.title}</Text>
+          <Txt>PROPERTY DEAL</Txt>
+          <Txt>{model.title}</Txt>
         </View>
 
         <View>
-          <Text>{model.text}</Text>
+          <Txt>{model.text}</Txt>
         </View>
 
         <View>
-          <Text>Cost: {property.cost}</Text>
-          <Text>Cash Flow: {property.cashFlow}</Text>
-          <Text>Down Payment:{property.downPayment}</Text>
+          <Txt>Cost: {property.cost}</Txt>
+          <Txt>Cash Flow: {property.cashFlow}</Txt>
+          <Txt>Down Payment:{property.downPayment}</Txt>
         </View>
       </View>
 
       <View style={{ maxWidth: "80%" }}>
         {playerAlreadyOwnsProperty ? (
-          <Text>You Can't Buy this property because you already own it.</Text>
+          <Txt>You Can't Buy this property because you already own it.</Txt>
         ) : (
           <Btn
             title={buttonTitle}

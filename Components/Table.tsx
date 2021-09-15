@@ -1,5 +1,6 @@
 import React from "react";
-import { View, ViewProps, Text } from "react-native";
+import { View, ViewProps } from "react-native";
+import Txt from "./Txt";
 
 interface TableProps extends ViewProps {
   data: (string | number)[][];
@@ -17,7 +18,7 @@ const Table: React.FC<TableProps> = ({ data: rows, style }) => (
           }}
         >
           {cols.map((c) => (
-            <Text key={c}>{c}</Text>
+            <Txt key={c}>{c}</Txt>
           ))}
         </Row>
       );

@@ -1,7 +1,9 @@
 import React from "react";
 import { TextStyle } from "react-native";
-import { View, StyleSheet, Text, ViewStyle } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 import PressableView from "./PressableView";
+import Txt from "./Txt";
+
 
 interface BtnProps {
   title: string;
@@ -23,7 +25,7 @@ const Btn: React.FC<BtnProps> = ({
   const defaultTextStyle = disabled ? styles.disabledText : styles.btnText;
   return (
     <PressableView onPress={pressHandler} style={[s, style]}>
-      <Text style={[defaultTextStyle, textStyle]}>{title}</Text>
+      <Txt style={[defaultTextStyle, textStyle]}>{title}</Txt>
     </PressableView>
   );
 };

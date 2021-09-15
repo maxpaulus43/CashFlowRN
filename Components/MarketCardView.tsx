@@ -1,8 +1,9 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View} from "react-native";
 import { Improvement, MarketCard, Offer, Player, Property } from "../model";
 import Btn from "./Btn";
+import Txt from "./Txt";
 
 interface MarketCardViewProps {
   model: MarketCard;
@@ -34,8 +35,8 @@ const AssetImprovedView: React.FC<MarketCardViewProps> = ({
 
   return (
     <View>
-      <Text>{model.title}</Text>
-      <Text>{model.text}</Text>
+      <Txt>{model.title}</Txt>
+      <Txt>{model.text}</Txt>
       <Btn title="Dismiss" onPress={onPress} />
     </View>
   );
@@ -65,13 +66,13 @@ const MarketCardView: React.FC<MarketCardViewProps> = ({
 
   return (
     <View>
-      <Text>Market</Text>
-      <Text>{model.title}</Text>
-      <Text>{model.text}</Text>
+      <Txt>Market</Txt>
+      <Txt>{model.title}</Txt>
+      <Txt>{model.text}</Txt>
 
       {playerHasSellableAssets ? (
         <View>
-          <Text>Select Asset to sell:</Text>
+          <Txt>Select Asset to sell:</Txt>
           <Picker
             selectedValue={selectedPropertyId}
             onValueChange={setSelectedPropertyId}
@@ -102,7 +103,7 @@ const MarketCardView: React.FC<MarketCardViewProps> = ({
         </View>
       ) : (
         <View>
-          <Text>No Assets of this kind</Text>
+          <Txt>No Assets of this kind</Txt>
         </View>
       )}
       <Btn title="Dismiss" onPress={onDismiss} />

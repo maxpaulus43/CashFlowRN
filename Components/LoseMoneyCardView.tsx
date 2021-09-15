@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { LoseMoneyCard, Player } from "../model";
 import Btn from "./Btn";
+import Txt from "./Txt";
 
 interface LoseMoneyViewProps {
   model: LoseMoneyCard;
@@ -18,7 +19,7 @@ const LoseMoneyCardView: React.FC<LoseMoneyViewProps> = ({
 }) => {
   return (
     <View>
-      <Text>{model.title}</Text>
+      <Txt>{model.title}</Txt>
       <Btn
         title={`Pay ${model.cost} ${
           p.cash < model.cost

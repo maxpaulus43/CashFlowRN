@@ -1,8 +1,9 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { Player } from "../model";
 import Btn from "./Btn";
+import Txt from "./Txt";
 export interface BorrowMoneyOptions {
   message?: string;
   initialBorrowAmount?: number;
@@ -23,8 +24,8 @@ const BorrowMoney: React.FC<BorrowMoneyProps> = ({
   const [loanAmount, setLoanAmount] = useState(amt);
   return (
     <View>
-      {message && <Text>{message}</Text>}
-      <Text style={{ textAlign: "center" }}>How Much: </Text>
+      {message && <Txt>{message}</Txt>}
+      <Txt style={{ textAlign: "center" }}>How Much: </Txt>
       <Picker<number>
         itemStyle={{ height: 100 }}
         selectedValue={loanAmount}
