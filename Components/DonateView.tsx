@@ -16,25 +16,26 @@ const DonateView: React.FC<DonateViewProps> = ({ forPlayer: p, onDismiss }) => {
   if (!playerCanDonate) {
     buttonTitle += " (Insufficient Funds)";
   } else {
-    buttonTitle += `(${donateAmount.toLocaleString()})`
+    buttonTitle += `($${donateAmount.toLocaleString()})`;
   }
   return (
-    <View>
-      <Txt>
-        Donate 10% of your income to roll 2 dice for the next 3 turns.
-      </Txt>
-      {p.cash > donateAmount && (
-        <Btn
-          disabled={!playerCanDonate}
-          title={buttonTitle}
-          onPress={() => {
-            p.takeCash(donateAmount);
-            p.addDonationDice(3);
-            onDismiss();
-          }}
-        />
-      )}
-      <Btn title="Dismiss" onPress={onDismiss} />
+    <View style={{flex: 1, justifyContent: "space-between", alignItems: "center"}}>
+      <Txt>Donate 10% of your income to roll 2 dice for the next 3 turns.</Txt>
+
+      <View style={{flexDirection: "row"}}>
+        {p.cash > donateAmount && (
+          <Btn
+            disabled={!playerCanDonate}
+            title={buttonTitle}
+            onPress={() => {
+              p.takeCash(donateAmount);
+              p.addDonationDice(3);
+              onDismiss();
+            }}
+          />
+        )}
+        <Btn title="Dismiss" onPress={onDismiss} />
+      </View>
     </View>
   );
 };

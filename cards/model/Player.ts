@@ -1,4 +1,4 @@
-import { Property, Stock } from ".";
+import { Property, PropertyType, Stock } from ".";
 import Liability from "./Liability";
 
 type CostBasis = { [atPrice: number]: number };
@@ -224,6 +224,22 @@ export default class Player {
         this.properties.splice(i, 1);
       }
     }
+  }
+
+  ownsDamageableProperty() {
+    const damageablePropertyTypes: PropertyType[] = [
+      "TwoBedTwoBath",
+      "TwoBedOneBath",
+      "ThreeBedTwoBath",
+      "ThreeBedThreeBath",
+      "Duplex",
+      "FourPlex",
+      "EightPlex",
+      "AptBuilding",
+    ];
+    return this._properties.some((p) =>
+      damageablePropertyTypes.includes(p.type)
+    );
   }
 
   improveProperty(propertyId: string, amount: number) {

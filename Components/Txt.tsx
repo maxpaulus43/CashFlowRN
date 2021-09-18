@@ -15,7 +15,7 @@ interface TxtProps extends TextProps {
 
 const Txt: React.FC<TxtProps> = ({ children, style, center, bold }) => {
   const fontFamily = Platform.select({ ios: "Cochin", android: "serif" });
-  const styles: StyleProp<TextStyle>[] = [{ fontFamily, fontSize: 18 }];
+  const styles: StyleProp<TextStyle>[] = [{ fontFamily, fontSize: 20 }];
   if (center) {
     styles.push({ textAlign: "center" });
   }

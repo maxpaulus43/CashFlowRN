@@ -1,26 +1,34 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { DealCard, Property, Stock, Player, StockSplit } from "../model";
+import {
+  DealCard,
+  Property,
+  Stock,
+  Player,
+  StockSplit,
+  PropertyDamage,
+} from "../model";
 import Btn from "./Btn";
 import Price from "./Price";
 import Txt from "./Txt";
 
 const spacer = <View style={{ height: 15 }} />;
 const nums = [
-  ...Array.from(Array(100).keys()).map((i) => i * 5),
-  ...Array.from(Array(50).keys()).map((i) => 500 + i * 50),
+  ...Array.from(Array(50).keys()).map((i) => i + 1),
+  ...Array.from(Array(90).keys()).map((i) => 55 + i * 5),
+  ...Array.from(Array(50).keys()).map((i) => 550 + i * 50),
   ...Array.from(Array(200).keys()).map((i) => 3000 + i * 100),
 ];
 interface DealCardViewProps {
-  model: DealCard;
+  card: DealCard;
   forPlayer: Player;
   onPayFail: (amountNeeded: number) => void;
   onDismiss: () => void;
 }
 
 const DealCardView: React.FC<DealCardViewProps> = (props) => {
-  switch (props.model.dealType) {
+  switch (props.card.dealType) {
     case "Stock": {
       return <BuyStockView {...props} />;
     }
@@ -30,36 +38,113 @@ const DealCardView: React.FC<DealCardViewProps> = (props) => {
     case "StockSplit": {
       return <StockSplitView {...props} />;
     }
+    case "PropertyDamage": {
+      return <PropertyDamageView {...props} />;
+    }
   }
+};
+
+const PropertyDamageView: React.FC<DealCardViewProps> = ({
+  onDismiss,
+  card: model,
+  forPlayer: p,
+  onPayFail,
+}) => {
+  const playerOwnsDamageableProperty = p.ownsDamageableProperty();
+  const damage = model.info as PropertyDamage;
+  let buttonTitle = "Pay";
+  const playerCantAffordIt = p.cash < damage.cost;
+  if (playerCantAffordIt) {
+    buttonTitle += `(Must Borrow $${(damage.cost - p.cash).toLocaleString()})`;
+  }
+
+  const payDamageCost = () => {
+    if (playerCantAffordIt) {
+      onPayFail(damage.cost - p.cash);
+      return;
+    }
+    p.takeCash(damage.cost);
+    onDismiss();
+  };
+
+  return (
+    <View style={styles.card}>
+      <Txt bold center>
+        {model.title}
+      </Txt>
+      {spacer}
+
+      <Txt>{model.text}</Txt>
+      {spacer}
+
+      {playerOwnsDamageableProperty ? (
+        <Txt>
+          Cost: <Price value={damage.cost} />
+        </Txt>
+      ) : (
+        <Txt>You don't own any damageable property.</Txt>
+      )}
+
+      <View style={{ flex: 1 }} />
+
+      <View style={{ flexDirection: "row" }}>
+        {playerOwnsDamageableProperty ? (
+          <Btn
+            title={buttonTitle}
+            onPress={payDamageCost}
+            style={styles.userActionButton}
+          />
+        ) : (
+          <Btn
+            title="Dismiss"
+            onPress={onDismiss}
+            style={styles.userActionButton}
+          />
+        )}
+      </View>
+    </View>
+  );
 };
 
 const StockSplitView: React.FC<DealCardViewProps> = ({
   onDismiss,
-  model,
+  card: model,
   forPlayer: p,
 }) => {
   const info = model.info as StockSplit;
   return (
-    <View>
+    <View style={styles.card}>
+      <Txt bold>Stock Split!</Txt>
+      {spacer}
+
       <Txt>{model.title}</Txt>
+      {spacer}
+
       <Txt>{model.text}</Txt>
+      {spacer}
+
       <Txt>
         {info.id} split From {info.splitFrom} to {info.splitTo}.
       </Txt>
-      <Btn
-        title="Dismiss"
-        onPress={() => {
-          p.splitStock(info.id, info.splitFrom, info.splitTo);
-          onDismiss();
-        }}
-        style={styles.userActionButton}
-      />
+
+      <View style={{ flex: 1 }} />
+
+      <View style={{ flexDirection: "row" }}>
+        <Btn
+          title="Dismiss"
+          onPress={() => {
+            p.splitStock(info.id, info.splitFrom, info.splitTo);
+            onDismiss();
+          }}
+          style={styles.userActionButton}
+        />
+      </View>
     </View>
   );
 };
 
 const BuyStockView: React.FC<DealCardViewProps> = ({
-  model,
+  card: model,
   forPlayer: p,
   onPayFail,
   onDismiss,
@@ -155,7 +240,7 @@ const BuyStockView: React.FC<DealCardViewProps> = ({
 };
 
 const BuyPropertyView: React.FC<DealCardViewProps> = ({
-  model,
+  card: model,
   forPlayer: p,
   onPayFail,
   onDismiss,
@@ -169,7 +254,7 @@ const BuyPropertyView: React.FC<DealCardViewProps> = ({
     ).toLocaleString()})`;
   }
 
-  const playerAlreadyOwnsProperty = p.doesAlreadyOwnProperty(model.info.id);
+  const playerAlreadyOwnsProperty = p.doesAlreadyOwnProperty(property.id);
 
   const buyProperty = () => {
     if (playerCantAffordIt) {

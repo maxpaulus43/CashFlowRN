@@ -29,6 +29,7 @@
     "dealType": "Property",
     "info": {
       "id": "startup No Profits",
+      "type": "Company",
       "cost": 3000,
       "cashFlow": 0,
       "downPayment": 3000
@@ -92,6 +93,110 @@
       "id": "MYT4U",
       "splitFrom": 1,
       "splitTo": 2
+    }
+  },
+  {
+    "title": "Sister-in-law Borrows Money",
+    "text": "Sister-in-law is downsized. Needs $5,000 to make house payments. She promises to pay you back $10,000 after she finds a new job.",
+    "dealType": "Property",
+    "info": {
+      "id": "IOU from sister",
+      "type": "Misc",
+      "cost": 5000,
+      "cashFlow": 0,
+      "downPayment": 5000
+    }
+  },
+  {
+    "title": "Stock - ON2U Entertainment Co.",
+    "text": "Newest theme park loses record amount. Share price hits all time low.",
+    "dealType": "Stock",
+    "info": {
+      "id": "ON2U",
+      "cost": 10,
+      "cashFlow": 0
+    }
+  },
+  {
+    "title": "Condo For Sale",
+    "text": "Excellent 2/1 Condo with many extras. For sale due to business success of owner. She's moving up, so can you.",
+    "dealType": "Property",
+    "info": {
+      "id": "2/1 w/ extras",
+      "type": "TwoBedOneBath",
+      "cost": 60000,
+      "cashFlow": -100,
+      "downPayment": 5000
+    }
+  },
+  {
+    "title": "Stock - OK4U Electronic Co.",
+    "text": "Things are going so well for the company that their stocks have just split!",
+    "dealType": "StockSplit",
+    "info": {
+      "id": "OK4U",
+      "splitFrom": 1,
+      "splitTo": 2
+    }
+  },
+  {
+    "title": "Friend Needs Cash Quick",
+    "text": "A Friend has urgent need for money. Will sell you 10 one-ounce gold Krugerrands, will below going rate, for $300 each.",
+    "dealType": "Property",
+    "info": {
+      "id": "10 Krugerrands",
+      "type": "GoldCoin",
+      "cost": 3000,
+      "cashFlow": 0,
+      "downPayment": 3000
+    }
+  },
+  {
+    "title": "House For Sale - 3Br/2Ba",
+    "text": "Low down payment to pick up this 3/2 house. Owner/seller unexpectedly moving out of town. Right person will do well.",
+    "dealType": "Property",
+    "info": {
+      "id": "3/2 Lo Down",
+      "type": "ThreeBedTwoBath",
+      "cost": 50000,
+      "cashFlow": 100,
+      "downPayment": 3000
+    }
+  },
+  {
+    "title": "Condo For Sale - 2Br/1Ba",
+    "text": "Bank foreclosure! Located is desirable neighborhood close to jobs and stores.",
+    "dealType": "Property",
+    "info": {
+      "id": "2/1 bank foreclosure",
+      "type": "TwoBedOneBath",
+      "cost": 40000,
+      "cashFlow": 220,
+      "downPayment": 5000
+    }
+  },
+  {
+    "title": "House For Sale - 3Br/2Ba",
+    "text": "Not lived in for 6 months. This bank-foreclosed house just reduced.",
+    "dealType": "Property",
+    "info": {
+      "id": "3/2 foreclosed",
+      "type": "ThreeBedTwoBath",
+      "cost": 50000,
+      "cashFlow": 100,
+      "downPayment": 0
+    }
+  },
+  {
+    "title": "10 Acres raw land",
+    "text": "Wonderful park-like setting with stream on 10 acres in underdeveloped area.",
+    "dealType": "Property",
+    "info": {
+      "id": "10 Acres underdeveloped",
+      "type": "Land",
+      "cost": 50000,
+      "cashFlow": 0,
+      "downPayment": 5000
     }
   }
 ]

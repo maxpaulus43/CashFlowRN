@@ -15,7 +15,8 @@ export type PropertyType =
   | "Company"
   | "GoldCoin"
   | "AptBuilding"
-  | "Land";
+  | "Land"
+  | "Misc";
 
 export interface Property {
   id: string;
@@ -37,16 +38,20 @@ export interface StockSplit {
   splitTo: number;
 }
 
+export interface PropertyDamage {
+  cost: number;
+}
+
 export interface Card {
   title: string;
   text: string;
 }
 
-export type DealType = "Stock" | "Property" | "StockSplit";
+export type DealType = "Stock" | "Property" | "StockSplit" | "PropertyDamage";
 
 export interface DealCard extends Card {
   dealType: DealType;
-  info: Stock | Property | StockSplit;
+  info: Stock | Property | StockSplit | PropertyDamage;
 }
 
 export interface Offer {

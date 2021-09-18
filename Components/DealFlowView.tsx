@@ -17,11 +17,11 @@ const DealFlowView: React.FC<DealFlowViewProps> = ({
   onPayFail,
   onDismiss,
 }) => {
-  const [deal, setDeal] = useState<DealCard>();
-  return deal ? (
+  const [card, setCard] = useState<DealCard>();
+  return card ? (
     <DealCardView
       forPlayer={myPlayer}
-      model={deal}
+      card={card}
       onPayFail={onPayFail}
       onDismiss={onDismiss}
     />
@@ -30,13 +30,13 @@ const DealFlowView: React.FC<DealFlowViewProps> = ({
       <Btn
         title="Big Deal"
         onPress={() => {
-          setDeal(game.drawBigDealCard());
+          setCard(game.drawBigDealCard());
         }}
       />
       <Btn
         title="Small Deal"
         onPress={() => {
-          setDeal(game.drawSmallDealCard());
+          setCard(game.drawSmallDealCard());
         }}
       />
       <Btn title="Cancel" onPress={onDismiss} />

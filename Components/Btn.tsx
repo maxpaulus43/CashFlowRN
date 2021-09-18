@@ -43,19 +43,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#733B80",
     padding: 15,
-    // borderWidth: 2,
-    // borderColor: "gray",
     borderRadius: 100,
     margin: 5,
   },
   btnText: {
-    textAlign: "center",
-    fontSize: 20,
     color: "white",
   },
   disabledText: {
-    textAlign: "center",
-    fontSize: 20,
     color: "#DDDDDD",
   },
 });

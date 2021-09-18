@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { LoseMoneyCard, Player } from "../model";
 import Btn from "./Btn";
 import Txt from "./Txt";
@@ -18,10 +18,13 @@ const LoseMoneyCardView: React.FC<LoseMoneyViewProps> = ({
   onDismiss,
 }) => {
   return (
-    <View>
-      <Txt>{model.title}</Txt>
+    <View style={styles.card}>
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <Txt bold>{model.title}</Txt>
+      </View>
+
       <Btn
-        title={`Pay ${model.cost.toLocaleString()} ${
+        title={`Pay $${model.cost.toLocaleString()} ${
           p.cash < model.cost
             ? `(Must Borrow $${(model.cost - p.cash).toLocaleString()})`
             : ""
@@ -40,3 +43,12 @@ const LoseMoneyCardView: React.FC<LoseMoneyViewProps> = ({
 };
 
 export default LoseMoneyCardView;
+
+const styles = StyleSheet.create({
+  card: {
+    ...StyleSheet.absoluteFillObject,
+    padding: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+});

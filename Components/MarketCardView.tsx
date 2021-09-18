@@ -1,10 +1,11 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
-import { View} from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Improvement, MarketCard, Offer, Player, Property } from "../model";
 import Btn from "./Btn";
 import Txt from "./Txt";
 
+const spacer = <View style={{ height: 15 }} />;
 interface MarketCardViewProps {
   model: MarketCard;
   forPlayer: Player;
@@ -65,10 +66,12 @@ const MarketCardView: React.FC<MarketCardViewProps> = ({
   const playerHasSellableAssets = sellablePlayerAssets.length > 0;
 
   return (
-    <View>
-      <Txt>Market</Txt>
-      <Txt>{model.title}</Txt>
+    <View style={styles.card}>
+      <Txt bold>{model.title}</Txt>
+      {spacer}
+
       <Txt>{model.text}</Txt>
+      {spacer}
 
       {playerHasSellableAssets ? (
         <View>
@@ -86,10 +89,7 @@ const MarketCardView: React.FC<MarketCardViewProps> = ({
             disabled={!selectedPropertyId}
             title="Sell"
             onPress={() => {
-              p.sellPropertyForAmount(
-                selectedPropertyId!,
-                (model.info as Offer).offerAmount
-              );
+              p.sellPropertyForAmount(selectedPropertyId!, offer.offerAmount);
 
               let newAmountSoldSoFar = amountSoldSoFar + 1;
               let saleLimit = offer.limit ?? Number.MAX_SAFE_INTEGER;
@@ -102,13 +102,27 @@ const MarketCardView: React.FC<MarketCardViewProps> = ({
           />
         </View>
       ) : (
-        <View>
-          <Txt>No Assets of this kind</Txt>
-        </View>
+        <Txt>You currently don't own any assets of this kind.</Txt>
       )}
+
+      <View style={{ flex: 1 }} />
+
       <Btn title="Dismiss" onPress={onDismiss} />
     </View>
   );
 };
 
 export default MarketCardView2;
+
+const styles = StyleSheet.create({
+  card: {
+    padding: 10,
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  userActionButton: {
+    flex: 1,
+    backgroundColor: "#07beb8",
+  },
+});

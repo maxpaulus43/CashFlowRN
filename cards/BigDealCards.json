@@ -1,10 +1,34 @@
 [
   {
-    "title": "House for Sale - 3Br/2Ba",
-    "text": "Good Investment potential in the 3/2 house. Positive cash flow even though rents are weak.",
+    "title": "8-plex for sale",
+    "text": "Reinvesting owner offers 8-plex for sale at reasonable price. All it needs is your down payment",
     "dealType": "Property",
     "info": {
-      "id": "3/2 Good Investment",
+      "id": "8-plex reasonable",
+      "type": "EightPlex",
+      "cost": 220000,
+      "cashFlow": 1700,
+      "downPayment": 40000
+    }
+  },
+  {
+    "title": "House For Sale - 3Br/2Ba",
+    "text": "Divorce leads to sale of this 3/2 house in an area full of owner occupied homes. On the market for 5 months.",
+    "dealType": "Property",
+    "info": {
+      "id": "3Br/2Ba divorce",
+      "type": "ThreeBedTwoBath",
+      "cost": 70000,
+      "cashFlow": 500,
+      "downPayment": 20000
+    }
+  },
+  {
+    "title": "House For Sale - 3Br/2Ba",
+    "text": "Good investment potential for patient buyers. Positive cashflow even though rents are weak.",
+    "dealType": "Property",
+    "info": {
+      "id": "3Br/2Ba good potential",
       "type": "ThreeBedTwoBath",
       "cost": 65000,
       "cashFlow": 300,
@@ -12,51 +36,167 @@
     }
   },
   {
-    "title": "Apartment House for Sale",
-    "text": "2 buildings totalling 23 units for sale. Owner managed with on-site assistant. Retirement prompts sale.",
+    "title": "4-Plex for sale",
+    "text": "Forced sale. Out-of-state, financially distressed owner years behind on taxes.",
     "dealType": "Property",
     "info": {
-      "id": "Apt Owner Retired",
-      "type": "AptBuilding",
-      "cost": 575000,
-      "cashFlow": 3400,
-      "downPayment": 75000
-    }
-  },
-  {
-    "title": "Automated Vending Machine Business For Sale",
-    "text": "30 vending machines at long term contract locations. Owner is desparate.",
-    "dealType": "Property",
-    "info": {
-      "id": "Vending Machine Biz",
-      "type": "Company",
-      "cost": 100000,
-      "cashFlow": 1600,
-      "downPayment": 20000
+      "id": "4-plex forced sale",
+      "type": "FourPlex",
+      "cost": 80000,
+      "cashFlow": 750,
+      "downPayment": 16000
     }
   },
   {
     "title": "8-Plex for sale",
-    "text": "Owner's legal troubles lead to forced sale of this 8-plex.",
+    "text": "Professional person needs cash to save partnership. 8-plex on sale to raise capital.",
     "dealType": "Property",
     "info": {
-      "id": "8-Plex forced sale",
+      "id": "8-plex on sale",
       "type": "EightPlex",
-      "cost": 200000,
-      "cashFlow": 1600,
+      "cost": 160000,
+      "cashFlow": 1700,
+      "downPayment": 32000
+    }
+  },
+  {
+    "title": "Automated Business for sale",
+    "text": "Successful 4 bay coin operated auto wash near busy intersection.",
+    "dealType": "Property",
+    "info": {
+      "id": "Auto wash",
+      "type": "Company",
+      "cost": 125000,
+      "cashFlow": 1800,
+      "downPayment": 25000
+    }
+  },
+  {
+    "title": "20 Acres for Sale",
+    "text": "20 acres of vacant land, currently zoned residential. Possibility of good appreciation if rezoned commercial.",
+    "dealType": "Property",
+    "info": {
+      "id": "20 Acres residential",
+      "type": "Land",
+      "cost": 20000,
+      "cashFlow": 0,
+      "downPayment": 20000
+    }
+  },
+  {
+    "title": "8-Plex for Sale",
+    "text": "Retiring investor/owner offers her 8-Plex at current appraisal value. Professional lawn service and management. Full Records",
+    "dealType": "Property",
+    "info": {
+      "id": "8-Plex full records",
+      "type": "EightPlex",
+      "cost": 240000,
+      "cashFlow": 950,
       "downPayment": 40000
     }
   },
   {
-    "title": "Duplex for sale",
-    "text": "Well maintained and in a nice area.",
+    "title": "Tenant Damages Your Property",
+    "text": "Tenant refuses to pay rent after losing job. When you get him evicted you discover significant damanges to your property. If you own any rental property, you must pay for damages.",
+    "dealType": "PropertyDamage",
+    "info": {
+      "cost": 1000
+    }
+  },
+  {
+    "title": "Limited Partner Wanted",
+    "text": "Non-franchise sandwich shop doubling the number of locations. Owner needs additional equity capital to get operating loan.",
     "dealType": "Property",
     "info": {
-      "id": "8-Plex forced sale",
+      "id": "Sandwich Shop",
+      "type": "Company",
+      "cost": 30000,
+      "cashFlow": 1500,
+      "downPayment": 30000
+    }
+  },
+  {
+    "title": "4-plex for Sale",
+    "text": "'Project' 4-plex for sale is rehabilitating neighborhood. Owner being forced out by income tax liens.",
+    "dealType": "Property",
+    "info": {
+      "id": "4-Plex projects",
+      "type": "FourPlex",
+      "cost": 80000,
+      "cashFlow": 400,
+      "downPayment": 20000
+    }
+  },
+  {
+    "title": "4-plex for Sale",
+    "text": "Older 4-Plex next to new highway for sale. Priced for quick sale.",
+    "dealType": "Property",
+    "info": {
+      "id": "4-Plex by highway",
+      "type": "FourPlex",
+      "cost": 90000,
+      "cashFlow": 500,
+      "downPayment": 15000
+    }
+  },
+  {
+    "title": "Pizza Franchise for Sale",
+    "text": "Healthy pizza franchise. Next to college. High traffic",
+    "dealType": "Property",
+    "info": {
+      "id": "Pizza Franchise",
+      "type": "Company",
+      "cost": 500000,
+      "cashFlow": 5000,
+      "downPayment": 100000
+    }
+  },
+  {
+    "title": "Limited Partner Wanted",
+    "text": "Auto Dealer wants to expand into leasing 2 and 3 year old cars. Needs capital from an interested partner.",
+    "dealType": "Property",
+    "info": {
+      "id": "Auto Dealer",
+      "type": "Company",
+      "cost": 30000,
+      "cashFlow": 1000,
+      "downPayment": 30000
+    }
+  },
+  {
+    "title": "Duplex For Sale",
+    "text": "Duplex owner must sell to pay hospital bills. Two tenants in place. Good investment opportunity.",
+    "dealType": "Property",
+    "info": {
+      "id": "Duplex two tenants",
       "type": "Duplex",
       "cost": 60000,
-      "cashFlow": 300,
-      "downPayment": 6000
+      "cashFlow": 400,
+      "downPayment": 12000
+    }
+  },
+  {
+    "title": "Bed & Breakfast",
+    "text": "Owner retiring, wants out NOW. Great clientele in resort community. 5Br/3Ba",
+    "dealType": "Property",
+    "info": {
+      "id": "B&B resort",
+      "type": "Company",
+      "cost": 150000,
+      "cashFlow": 1000,
+      "downPayment": 30000
+    }
+  },
+  {
+    "title": "House For Sale - 3Br/2Ba",
+    "text": "3/2 house on golf course. Good rentals and nice financing",
+    "dealType": "Property",
+    "info": {
+      "id": "3/2 on golf course",
+      "type": "ThreeBedTwoBath",
+      "cost": 140000,
+      "cashFlow": 2000,
+      "downPayment": 32000
     }
   }
 ]

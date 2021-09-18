@@ -1,8 +1,8 @@
 [
   {
-    "title": "Lose Money",
-    "text": "You Must Pay NOW",
-    "cost": 100
+    "title": "Buy a new Tennis Racket",
+    "text": "Pay $200",
+    "cost": 200
   },
   {
     "title": "Buy a food processor",
@@ -23,5 +23,10 @@
     "title": "High School Reunion",
     "Text": "Pay $150",
     "cost": 250
+  },
+  {
+    "title": "Visit Dentist",
+    "Text": "Pay $100",
+    "cost": 100
   }
 ]
