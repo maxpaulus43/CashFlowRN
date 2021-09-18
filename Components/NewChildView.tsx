@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Player } from "../model";
 import Btn from "./Btn";
 import Price from "./Price";
@@ -15,11 +15,14 @@ const NewChildView: React.FC<NewChildViewProps> = ({
   onDismiss,
 }) => {
   return (
-    <View style={{justifyContent: "space-between"}}>
-      <Txt style={{ textAlign: "center" }}>
+    <View style={styles.card}>
+      <Txt bold>New Child!</Txt>
+      <View style={{ height: 15 }} />
+      <Txt center>
         Congrats! You had a new Child! Your expenses have increased by
         <Price value={p.expensesPerKid} />
       </Txt>
+      <View style={{ flex: 1 }} />
       <Btn
         title="Dismiss"
         onPress={() => {
@@ -32,3 +35,12 @@ const NewChildView: React.FC<NewChildViewProps> = ({
 };
 
 export default NewChildView;
+
+const styles = StyleSheet.create({
+  card: {
+    ...StyleSheet.absoluteFillObject,
+    padding: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+});
