@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View, Dimensions, StyleSheet } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { View, Dimensions, StyleSheet, Alert } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import { Board } from "../model";
@@ -23,6 +23,14 @@ const BoardView: React.FC<BoardViewProps> = ({
   const pos = model.getPositionForPlayer(model.getPlayerIds()[0]);
   let x = useSharedValue(diameter / 2);
   let y = useSharedValue(diameter / 2);
+
+  const gotPaidHandler = () => {
+    // todo fancy got paid animation somehere
+  };
+
+  useEffect(() => {
+    model.gotPaidHandler = gotPaidHandler;
+  }, []);
 
   useEffect(() => {
     let { x: newX, y: newY } = getPlayerCoordinatesForPosition(pos);
@@ -58,19 +66,6 @@ const BoardView: React.FC<BoardViewProps> = ({
           </View>
         </View>
       )}
-      {/* {model.spaces.map((space, idx) => {
-        let { x, y } = getPlayerCoordinatesForPosition(idx);
-        return (
-          <View
-            style={{
-              position: "absolute",
-              transform: [{ translateX: x - 18 }, { translateY: y - 4 }, {rotate: `${idx * (360 / 24)}deg`}],
-            }}
-          >
-            <Text style={{color: "white"}}>{space}</Text>
-          </View>
-        );
-      })} */}
       <Animated.View
         style={[
           {

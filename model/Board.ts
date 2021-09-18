@@ -37,6 +37,7 @@ export default class Board {
     Space.PAYDAY,
   ];
   private playerPosition: { [playerId: string]: number } = {};
+  gotPaidHandler?: () => void;
 
   getPlayerIds(): string[] {
     return Object.keys(this.playerPosition);
@@ -49,12 +50,15 @@ export default class Board {
   updatePlayerPositionByN(player: Player, n: number) {
     const oldPosition = this.playerPosition[player.id];
     const newPosition = (oldPosition + n) % this.spaces.length;
+    this.playerPosition[player.id] = newPosition;
     if (
       Math.floor((oldPosition + 1) / 8) !== Math.floor((newPosition + 1) / 8)
     ) {
       player.getPaid();
+      if (this.gotPaidHandler) {
+        this.gotPaidHandler();
+      }
     }
-    this.playerPosition[player.id] = newPosition;
   }
 
   getPositionForPlayer(playerId: string): number {
