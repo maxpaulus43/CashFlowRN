@@ -55,9 +55,8 @@ const NewGame: React.FC<NativeStackScreenProps<any, any>> = ({
         onChange={({ nativeEvent: { text } }) => {
           name.current = text;
         }}
-      >
-        {name.current}
-      </TextInput>
+        value={name.current}
+      ></TextInput>
       <Btn title="Choose Difficulty" onPress={presentDifficultyOptions} />
       <Txt>Difficulty: {difficultyOptions[difficulty]}</Txt>
       <Btn
